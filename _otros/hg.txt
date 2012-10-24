@@ -1,0 +1,9 @@
+Comandos basicos HG
+
+hg clone url.com
+hg status
+hg add archivo
+hg commit
+hg commit -u username	-- 
+hg push			-- subir los cambios realizados
+hg pull			-- descargar la ultima version
