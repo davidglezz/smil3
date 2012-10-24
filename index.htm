@@ -1,16 +1,291 @@
-<html>
-  <head>
-    <title>Bootstrap 101 Template</title>
-    <!-- Bootstrap -->
-    <link href="public/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Project -->
-    <link href="public/css/application.css" rel="stylesheet">
-  </head>
-  <body>
-    <h1>Hello, world!</h1>
-    <!-- Bootstrap -->
-    <script src="public/js/bootstrap.min.js"></script>
-    <!-- Project -->
-    <script src="public/js/application.js"></script>
-  </body>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="utf-8" />
+	<title>Smil3</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="description" content="Panel de control de SIP" />
+	<meta name="author" content="David Gonzalez, Tony Marín" />
+	<link href="css/bootstrap.css" rel="stylesheet" />
+	<style type="text/css">
+		body {
+			padding-top: 60px;
+			padding-bottom: 40px;
+		}
+	</style>
+	<link href="css/bootstrap-responsive.css" rel="stylesheet" />
+
+	<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+	<!--[if lt IE 9]>
+	  <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<link rel="shortcut icon" href="images/favicon.ico" />
+	<link rel="apple-touch-icon" href="images/apple-touch-icon.png" />
+	<link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png" />
+	<link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png" />
+</head>
+
+<body>
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</a>
+				<a class="brand" href="#">Smil3</a>
+				<div class="nav-collapse">
+					<ul class="nav">
+						<li class="active"><a href="#about" data-toggle="tab">Acerca de Smil3</a></li>
+						<li><a href="#login" data-toggle="tab">Iniciar sesion</a></li>
+						<li><a href="#register" data-toggle="tab">Registrarse</a></li>
+						
+						<li><a href="#summary" data-toggle="tab">Conecta</a></li>
+						<li><a href="#admin" data-toggle="tab">Administrar</a></li>
+					</ul>
+					<ul class="nav pull-right">
+						<li><a href="#about" data-toggle="tab">Ayuda</a></li>
+						<li class="divider-vertical"></li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Jonh Doe <b class="caret"></b></a>
+							<ul class="dropdown-menu">
+								<li><a href="#usermod" data-toggle="tab">Modificar cuenta</a></li>
+								<li class="divider"></li>
+								<li><a href="#logout" data-toggle="tab">Salir</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="tab-content container">
+			
+		<div class="tab-pane active hero-unit" id="about">
+			<h1>Bienvenido a Smil3</h1>
+			<p>Smil3 es una red social bla bla bla.</p>
+			<p><a href="#login" class="btn btn-primary btn-large">Inicia sesión &raquo;</a> o <a href="#register" class="btn btn-large">Regístrate &raquo;</a></p>
+		</div>
+		
+		<div class="tab-pane" id="login">
+			<form class="form-horizontal">
+				<fieldset>
+					<legend>Identifícate</legend>
+					<div class="control-group">
+						<label class="control-label" for="user">E-mail</label>
+						<div class="controls">
+							<input type="text" class="input-xlarge" id="user">
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="passwd">Contraseña</label>
+						<div class="controls">
+							<input type="password" class="input-xlarge"  id="passwd">
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="optionsCheckbox"></label>
+						<div class="controls">
+							<label class="checkbox">
+								<input type="checkbox" id="optionsCheckbox" value="option1">
+								Recordar contraseña
+							</label>
+						</div>
+					</div>
+					<div class="form-actions">
+						<button type="submit" class="btn btn-primary">Iniciar sesión</button>
+						<a class="pull-right" href="#forgottenPassword">No recuerdo mi contrasea.</a>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+		
+		<div class="tab-pane" id="register">
+			<form class="form-horizontal">
+				<fieldset>
+					<legend>Formulario de registro de nuevo usuario</legend>
+					<div class="control-group">
+						<label class="control-label" for="name">Nombre</label>
+						<div class="controls">
+							<input type="text" class="input-xlarge" id="name">
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="mail">E-mail</label>
+						<div class="controls">
+							<input type="text" class="input-xlarge" id="mail">
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="pass1">Contraseña</label>
+						<div class="controls">
+							<input type="password" class="input-xlarge" id="pass1">
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="pass2">Confirmar contraseña</label>
+						<div class="controls">
+							<input type="password" class="input-xlarge" id="pass2">
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="TOS">Aviso legal</label>
+						<div class="controls">
+							<textarea class="input-xlarge" id="TOS" rows="5">
+En cumplimiento de lo dispuesto en la Ley Orgánica 15/1999, de 13 de diciembre, de Protección de Datos de Carácter Personal y su normativa de desarrollo, queremos informarle de que los datos recabados serán incorporados a un fichero propiedad de Editorial Edinumen S.L. con la finalidad de poder gestionar técnicamente los diferentes servicios puestos a su disposición, así como mantenerle informado de nuestras novedades, eventos, ofertas y servicios.
+Podrá ejercer, en cualquier momento, sus derechos de acceso, rectificación, cancelación y oposición al tratamiento de sus datos, en los términos previstos legalmente a través de la siguiente dirección web: www.edinumen.es/bajas.</textarea>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="aceptTOS"></label>
+						<div class="controls">
+							<label class="checkbox">
+								<input type="checkbox" id="aceptTOS" value="aceptTOS">
+								He leído y acepto las condiciones
+							</label>
+						</div>
+					</div>
+					<div class="form-actions">
+						<button type="submit" class="btn btn-primary">Registrarme</button>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+		
+		<div class="tab-pane" id="summary">
+			<div class="page-header">
+				<h1>Resumen</h1>
+			</div>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>PC Name / Alias</th>
+						<th>IP</th>
+						<th>Dominio</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>1</td>
+						<td>DAVID-SERV</td>
+						<td>192.168.1.2</td>
+						<td>s.davidxl.es/david-serv</td>
+					</tr>
+					<tr>
+						<td>2</td>
+						<td>DAVID-PC</td>
+						<td>192.168.1.34</td>
+						<td>s.davidxl.es/david</td>
+					</tr>
+					<tr>
+						<td>3</td>
+						<td>ADRIAN</td>
+						<td>192.168.1.65</td>
+						<td>s.davidxl.es/adrian</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		
+		<div class="tab-pane" id="usermod">
+			<form class="form-horizontal">
+				<fieldset>
+					<legend>Cambiar datos del usuario</legend>
+					<div class="control-group">
+						<label class="control-label" for="name">Nombre</label>
+						<div class="controls">
+							<input type="text" class="input-xlarge" id="name">
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="mail">E-mail</label>
+						<div class="controls">
+							<input type="text" class="input-xlarge" id="mail">
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="pass1">Contraseña actual</label>
+						<div class="controls">
+							<input type="password" class="input-xlarge" id="pass1">
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="pass1">Contraseña nueva</label>
+						<div class="controls">
+							<input type="password" class="input-xlarge" id="pass1">
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="pass2">Confirmar contraseña</label>
+						<div class="controls">
+							<input type="password" class="input-xlarge" id="pass2">
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="aceptTOS"></label>
+						<div class="controls">
+							<label class="checkbox">
+								<input type="checkbox" id="aceptTOS" value="aceptTOS">
+								Quiero borrar todos mis datos y darme de baja.
+							</label>
+						</div>
+					</div>
+					<div class="form-actions">
+						<button type="submit" class="btn btn-primary">Guardar</button>
+						<button type="submit" class="btn">Cancelar</button>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+
+		
+		<div class="tab-pane" id="forgottenPassword">
+			<form class="form-horizontal">
+				<fieldset>
+					<legend>Recuperar la contraseña</legend>
+					<div class="control-group">
+						<label class="control-label" for="umail">E-mail</label>
+						<div class="controls">
+							<input type="text" class="input-xlarge" id="umail">
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="instructions">Instrucciones</label>
+						<div class="controls">
+							<textarea class="input-xlarge" id="instructions" rows="5">
+Reciviras un email con un enlace de confirmacion.Una vez confirmes el sistema generar una contraseña aleatoria y te la enviara a tu email. Se recomienda cambiarla por una mas facil de recordar. Si no recives el email, acuerdate de mirar en la vandeja del spam.</textarea>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="aceptIns"></label>
+						<div class="controls">
+							<label class="checkbox">
+								<input type="checkbox" id="aceptIns" value="aceptIns">
+								He leído las instrucciones
+							</label>
+						</div>
+					</div>
+					<div class="form-actions">
+						<button type="submit" class="btn btn-primary">Recuperar contraseña</button>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+		
+		<hr />
+		
+		<footer>
+			<p>&copy; 2012 David Gonzalez Garcia</p>
+		</footer>
+	</div>
+
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script> 
+	<script src="js/bootstrap.min.js"></script> 
+	<script src="js/app.js"></script>
+</body>
 </html>
