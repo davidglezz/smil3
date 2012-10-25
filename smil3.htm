@@ -1,54 +1,76 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
 	<meta charset="utf-8" />
-	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<title>SMIL3</title>
+	<title>Smil3</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<meta name="description" content="SMIL3" />
+	<meta name="description" content="Panel de control de SIP" />
 	<meta name="author" content="David Gonzalez, Tony Marín" />
 	<link href="css/bootstrap.css" rel="stylesheet" />
 	<style type="text/css">
-		html, body {
-			height: 100%;
-		}
-		
 		body {
 			padding-top: 60px;
 			padding-bottom: 40px;
-			
-			/*background-color:#ffffff;
-			background-image: -moz-radial-gradient(0% 0%, circle cover, #ffffff, #c2c2c2 100%);
-			background-image: -webkit-radial-gradient(0% 0%, circle cover, #ffffff, #c2c2c2 100%);
-			background-image: -o-radial-gradient(0% 0%, circle cover, #ffffff, #c2c2c2 100%);
-			background-image: -ms-radial-gradient(0% 0%, circle cover, #ffffff, #c2c2c2 100%);
-			background-image: radial-gradient(0% 0%, circle cover, #ffffff, #c2c2c2 100%);
-			background-attachment: fixed;*/
-
 		}
 	</style>
 	<link href="css/bootstrap-responsive.css" rel="stylesheet" />
-	<link rel="shortcut icon" href="images/favicon.ico" />
-	<link rel="apple-touch-icon" href="images/apple-touch-icon.png" />
-	<link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png" />
-	<link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png" />
+
 	<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 	<!--[if lt IE 9]>
 		<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
+
+	<link rel="shortcut icon" href="images/favicon.ico" />
+	<link rel="apple-touch-icon" href="images/apple-touch-icon.png" />
+	<link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png" />
+	<link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png" />
 </head>
 
 <body>
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</a>
+				<a class="brand" href="#">Smil3</a>
+				<div class="nav-collapse">
+					<ul class="nav">
+						<li class="active"><a href="#about" data-toggle="tab">Acerca de Smil3</a></li>
+						<li><a href="#login" data-toggle="tab">Iniciar sesion</a></li>
+						<li><a href="#register" data-toggle="tab">Registrarse</a></li>
+						
+						<li><a href="#summary" data-toggle="tab">Conecta</a></li>
+						<li><a href="#admin" data-toggle="tab">Administrar</a></li>
+					</ul>
+					<ul class="nav pull-right">
+						<li><a href="#about" data-toggle="tab">Ayuda</a></li>
+						<li class="divider-vertical"></li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Jonh Doe <b class="caret"></b></a>
+							<ul class="dropdown-menu">
+								<li><a href="#usermod" data-toggle="tab">Modificar cuenta</a></li>
+								<li class="divider"></li>
+								<li><a href="#logout" data-toggle="tab">Salir</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
 	
 	<div class="tab-content container">
 			
-		<div class="hero-unit" id="about">
-			<h1>Bienvenido a  SMIL3</h1>
-			<p>SMIL3 es una red social moderna y gratis.</p>
-			<p>Si todavia no eres miembro <a href="#register" class="btn btn-primary ">Regístrate »</a></p>
+		<div class="tab-pane active hero-unit" id="about">
+			<h1>Bienvenido a Smil3</h1>
+			<p>Smil3 es una red social bla bla bla.</p>
+			<p><a href="#login" class="btn btn-primary btn-large">Inicia sesión &raquo;</a> o <a href="#register" class="btn btn-large">Regístrate &raquo;</a></p>
 		</div>
 		
-		<div class="tab-pane active" id="login">
+		<div class="tab-pane" id="login">
 			<form class="form-horizontal">
 				<fieldset>
 					<legend>Identifícate</legend>
@@ -69,7 +91,7 @@
 						<div class="controls">
 							<label class="checkbox">
 								<input type="checkbox" id="optionsCheckbox" value="option1">
-								No cerrar sesión
+								Recordar contraseña
 							</label>
 						</div>
 					</div>
@@ -133,6 +155,65 @@ Podrá ejercer, en cualquier momento, sus derechos de acceso, rectificación, ca
 			</form>
 		</div>
 		
+		<div class="tab-pane" id="summary">
+			<div class="page-header">
+				<h1>Resumen</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="tab-pane" id="usermod">
+			<form class="form-horizontal">
+				<fieldset>
+					<legend>Cambiar datos del usuario</legend>
+					<div class="control-group">
+						<label class="control-label" for="name">Nombre</label>
+						<div class="controls">
+							<input type="text" class="input-xlarge" id="name">
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="mail">E-mail</label>
+						<div class="controls">
+							<input type="text" class="input-xlarge" id="mail">
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="pass1">Contraseña actual</label>
+						<div class="controls">
+							<input type="password" class="input-xlarge" id="pass1">
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="pass1">Contraseña nueva</label>
+						<div class="controls">
+							<input type="password" class="input-xlarge" id="pass1">
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="pass2">Confirmar contraseña</label>
+						<div class="controls">
+							<input type="password" class="input-xlarge" id="pass2">
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="aceptTOS"></label>
+						<div class="controls">
+							<label class="checkbox">
+								<input type="checkbox" id="aceptTOS" value="aceptTOS">
+								Quiero borrar todos mis datos y darme de baja.
+							</label>
+						</div>
+					</div>
+					<div class="form-actions">
+						<button type="submit" class="btn btn-primary">Guardar</button>
+						<button type="submit" class="btn">Cancelar</button>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+
 		
 		<div class="tab-pane" id="forgottenPassword">
 			<form class="form-horizontal">
@@ -170,17 +251,12 @@ Reciviras un email con un enlace de confirmacion.Una vez confirmes el sistema ge
 		<hr />
 		
 		<footer>
-			<p>&copy; 2012 David Gonzalez, Tony Marín &#65410;</p>
+			<p>&copy; 2012 David Gonzalez, Tony Marín</p>
 		</footer>
 	</div>
 
 	<script src="js/jquery-1.8.2.min.js"></script> 
 	<script src="js/bootstrap.min.js"></script> 
-	<script>
-		$('#myTab a').click(function (e) {
-			e.preventDefault();
-			$(this).tab('show');
-		})
-	</script>
+	<script src="js/app.js"></script>
 </body>
 </html>
