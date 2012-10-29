@@ -1,10 +1,10 @@
 <?php
-	if(!file_exists("core/config.php")){
-		header("Location: install/");
-	}
-	
-	include("core/config.php");
-	
+include('inc/class.uFlex.php');
+include("config.php");
+
+if(!$user->signed)
+	redirect("./?page=login");
+
 	$page = @$_GET['page'];
 	
 	$page = !$page ? "home" : $page;
