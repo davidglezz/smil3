@@ -56,7 +56,7 @@ class uFlex{
 		"user_session" => "userData",
 		"default_user" => array(
 				"username" => "Guess",
-				"user_id" => 0,
+				"id_user" => 0,
 				"password" => 0,
 				"signed" => false
 				)
@@ -119,9 +119,9 @@ class uFlex{
 	 * @param string $pass password 
 	 * @param bool|int $auto boolean to remember or not the user 
 	 */
-	function login($user=false,$pass=false,$auto=false){
+	function login($user = false, $pass = false, $auto = false){
 		//reconstruct object
-		self::__construct($user,$pass,$auto);
+		self::__construct($user, $pass, $auto);
 	}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -139,7 +139,7 @@ Returns true if second parameter @activation is false
 Returns false on Error
 */
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
-	function register($info,$activation = false){
+	function register($info, $activation = false){
 		$this->logger("registration"); //Index for Errors and Reports
 
 		//Saves Registration Data in Class
@@ -256,7 +256,7 @@ On Failure return false
 
 		//Prepare User Update	Query
 		$sql = "UPDATE :table SET $set 
-				WHERE user_id={$this->id}";		
+				WHERE id_user={$this->id}";		
 		
 		//Check for Changes
 		if($this->check_sql($sql, $data)){
@@ -324,7 +324,7 @@ Returns true on account activation and false on failure
 
 		if(!$this->check_hash($hash)) return false;
 
-		$sql = "UPDATE :table SET activated=1, confirmation='' WHERE user_id=:id AND confirmation=:hash";
+		$sql = "UPDATE :table SET activated=1, confirmation='' WHERE id_user=:id AND confirmation=:hash";
 		$data = Array(
 			"hash"	=> $hash,
 			"id"	=> $this->id
@@ -343,7 +343,7 @@ Returns true on account activation and false on failure
 Method to reset password, Returns confirmation code to reset password
 -Takes one parameter and is required
 	@email = string(user email to reset password)
-On Success it returns an array(email,username,user_id,hash) which could then be use to 
+On Success it returns an array(email,username,id_user,hash) which could then be use to 
  construct the confirmation URL and Email
 On Failure it returns false
 */
@@ -360,14 +360,14 @@ On Failure it returns false
 				return false;
 			}
 			
-			$this->make_hash($user['user_id']);
-			$this->id = $user['user_id'];
+			$this->make_hash($user['id_user']);
+			$this->id = $user['id_user'];
 			$this->save_hash();
 
 			$data = array(
 				"email" => $email, 
 				"username" => $user['username'],
-				"user_id" => $user['user_id'],
+				"id_user" => $user['id_user'],
 				"hash" => $this->confirm
 			);
 			return $data;
@@ -404,7 +404,7 @@ Returns false on error
 
 		$pass = $this->hash_pass($newPass['password']);
 
-		$sql = "UPDATE :table SET password=:pass, confirmation='', activated=1 WHERE confirmation=:hash AND user_id=:id";
+		$sql = "UPDATE :table SET password=:pass, confirmation='', activated=1 WHERE confirmation=:hash AND id_user=:id";
 		$data = Array(
 			"id"	=> $this->id,
 			"pass" 	=> $pass,
@@ -474,7 +474,7 @@ Returns false on error
 			if(isset($_SESSION['uFlex']['update'])){
 				$this->report("Updating Session from database");
 				//Get User From database because its info has change during current session
-				$update = $this->getRow(Array("user_id" => "$this->id"));
+				$update = $this->getRow(Array("id_user" => "$this->id"));
 				$this->update_session($update);
 				$this->log_login(); //Update last_login
 			}
@@ -486,7 +486,7 @@ Returns false on error
 			$this->report("Attemping Login with cookies");
 			if($this->check_hash($c,true)){
 				$auto = true;
-				$getBy = "user_id";
+				$getBy = "id_user";
 				$user = $this->id;
 				$this->signed = true;
 			}else{
@@ -529,7 +529,7 @@ Returns false on error
 				//Update password hash in database
 				if($this->signed){
 					$this->data = $userFile;
-					$this->id = $userFile['user_id'];
+					$this->id = $userFile['id_user'];
 					$this->update(Array("password" => $pass));
 					$this->log = "login";
 				}
@@ -602,7 +602,7 @@ Returns false on error
 	private function log_login(){
 		//Update last_login
 		$time = time();
-		$sql = "UPDATE :table SET last_login=:time WHERE user_id=:id";
+		$sql = "UPDATE :table SET last_login=:time WHERE id_user=:id";
 		if($this->check_sql($sql, Array("time" => $time, "id" => $this->id)))
 			$this->report("Last Login updated");
 	}
@@ -672,7 +672,7 @@ Returns false on error
 	private function update_from_session(){
 		$d = $this->session();
 
-		$this->id = $d['user_id'];
+		$this->id = $d['id_user'];
 		$this->data = $d;
 		$this->username = $d['username'];
 		$this->pass = $d['password'];
@@ -822,7 +822,7 @@ Returns false on error
 		$uid = $this->decode($e_uid);
 
 		$args = Array(
-			"user_id" => $uid
+			"id_user" => $uid
 		);
 		
 		//return false;
@@ -843,13 +843,13 @@ Returns false on error
 			return false;
 		}
 		
-		if($this->signed and $this->id == $user['user_id']){
+		if($this->signed and $this->id == $user['id_user']){
 			$this->logout(); //FLAGGED
 		}
 
 		//Hash is valid import user's info to object
 		$this->data = $user;
-		$this->id = $user['user_id'];
+		$this->id = $user['id_user'];
 		$this->username = $user['username'];
 		$this->pass = $user['password'];
 
@@ -860,7 +860,7 @@ Returns false on error
 	//Saves the confirmation hash in the database
 	function save_hash(){
 		if($this->confirm and $this->id){
-			$sql = "UPDATE :table SET confirmation=:hash, activated=0 WHERE user_id=:id";
+			$sql = "UPDATE :table SET confirmation=:hash, activated=0 WHERE id_user=:id";
 			$data = Array(
 				"id"	=> $this->id,
 				"hash"	=> $this->confirm
