@@ -1,42 +1,16 @@
 <?php
-/*
-	Copyright (c) 2012 Pablo Tejada, http://crusthq.com/projects/uFlex/
 
-	Permission is hereby granted, free of charge, to any person obtaining
-	a copy of this software and associated documentation files (the
-	"Software"), to deal in the Software without restriction, including
-	without limitation the rights to use, copy, modify, merge, publish,
-	distribute, sublicense, and/or sell copies of the Software, and to
-	permit persons to whom the Software is furnished to do so, subject to
-	the following conditions:
-	
-	The above copyright notice and this permission notice shall be
-	included in all copies or substantial portions of the Software.
-	
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-	EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-	MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-	NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-	LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-	OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/
-
-class uFlex {
-	//Constants
-	const version = 0.88;
-	const salt = "sd5a4"; //IMPORTANT: //IMPORTANT: This constant is deprecated, useless you are upgrading class
-	//End of constants\\\\
-	/**
-	 * PDO / database credentials
-	 */
+class User
+{
+	/* PDO / database credentials */
 	var $db = array(
-		"host" => '',
-		"user" => '',
-		"pass" => '',
-		"name" => '',	//Database name
-		"dsn" => ''	//Alterntive PDO DSN string
-	);
+					"host" => 'localhost',
+					"user" => 'davi9038_smil3',
+					"pass" => 'davi9038_smil3_pass',
+					"name" => 'davi9038_smil3',
+					"dsn" => ''
+					);
+
 	var $id;		//Current user ID
 	var $sid;		//Current User Session ID
 	var $username;	//Signed username
@@ -48,69 +22,59 @@ class uFlex {
 	var $confirm;	//Holds the hash for any type of comfirmation
 	var $tmp_data;	//Holds the temporary user information during registration and other methods
 	var $opt = array( //Array of Internal options
-		"table_name" => "users",
-		"cookie_time" => "+30 days",
-		"cookie_name" => "auto",
-		"cookie_path" => "/",
-		"cookie_host" => false,
-		"user_session" => "userData",
-		"default_user" => array(
-				"username" => "Guest",
-				"user_id" => 0,
-				"password" => 0,
-				"signed" => false
-				)
-		);
+					 "cookie_time" => "+30 days",
+					 "cookie_name" => "auto",
+					 "cookie_path" => "/",
+					 "cookie_host" => false,
+					 "default_user" => array(
+											 "username" => "Guest",
+											 "id_user" => 0,
+											 "password" => 0,
+											 "signed" => false
+											 )
+					 );
 	var $validations = array( //Array for default field validations
-			"username" => array(
-					"limit" => "3-15",
-					"regEx" => '/^([a-zA-Z0-9_])+$/'
-					),
-			"password" => array(
-					"limit" => "3-15",
-					"regEx" => ''
-					),
-			"email" => array(
-					"limit" => "4-45",
-					"regEx" => '/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/'
-					)
-		);
-		
-	var $encoder = array(
-			"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z",
-			"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z",
-			0,2,3,4,5,6,7,8,9
-		);
-	
+							 "username" => array(
+												 "limit" => "3-15",
+												 "regEx" => '/^([a-zA-Z0-9_])+$/'
+												 ),
+							 "password" => array(
+												 "limit" => "3-15",
+												 "regEx" => ''
+												 ),
+							 "email" => array(
+											  "limit" => "5-45",
+											  "regEx" => '/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/'
+											  )
+							 );
+
 	//Array of errors
 	var $errorList = array(
-				//Database Error while caling register functions
-			1   => "New User Registration Failed", 
-				//Database Error while calling update functions
-			2   => "The Changes Could not be made", 
-				//Database Error while calling activate function
-			3   => "Account could not be activated", 
-				//When calling pass_reset and the given email doesn't exist in database
-			4   => "We don't have an account with this email", 
-				//When calling new_pass, the confirmation hash did not match the one in database
-			5   => "Password could not be changed. The request can't be validated", 
-			6   => "Logging with cookies failed",
-			7   => "No Username or Password provided",
-			8   => "Your Account has not been Activated. Check your Email for instructions",
-			9   => "Your account has been deactivated. Please contact Administrator",
-			10  => "Wrong Username or Password",
-				//When calling check_hash with invalid hash
-			11  => "Confirmation hash is invalid", 
-				//Calling check_hash hash failed database match test
-			12  => "Your identification could not be confirmed", 
-				//When saving hash to database fails
-			13  => "Failed to save confirmation request", 
-			14 	=> "You need to reset your password to login"
+			//Database Error while caling register functions
+			1	=> "New User Registration Failed", 
+			//Database Error while calling update functions
+			2	=> "The Changes Could not be made", 
+			//Database Error while calling activate function
+			3	=> "Account could not be activated", 
+			//When calling pass_reset and the given email doesn't exist in database
+			4	=> "We don't have an account with this email", 
+			//When calling new_pass, the confirmation hash did not match the one in database
+			5	=> "Password could not be changed. The request can't be validated", 
+			6	=> "Logging with cookies failed",
+			7	=> "No Username or Password provided",
+			8	=> "Your Account has not been Activated. Check your Email for instructions",
+			9	=> "Your account has been deactivated. Please contact Administrator",
+			10	=> "Wrong Username or Password",
+			//When calling check_hash with invalid hash
+			11	=> "Confirmation hash is invalid", 
+			//Calling check_hash hash failed database match test
+			12	=> "Your identification could not be confirmed", 
+			//When saving hash to database fails
+			13	=> "Failed to save confirmation request", 
+			14	=> "You need to reset your password to login"
 		);
-		
-		
-/** EDITS BELOW THIS LINE WILL NOT BE KEPT WHEN UPDATING CLASS USING THE UPDATER SCRIPT **/
-	
+
+
 	/**
 	 * Public function to initiate a login request at any time
 	 * 
@@ -119,27 +83,26 @@ class uFlex {
 	 * @param string $pass password 
 	 * @param bool|int $auto boolean to remember or not the user 
 	 */
-	function login($user=false,$pass=false,$auto=false){
-		//reconstruct object
-		self::__construct($user,$pass,$auto);
+	function login($user = false, $pass = false, $auto = false)
+	{
+		self::__construct($user, $pass, $auto);
 	}
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-/*
-Register A New User
--Takes two parameters, the first being required
-	@info = array object (takes an associatve array, 
-				the index being the fieldname(column in database) 
-				and the value its content(value)
-	+optional second parameter
-	@activation = boolean(true/false)
-		default = false 
-Returns activation hash if second parameter @activation is true
-Returns true if second parameter @activation is false
-Returns false on Error
-*/
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-	function register($info,$activation = false){
+
+	/*
+	Register A New User
+	-Takes two parameters, the first being required
+		@info = array object (takes an associatve array, 
+					the index being the fieldname(column in database) 
+					and the value its content(value)
+		+optional second parameter
+		@activation = boolean(true/false)
+			default = false 
+	Returns activation hash if second parameter @activation is true
+	Returns true if second parameter @activation is false
+	Returns false on Error
+	*/
+function register($info, $activation = false){
 		$this->logger("registration"); //Index for Errors and Reports
 
 		//Saves Registration Data in Class
@@ -163,12 +126,12 @@ Returns false on Error
 				return false;
 
 		//Check for username in database
-		if(isset($info['username']))
-			if($this->check_field('username',$info['username'], "This Username is not available"))
-				return false;
+			if(isset($info['username']))
+				if($this->check_field('username',$info['username'], "This Username is not available"))
+					return false;
 
 		//Check for errors
-		if($this->has_error()) return false;
+				if($this->has_error()) return false;
 
 		//User Activation
 		if(!$activation){ //Activates user upon registration
@@ -188,8 +151,7 @@ Returns false on Error
 		$values = ":" . implode(", :",$into);
 
 		//Prepare New User	Query
-		$sql = "INSERT INTO :table ({$intoStr})
-				VALUES({$values})";
+		$sql = "INSERT INTO :table ({$intoStr}) VALUES({$values})";
 
 		//Enter New user to Database
 		if($this->check_sql($sql, $data)){
@@ -220,7 +182,7 @@ On Success returns true
 On Failure return false	
 */
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
-	function update($info){
+function update($info){
 		$this->logger("update"); //Index for Errors and Reports
 
 		//Saves Updates Data in Class
@@ -241,10 +203,10 @@ On Failure return false
 				return false;
 
 		//Check for errors
-		if($this->has_error()) return false;
+			if($this->has_error()) return false;
 
 		//Prepare Info for SQL Insertion
-		foreach($info as $index => $val){
+			foreach($info as $index => $val){
 			if(!preg_match("/2$/",$index)){ //Skips double fields
 				$set[] = "{$index}=:{$index}";
 				//For the statement
@@ -255,13 +217,12 @@ On Failure return false
 		$set = implode(", ",$set);
 
 		//Prepare User Update	Query
-		$sql = "UPDATE :table SET $set 
-				WHERE user_id={$this->id}";		
+		$sql = "UPDATE :table SET $set WHERE id_user={$this->id}";		
 		
 		//Check for Changes
 		if($this->check_sql($sql, $data)){
 			$this->report("Information Updated");
-			$_SESSION['uFlex']['update'] = true;
+			$_SESSION['userUpdate'] = true;
 			return true;
 		}else{
 			$this->error(2);
@@ -296,10 +257,10 @@ Multiple Entry:
 				);
 */
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
-	function addValidation($name,$limit = "0-1",$regEx = false){
-		$this->logger("registration");
-		if(is_array($name)){
-			if(!is_array($this->validations))
+function addValidation($name,$limit = "0-1",$regEx = false){
+	$this->logger("registration");
+	if(is_array($name)){
+		if(!is_array($this->validations))
 				$this->validations = array(); //If is not an array yet, make it one
 			$new = array_merge($this->validations,$name);
 			$this->validations = $new;
@@ -319,63 +280,63 @@ Takes Only and Only the URL parameter of the confirmation page
 Returns true on account activation and false on failure
 */
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
-	function activate($hash){
-		$this->logger("activation");
+function activate($hash){
+	$this->logger("activation");
 
-		if(!$this->check_hash($hash)) return false;
+	if(!$this->check_hash($hash)) return false;
 
-		$sql = "UPDATE :table SET activated=1, confirmation='' WHERE user_id=:id AND confirmation=:hash";
-		$data = Array(
-			"hash"	=> $hash,
-			"id"	=> $this->id
-		);
-		if($this->check_sql($sql, $data)){
-			$this->report("Account has been Activated");
-			return true;
-		}else{
-			$this->error(3);
-			return false;
-		}
+	$sql = "UPDATE :table SET activated=1, confirmation='' WHERE id_user=:id AND confirmation=:hash";
+	$data = Array(
+				  "hash"	=> $hash,
+				  "id"	=> $this->id
+				  );
+	if($this->check_sql($sql, $data)){
+		$this->report("Account has been Activated");
+		return true;
+	}else{
+		$this->error(3);
+		return false;
 	}
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 /*
 Method to reset password, Returns confirmation code to reset password
 -Takes one parameter and is required
 	@email = string(user email to reset password)
-On Success it returns an array(email,username,user_id,hash) which could then be use to 
+On Success it returns an array(email,username,id_user,hash) which could then be use to 
  construct the confirmation URL and Email
 On Failure it returns false
 */
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
-	function pass_reset($email){
-		$this->logger("pass_reset");
+function pass_reset($email){
+	$this->logger("pass_reset");
 
-		$user = $this->getRow(Array("email" => $email));
+	$user = $this->getRow(Array("email" => $email));
 
-		if($user){
-			if(!$user['activated'] and !$user['confirmation']){
+	if($user){
+		if(!$user['activated'] and !$user['confirmation']){
 				//The Account has been manually disabled and can't reset password
-				$this->error(9);
-				return false;
-			}
-			
-			$this->make_hash($user['user_id']);
-			$this->id = $user['user_id'];
-			$this->save_hash();
-
-			$data = array(
-				"email" => $email, 
-				"username" => $user['username'],
-				"user_id" => $user['user_id'],
-				"hash" => $this->confirm
-			);
-			return $data;
-		}else{
-			$this->error(4);
+			$this->error(9);
 			return false;
 		}
+
+		$this->make_hash($user['id_user']);
+		$this->id = $user['id_user'];
+		$this->save_hash();
+
+		$data = array(
+					  "email" => $email, 
+					  "username" => $user['username'],
+					  "id_user" => $user['id_user'],
+					  "hash" => $this->confirm
+					  );
+		return $data;
+	}else{
+		$this->error(4);
+		return false;
 	}
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 /*
@@ -394,22 +355,22 @@ Returns true on a successful password change
 Returns false on error
 */
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
-	function new_pass($hash,$newPass){
-		$this->logger("new_pass");
+function new_pass($hash,$newPass){
+	$this->logger("new_pass");
 
-		if(!$this->check_hash($hash)) return false;
-		
-		$this->tmp_data = $newPass;
+	if(!$this->check_hash($hash)) return false;
+
+	$this->tmp_data = $newPass;
 		if(!$this->validateAll()) return false; //There are validations error
 
 		$pass = $this->hash_pass($newPass['password']);
 
-		$sql = "UPDATE :table SET password=:pass, confirmation='', activated=1 WHERE confirmation=:hash AND user_id=:id";
+		$sql = "UPDATE :table SET password=:pass, confirmation='', activated=1 WHERE confirmation=:hash AND id_user=:id";
 		$data = Array(
-			"id"	=> $this->id,
-			"pass" 	=> $pass,
-			"hash" 	=> $hash
-		);
+					  "id"	=> $this->id,
+					  "pass" 	=> $pass,
+					  "hash" 	=> $hash
+					  );
 		if($this->check_sql($sql, $data)){
 			$this->report("Password has been changed");
 			return true;
@@ -423,44 +384,45 @@ Returns false on error
 	/*
 	 *  Public function to start a delayed constructor
 	 */
-	 function start(){
-	 	$this->__construct();
-	 }
+	function start(){
+		$this->__construct();
+	}
 	
  /*////////////////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*\
 ////////Private and Secondary Methods below this line\\\\\\\\\\\\\
  \*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////////////////*/
-/*Object Constructor*/
-	function __construct($name='', $pass=false, $auto=false){
-		if($name === false) return;
-		
-		$this->logger("login"); //Index for Reports and Errors;
-		
-		if(!isset($_SESSION) and !headers_sent()){
-			session_start();
-			$this->report("Session is been started...");
-		}elseif(isset($_SESSION)){
-			$this->report("Session has already been started");
-		}else{
-			$this->error("Session could not be started");
-			return; //Finish Execution
-		}
-		
-		$this->sid = session_id();
+ /*Object Constructor*/
+ function __construct($name='', $pass=false, $auto=false){
+	if($name === false)
+		return;
 
-		$result = $this->loginUser($name, $pass, $auto);
-		
-		if(!$result){
-			$this->session($this->opt['default_user']);
-			$this->update_from_session();
-			$this->report("User is {$this->username}");
-		}else{
-			if(!$auto and isset($_SESSION['uFlex']['remember'])){
-				unset($_SESSION['uFlex']['remember']);
-				$this->setCookie();
-			}
+	$this->logger("login"); //Index for Reports and Errors;
+	
+	if(!isset($_SESSION) and !headers_sent()){
+		session_start();
+		$this->report("Session is been started...");
+	}elseif(isset($_SESSION)){
+		$this->report("Session has already been started");
+	}else{
+		$this->error("Session could not be started");
+		return; //Finish Execution
+	}
+	
+	$this->sid = session_id();
+
+	$result = $this->loginUser($name, $pass, $auto);
+	
+	if(!$result){
+		$this->session($this->opt['default_user']);
+		$this->update_from_session();
+		$this->report("User is {$this->username}");
+	}else{
+		if(!$auto and isset($_SESSION['userRemember'])){
+			unset($_SESSION['userRemember']);
+			$this->setCookie();
 		}
 	}
+}
 	
 	/**
 	 * Private Login proccesor function
@@ -471,22 +433,24 @@ Returns false on error
 		if($this->session("signed")){
 			$this->report("User Is signed in from session");
 			$this->update_from_session();
-			if(isset($_SESSION['uFlex']['update'])){
+			if(isset($_SESSION['userUpdate'])){
 				$this->report("Updating Session from database");
 				//Get User From database because its info has change during current session
-				$update = $this->getRow(Array("user_id" => "$this->id"));
+				$update = $this->getRow(Array("id_user" => "$this->id"));
 				$this->update_session($update);
 				$this->log_login(); //Update last_login
 			}
 			return true;
 		}
+
+
 		//Cookies Login
 		if(isset($_COOKIE[$this->opt['cookie_name']]) and !$user and !$pass){
 			$c = $_COOKIE[$this->opt['cookie_name']];
 			$this->report("Attemping Login with cookies");
 			if($this->check_hash($c,true)){
 				$auto = true;
-				$getBy = "user_id";
+				$getBy = "id_user";
 				$user = $this->id;
 				$this->signed = true;
 			}else{
@@ -495,9 +459,10 @@ Returns false on error
 				return false;
 			}
 		}else{
+
 		//Credentials Login
 			if($user && $pass){
-				if(preg_match($this->validations['email']['regEx'],$user)){
+				if(preg_match($this->validations['email']['regEx'], $user)){
 					//Login using email
 					$getBy = "email";
 				}else{
@@ -529,7 +494,7 @@ Returns false on error
 				//Update password hash in database
 				if($this->signed){
 					$this->data = $userFile;
-					$this->id = $userFile['user_id'];
+					$this->id = $userFile['id_user'];
 					$this->update(Array("password" => $pass));
 					$this->log = "login";
 				}
@@ -588,10 +553,10 @@ Returns false on error
 		
 		$deleted = setcookie($this->opt['cookie_name'],"",time() - 3600,
 			$this->opt['cookie_path'],$this->opt['cookie_host']); //Deletes the Auto Coookie
-			
+
 		$this->signed = 0;
 		//Import default user object
-		$_SESSION[$this->opt['user_session']] = $this->data = $this->opt['default_user'];
+		$_SESSION['userSession'] = $this->data = $this->opt['default_user'];
 		
 		if(!$deleted){
 			$this->report("The Autologin cookie could not be deleted");
@@ -602,7 +567,7 @@ Returns false on error
 	private function log_login(){
 		//Update last_login
 		$time = time();
-		$sql = "UPDATE :table SET last_login=:time WHERE user_id=:id";
+		$sql = "UPDATE :table SET last_login=:time WHERE id_user=:id";
 		if($this->check_sql($sql, Array("time" => $time, "id" => $this->id)))
 			$this->report("Last Login updated");
 	}
@@ -618,77 +583,78 @@ Returns false on error
 			if(!headers_sent()){
 				//echo "PHP";
 				setcookie($this->opt['cookie_name'],$code,strtotime($this->opt['cookie_time']),
-					$this->opt['cookie_path'],$this->opt['cookie_host']);
+						  $this->opt['cookie_path'],$this->opt['cookie_host']);
 			}else{
 				//Headers have been sent use JavaScript to set cookie
 				$time = intval($this->opt['cookie_time']);
 				echo "<script>";
 				echo '
-				  function setCookie(c_name,value,expiredays){
+				function setCookie(c_name,value,expiredays){
 					var exdate=new Date();
 					exdate.setDate(exdate.getDate()+expiredays);
 					document.cookie=c_name+ "=" +escape(value)+((expiredays==null) ? "" : "; expires="+exdate.toUTCString()); path=escape("'.
-							$this->opt["cookie_path"].'");
-				  }
-				';
-				echo "setCookie('{$this->opt['cookie_name']}','{$code}',{$time})";
-				echo "</script>";
-			}
+																																		  $this->opt["cookie_path"].'");
+}
+';
+echo "setCookie('{$this->opt['cookie_name']}','{$code}',{$time})";
+echo "</script>";
+}
 
-			$this->report("Cookies have been updated for auto login");
-		}else{
-			$this->error("Info required to set the cookie {$this->opt['cookie_name']} is not available");
-		}
+$this->report("Cookies have been updated for auto login");
+}else{
+	$this->error("Info required to set the cookie {$this->opt['cookie_name']} is not available");
+}
+}
+
+private function session($index=false, $val=false){
+	if(is_string($index) and !$val){
+		return @$_SESSION['userSession'][$index];
 	}
-	
-	private function session($index=false, $val=false){
-		if(is_string($index) and !$val){
-			return @$_SESSION[$this->opt['user_session']][$index];
-		}
-		
-		if(is_string($index) and $val){
-			$_SESSION[$this->opt['user_session']][$index] = $val;
-			return;
-		}
-		
-		if(is_array($index) and !$val){
-			$_SESSION[$this->opt['user_session']] = $index;
-			return;	
-		}
+
+	if(is_string($index) and $val){
+		$_SESSION['userSession'][$index] = $val;
+		return;
+	}
+
+	if(is_array($index) and !$val){
+		$_SESSION['userSession'] = $index;
+		return;	
+	}
 		//return full session user data
-		return $_SESSION[$this->opt['user_session']];	
-	}
+	return $_SESSION['userSession'];	
+}
+
+private function update_session($d){
+	unset($_SESSION['userUpdate']);
+
+	$this->session($d);
+	$this->session("signed",1);
+
+	$this->report("Session updated");
+	$this->update_from_session();
+}
+
+private function update_from_session(){
+	$d = $this->session();
+
+	$this->id = $d['id_user'];
+	$this->data = $d;
+	$this->username = $d['username'];
+	$this->pass = $d['password'];
+	$this->signed = $d['signed'];
+
+	$this->report("Session has been imported to the object");
+}
+
+function legacy_hash_pass($pass)
+{
+	$salt = "sd5a4"; //IMPORTANT: This constant is deprecated, useless you are upgrading class
+	$this->pass = md5($salt.$pass.$salt);
+	return $this->pass;
+}
 	
-	private function update_session($d){
-		unset($_SESSION['uFlex']['update']);
-
-		$this->session($d);
-		$this->session("signed",1);
-
-		$this->report("Session updated");
-		$this->update_from_session();
-	}
-
-	private function update_from_session(){
-		$d = $this->session();
-
-		$this->id = $d['user_id'];
-		$this->data = $d;
-		$this->username = $d['username'];
-		$this->pass = $d['password'];
-		$this->signed = $d['signed'];
-
-		$this->report("Session has been imported to the object");
-	}
-
-	function legacy_hash_pass($pass){
-		$salt = uFlex::salt;
-		$this->pass = md5($salt.$pass.$salt);
-		return $this->pass;
-	}
-	
-	function hash_pass($pass){
-		
+	function hash_pass($pass)
+	{
 		$regdate = false;
 		
 		if(isset($this->data['reg_date']))
@@ -708,14 +674,16 @@ Returns false on error
 		return $this->pass;
 	}
 
-	function logger($log){
+	function logger($log)
+	{
 		$this->log = $log;
 		unset($this->console['errors'][$log]);
 		unset($this->console['form'][$log]);
 		$this->report(">>Startting new $log request");
 	}
 
-	function report($str = false){
+	function report($str = false)
+	{
 		$index = $this->log;
 		if($str){
 			if(is_string($str))
@@ -777,7 +745,7 @@ Returns false on error
 	//Check for errors in the console
 	function has_error($index = false){
 		//Check for errors
-		$index = $index?$index:$this->log;
+		$index = $index ? $index : $this->log;
 		$count = @count($this->console['errors'][$index]);
 		if($count){
 			$this->report("$count Error(s) Found!");
@@ -822,8 +790,8 @@ Returns false on error
 		$uid = $this->decode($e_uid);
 
 		$args = Array(
-			"user_id" => $uid
-		);
+					  "id_user" => $uid
+					  );
 		
 		//return false;
 		$user = $this->getRow($args);
@@ -843,13 +811,13 @@ Returns false on error
 			return false;
 		}
 		
-		if($this->signed and $this->id == $user['user_id']){
+		if($this->signed and $this->id == $user['id_user']){
 			$this->logout(); //FLAGGED
 		}
 
 		//Hash is valid import user's info to object
 		$this->data = $user;
-		$this->id = $user['user_id'];
+		$this->id = $user['id_user'];
 		$this->username = $user['username'];
 		$this->pass = $user['password'];
 
@@ -860,11 +828,11 @@ Returns false on error
 	//Saves the confirmation hash in the database
 	function save_hash(){
 		if($this->confirm and $this->id){
-			$sql = "UPDATE :table SET confirmation=:hash, activated=0 WHERE user_id=:id";
+			$sql = "UPDATE :table SET confirmation=:hash, activated=0 WHERE id_user=:id";
 			$data = Array(
-				"id"	=> $this->id,
-				"hash"	=> $this->confirm
-			);
+						  "id"	=> $this->id,
+						  "hash"	=> $this->confirm
+						  );
 			
 			if(!$this->check_sql($sql, $data)){
 				$this->error(13);
@@ -907,7 +875,8 @@ Returns false on error
 	}
 	
 	//Test field in database for a value
-	function check_field($field,$val,$err = false){
+	function check_field($field, $val, $err = false)
+	{
 		$res = $this->getRow(Array($field => $val));
 		
 		if($res){
@@ -987,7 +956,7 @@ Returns false on error
 		}
 		
 		//Replace the :table placeholder
-		$sql = str_replace(" :table ", " {$this->opt["table_name"]} ", $sql);
+		$sql = str_replace(" :table ", " users ", $sql);
 		
 		$this->report("SQL Statement: {$sql}"); //Log the SQL Query first
 		
@@ -1073,17 +1042,68 @@ Returns false on error
 		return true;
 	}
 
+
+	var $encoder = array(
+			'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
+			'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
+			0,2,3,4,5,6,7,8,9
+		);
+
+	var $encoder2 = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ023456789';
+
 	//Encoder
-	function encode($d){
-		$k=$this->encoder;preg_match_all("/[1-9][0-9]|[0-9]/",$d,$a);$n="";$o=count($k);foreach($a[0]as$i){if($i<$o){
-			$n.=$k[$i];}else{$n.="1".$k[$i-$o];}}
+	function encode($d)
+	{
+		$k = $this->encoder;
+		preg_match_all("/[1-9][0-9]|[0-9]/", $d, $a);
+		$n = "";
+		$o = count($k);
+		foreach ($a[0] as $i)
+			$n .= $i < $o ? $k[$i] : ("1" . $k[$i-$o]);
+
 		return $n;
 	}
+
 	//Decoder
-	function decode($d){
-		$k=$this->encoder;preg_match_all("/[1][a-zA-Z]|[2-9]|[a-zA-Z]|[0]/",$d,$a);$n="";$o=count($k);foreach($a[0]as$i){
-			$f=preg_match("/1([a-zA-Z])/",$i,$v);if($f==true){	$i=$o+array_search($v[1],$k);}else{$i=array_search($i,$k);}$n.=$i;}
+	function decode($d)
+	{
+		$k = $this->encoder;
+		preg_match_all("/[1][a-zA-Z]|[2-9]|[a-zA-Z]|[0]/", $d, $a);
+		$n = "";
+		$o = count($k);
+		foreach($a[0] as $i)
+		{
+			$f = preg_match("/1([a-zA-Z])/", $i, $v);
+			$i = $f==1 ? $o + array_search($v[1], $k) : array_search($i, $k);
+			$n .= $i;
+		}
+
 		return $n;
 	}	
 }
-?>
+
+/*
+	Copyright (c) 2012 David Gonzalez, http://davidxl.es/
+	Copyright (c) 2012 Pablo Tejada, http://crusthq.com/projects/uFlex/
+
+	Permission is hereby granted, free of charge, to any person obtaining
+	a copy of this software and associated documentation files (the
+	"Software"), to deal in the Software without restriction, including
+	without limitation the rights to use, copy, modify, merge, publish,
+	distribute, sublicense, and/or sell copies of the Software, and to
+	permit persons to whom the Software is furnished to do so, subject to
+	the following conditions:
+	
+	The above copyright notice and this permission notice shall be
+	included in all copies or substantial portions of the Software.
+	
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+	EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+	MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+	NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+	LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+	OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+	?>
