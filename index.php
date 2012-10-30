@@ -1,6 +1,6 @@
 <?php
 include('php/config.php');
 
-redirect($user->signed ? "smil3.htm" : 'login.htm');
+header("Location: " . (!$user->signed ? 'smil3.htm' : 'login.htm'));
 
 ?>
