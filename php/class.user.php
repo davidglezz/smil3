@@ -34,19 +34,27 @@ class User
 											 )
 					 );
 	var $validations = array( //Array for default field validations
-							 "username" => array(
-												 "limit" => "3-15",
-												 "regEx" => '/^([a-zA-Z0-9_])+$/'
-												 ),
-							 "password" => array(
-												 "limit" => "3-15",
-												 "regEx" => ''
-												 ),
-							 "email" => array(
-											  "limit" => "5-45",
-											  "regEx" => '/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/'
-											  )
-							 );
+							"username" => array(
+									"limit" => "3-15",
+									"regEx" => '/^([a-zA-Z0-9_])+$/'
+								),
+							"password" => array(
+									"limit" => "3-15",
+									"regEx" => ''
+								),
+							"email" => array(
+									"limit" => "5-45",
+									"regEx" => '/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/'
+								),
+							"fullname" => Array(
+									"limit" => "0-15",
+									"regEx" => "/\w+/"
+								),
+							"webste" => Array(
+									"limit" => "0-50",
+									"regEx" => "@((https?://)?([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?)@"
+								)
+						);
 
 	//Array of errors
 	var $errorList = array(
@@ -1001,38 +1009,53 @@ function legacy_hash_pass($pass)
 	}
 
 	//Validates field($name) in tmp_data
-	private function validate($name,$limit,$regEx = false){
+	private function validate($name, $limit, $regEx = false)
+	{
 		$Name = ucfirst($name);
 		$str = $this->tmp_data[$name];
-		$l = explode("-",$limit);
+		$l = explode("-", $limit);
 		$min = intval($l[0]);
 		$max = intval($l[1]);
-		if(!$max and !$min){
+		if (!$max and !$min)
+		{
 			$this->error("Invalid second paramater for the $name validation");
 			return false;
 		}
-		if(!$str){
-			if(!isset($this->tmp_data[$name])){
+
+		if (!$str)
+		{
+			if(!isset($this->tmp_data[$name]))
+			{
 				$this->report("missing index $name from the POST array");
 			}
-			if(strlen($str) == $min){
+
+			if(strlen($str) == $min)
+			{
 				$this->report("$Name is blank and optional - skipped");
 				return true;
 			}
+
 			$this->form_error($name,"$Name is required.");
 			return false;
 		}
-		if(strlen($str) > $max){
+
+		if (strlen($str) > $max)
+		{
 			$this->form_error($name,"The $Name is larger than $max characters.");
 			return false;
 		}
-		if(strlen($str) < $min){
+
+		if (strlen($str) < $min)
+		{
 			$this->form_error($name,"The $Name is too short. it should at least be $min characters long");
 			return false;
 		}
-		if($regEx){
+
+		if ($regEx)
+		{
 			preg_match_all($regEx,$str,$match);
-			if(count($match[0]) != 1){
+			if (count($match[0]) != 1)
+			{
 				$this->form_error($name,"The $Name \"{$str}\" is not valid");
 				return false;
 			}

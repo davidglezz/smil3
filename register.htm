@@ -41,11 +41,10 @@
 	<div class="container">
 		<div class="modal" style="position: relative; top: auto; left: auto; margin: 30px auto 10px; max-width: 100%; max-height: 100%;">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h3>Formulario de registro de nuevo usuario</h3>
 			</div>
 			<div class="modal-body" style="max-height:initial">
-				<form class="form-horizontal">
+				<form class="form-horizontal" method="post" action="main.php?do=register">
 					<div class="control-group">
 						<label class="control-label" for="user">Usuario</label>
 						<div class="controls">
@@ -72,19 +71,11 @@
 					</div>
 					<hr />
 					<div class="control-group">
-						<label class="control-label" for="name">Nombre</label>
+						<label class="control-label" for="name">Nombre y apellidos</label>
 						<div class="controls">
-							<input type="text" class="input-xlarge" id="name">
+							<input type="text" class="input-xlarge" id="fullname">
 						</div>
 					</div>
-					
-					<div class="control-group">
-						<label class="control-label" for="surname">Apellidos</label>
-						<div class="controls">
-							<input type="text" class="input-xlarge" id="surname">
-						</div>
-					</div>
-					
 					<div class="control-group">
 						<label class="control-label" for="sex">Sexo</label>
 						<div class="controls">
