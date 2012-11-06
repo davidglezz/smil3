@@ -157,23 +157,23 @@ $actions['userUpdate'] = function()
 
 $actions['deleteAccount'] = function()
 {
-    // TODO
+	// TODO
 };
 /* Private messages functions **************************************/
 
 $actions['getMsg'] = function()
 {
-    // TODO
+	// TODO
 };
 
 $actions['delMsg'] = function()
 {
-    // TODO
+	// TODO
 };
 
 $actions['sendMsg'] = function()
 {
-    // TODO
+	// TODO
 };
 
 /* Private messages functions **************************************/

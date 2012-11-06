@@ -21,9 +21,12 @@
 			background-image: -ms-radial-gradient(50% 50%, circle cover, #fff, #aaa 100%);
 			background-image: radial-gradient(50% 50%, circle cover, #fff, #aaa 100%);
 			background-attachment: fixed;
-
 		}
-		
+
+		textarea[readonly] {
+			cursor: default;
+			background-color: #fff;
+		}
 		
 	</style>
 	<link href="css/bootstrap-responsive.css" rel="stylesheet" />
@@ -104,7 +107,7 @@
 					<div class="control-group">
 						<label class="control-label" for="TOS">Aviso legal</label>
 						<div class="controls">
-							<textarea class="input-xlarge" id="TOS" rows="5">
+							<textarea class="input-xlarge" id="TOS" rows="5" readonly="readonly">
 En cumplimiento de lo dispuesto en la Ley Orgánica 15/1999, de 13 de diciembre, de Protección de Datos de Carácter Personal y su normativa de desarrollo, queremos informarle de que los datos recabados serán incorporados a un fichero propiedad de Editorial Edinumen S.L. con la finalidad de poder gestionar técnicamente los diferentes servicios puestos a su disposición, así como mantenerle informado de nuestras novedades, eventos, ofertas y servicios.
 Podrá ejercer, en cualquier momento, sus derechos de acceso, rectificación, cancelación y oposición al tratamiento de sus datos, en los términos previstos legalmente en esta web.</textarea>
 						</div>

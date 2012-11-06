@@ -1016,6 +1016,7 @@ function legacy_hash_pass($pass)
 		$l = explode("-", $limit);
 		$min = intval($l[0]);
 		$max = intval($l[1]);
+		
 		if (!$max and !$min)
 		{
 			$this->error("Invalid second paramater for the $name validation");
@@ -1053,10 +1054,10 @@ function legacy_hash_pass($pass)
 
 		if ($regEx)
 		{
-			preg_match_all($regEx,$str,$match);
+			preg_match_all($regEx, $str, $match);
 			if (count($match[0]) != 1)
 			{
-				$this->form_error($name,"The $Name \"{$str}\" is not valid");
+				$this->form_error($name, "The $Name \"{$str}\" is not valid");
 				return false;
 			}
 		}
