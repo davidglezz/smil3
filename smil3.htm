@@ -7,12 +7,7 @@
 	<meta name="description" content="Panel de control de SIP" />
 	<meta name="author" content="David Gonzalez, Tony Marín" />
 	<link href="css/bootstrap.css" rel="stylesheet" />
-	<style type="text/css">
-		body {
-			padding-top: 60px;
-			padding-bottom: 40px;
-		}
-	</style>
+	<link href="css/smil3.css" rel="stylesheet" />
 	<link href="css/bootstrap-responsive.css" rel="stylesheet" />
 
 	<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -26,7 +21,7 @@
 	<link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png" />
 </head>
 
-<body>
+<body class="padNavbar">
 	<div class="navbar navbar-fixed-top">
 		<div class="navbar-inner">
 			<div class="container">
@@ -164,38 +159,7 @@
 		</div>
 
 		
-		<div class="tab-pane" id="forgottenPassword">
-			<form class="form-horizontal">
-				<fieldset>
-					<legend>Recuperar la contraseña</legend>
-					<div class="control-group">
-						<label class="control-label" for="umail">E-mail</label>
-						<div class="controls">
-							<input type="text" class="input-xlarge" id="umail">
-						</div>
-					</div>
-					<div class="control-group">
-						<label class="control-label" for="instructions">Instrucciones</label>
-						<div class="controls">
-							<textarea class="input-xlarge" id="instructions" rows="5">
-Reciviras un email con un enlace de confirmacion.Una vez confirmes el sistema generar una contraseña aleatoria y te la enviara a tu email. Se recomienda cambiarla por una mas facil de recordar. Si no recives el email, acuerdate de mirar en la vandeja del spam.</textarea>
-						</div>
-					</div>
-					<div class="control-group">
-						<label class="control-label" for="aceptIns"></label>
-						<div class="controls">
-							<label class="checkbox">
-								<input type="checkbox" id="aceptIns" value="aceptIns">
-								He leído las instrucciones
-							</label>
-						</div>
-					</div>
-					<div class="form-actions">
-						<button type="submit" class="btn btn-primary">Recuperar contraseña</button>
-					</div>
-				</fieldset>
-			</form>
-		</div>
+		
 		
 		<hr />
 		
