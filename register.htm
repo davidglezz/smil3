@@ -8,27 +8,7 @@
 	<meta name="description" content="SMIL3" />
 	<meta name="author" content="David Gonzalez, Tony Marín" />
 	<link href="css/bootstrap.css" rel="stylesheet" />
-	<style type="text/css">
-		html, body {
-			height: 100%;
-		}
-		
-		body {
-			background-color: #fff;
-			background-image: -moz-radial-gradient(50% 50%, circle cover, #fff, #aaa 100%);
-			background-image: -webkit-radial-gradient(50% 50%, circle cover, #fff, #aaa 100%);
-			background-image: -o-radial-gradient(50% 50%, circle cover, #fff, #aaa 100%);
-			background-image: -ms-radial-gradient(50% 50%, circle cover, #fff, #aaa 100%);
-			background-image: radial-gradient(50% 50%, circle cover, #fff, #aaa 100%);
-			background-attachment: fixed;
-		}
-
-		textarea[readonly] {
-			cursor: default;
-			background-color: #fff;
-		}
-		
-	</style>
+	<link href="css/smil3.css" rel="stylesheet" />
 	<link href="css/bootstrap-responsive.css" rel="stylesheet" />
 	<link rel="shortcut icon" href="images/favicon.ico" />
 	<link rel="apple-touch-icon" href="images/apple-touch-icon.png" />
@@ -40,18 +20,18 @@
 	<![endif]-->
 </head>
 
-<body>
+<body class="radialbg">
 	<div class="container">
 		<div class="modal" style="position: relative; top: auto; left: auto; margin: 30px auto 10px; max-width: 100%; max-height: 100%;">
 			<div class="modal-header">
 				<h3>Formulario de registro de nuevo usuario</h3>
 			</div>
 			<div class="modal-body" style="max-height:initial">
-				<form class="form-horizontal" method="post" action="main.php?do=register">
+				<form class="form-horizontal" method="post" action="main.php?do=special&amp;that=register">
 					<div class="control-group">
-						<label class="control-label" for="user">Usuario</label>
+						<label class="control-label" for="username">Usuario</label>
 						<div class="controls">
-							<input type="text" class="input-xlarge" id="user">
+							<input type="text" class="input-xlarge" id="username">
 						</div>
 					</div>
 					<div class="control-group">
