@@ -176,9 +176,20 @@ $actions['sendMsg'] = function()
 	// TODO
 };
 
-/* Private messages functions **************************************/
+/*  **************************************/
 
-
+$actions['setProfilePhoto'] = function()
+{
+    empty($_FILES) AND die(30);
+    
+    //$file_name = $_FILES['Filedata']['name'];   
+    $targetPath = $_SERVER['DOCUMENT_ROOT'] . $_REQUEST['folder'] . '/';
+    $targetFile =  str_replace('//','/',$targetPath) . $file_name; 
+     
+    move_uploaded_file($_FILES['Filedata']['tmp_name'], $targetFile) OR die(31);
+    
+    die(0);
+};
 
 
 ?>
