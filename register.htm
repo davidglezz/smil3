@@ -62,8 +62,8 @@
 					<div class="control-group">
 						<label class="control-label" for="sex">Sexo</label>
 						<div class="controls">
-							<label class="radio"><input type="radio" name="sex" value="Hombre" checked />Hombre</label>
-							<label class="radio"><input type="radio" name="sex" value="Mujer" />Mujer</label>
+							<label class="radio"><input type="radio" name="sex" value="H" />Hombre</label>
+							<label class="radio"><input type="radio" name="sex" value="M" />Mujer</label>
 						</div>
 					</div>
 					
@@ -101,31 +101,37 @@ Podrá ejercer, en cualquier momento, sus derechos de acceso, rectificación, ca
 							</label>
 						</div>
 					</div>
-				</form>
+				
 			</div>
 			<div class="modal-footer">
 				<a href="index.htm" class="btn">Cancelar</a>
-				<input id="regbtn" type="submit" value="Registrarme" class="btn btn-primary" />
+				<input type="submit" value="Registrarme" class="btn btn-primary" data-loading-text="Enviando..." />
 			</div>
+		</form>
 		</div>
+
 	</div>
 
 	<script src="js/jquery-1.8.2.min.js"></script> 
 	<script src="js/bootstrap.min.js"></script> 
 	<script>
         $(document).ready(function() {
-        	/*$('#regbtn').click(function() {
-			  alert("OK");
-			});*/
+        	var regBtn = $('input[type="submit"]')
+        	regBtn.button();
+
             $('#regForm').submit(function() {
-                alert("OK");
+            	regBtn.button('loading');
+
                 // TODO: validar datos.
                 $.ajaxSetup({ cache: false });
                 var data = $("#regForm").serialize();
-                $.post('test.php', data, function(data, status, jqXHR) { console.log('success 1', data, status, jqXHR) }, 'text')
-                    .success(function() { alert("second success"); })
-                    .error(function() { alert("error"); })
-                    .complete(function() { alert("complete"); });
+                $.post('test.php', data, function(data, status, jqXHR) {
+                	console.log('OK', data, status, jqXHR);
+                	}, 'text')
+                    	.error(function() { alert("error"); })
+                    	.complete(function() {
+							regBtn.button('reset');
+                    	});
 
                 /*$.ajax({
                     type: 'POST',
