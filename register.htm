@@ -27,43 +27,43 @@
 				<h3>Formulario de registro de nuevo usuario</h3>
 			</div>
 			<div class="modal-body" style="max-height:initial">
-				<form class="form-horizontal" method="post" action="main.php?do=special&amp;that=register">
+				<form id="regForm" class="form-horizontal" method="post" action="main.php?do=special&amp;that=register">
 					<div class="control-group">
 						<label class="control-label" for="username">Usuario</label>
 						<div class="controls">
-							<input type="text" class="input-xlarge" id="username">
+							<input type="text" class="input-xlarge" id="username" />
 						</div>
 					</div>
 					<div class="control-group">
 						<label class="control-label" for="mail">E-mail</label>
 						<div class="controls">
-							<input type="text" class="input-xlarge" id="mail">
+							<input type="text" class="input-xlarge" id="mail" />
 						</div>
 					</div>
 					<div class="control-group">
 						<label class="control-label" for="pass1">Contraseña</label>
 						<div class="controls">
-							<input type="password" class="input-xlarge" id="pass1">
+							<input type="password" class="input-xlarge" id="pass1" />
 						</div>
 					</div>
 					<div class="control-group">
 						<label class="control-label" for="pass2">Confirmar contraseña</label>
 						<div class="controls">
-							<input type="password" class="input-xlarge" id="pass2">
+							<input type="password" class="input-xlarge" id="pass2" />
 						</div>
 					</div>
 					<hr />
 					<div class="control-group">
 						<label class="control-label" for="name">Nombre y apellidos</label>
 						<div class="controls">
-							<input type="text" class="input-xlarge" id="fullname">
+							<input type="text" class="input-xlarge" id="fullname" />
 						</div>
 					</div>
 					<div class="control-group">
 						<label class="control-label" for="sex">Sexo</label>
 						<div class="controls">
-							<label class="radio"><input type="radio" name="sex" value="Hombre" checked>Hombre</label>
-							<label class="radio"><input type="radio" name="sex" value="Mujer">Mujer</label>
+							<label class="radio"><input type="radio" name="sex" value="Hombre" checked />Hombre</label>
+							<label class="radio"><input type="radio" name="sex" value="Mujer" />Mujer</label>
 						</div>
 					</div>
 					
@@ -87,7 +87,7 @@
 					<div class="control-group">
 						<label class="control-label" for="TOS">Aviso legal</label>
 						<div class="controls">
-							<textarea class="input-xlarge" id="TOS" rows="5" readonly="readonly">
+							<textarea class="input-xlarge" id="TOS" rows="5" readonly="readonly" />
 En cumplimiento de lo dispuesto en la Ley Orgánica 15/1999, de 13 de diciembre, de Protección de Datos de Carácter Personal y su normativa de desarrollo, queremos informarle de que los datos recabados serán incorporados a un fichero propiedad de Editorial Edinumen S.L. con la finalidad de poder gestionar técnicamente los diferentes servicios puestos a su disposición, así como mantenerle informado de nuestras novedades, eventos, ofertas y servicios.
 Podrá ejercer, en cualquier momento, sus derechos de acceso, rectificación, cancelación y oposición al tratamiento de sus datos, en los términos previstos legalmente en esta web.</textarea>
 						</div>
@@ -96,7 +96,7 @@ Podrá ejercer, en cualquier momento, sus derechos de acceso, rectificación, ca
 						<label class="control-label" for="aceptTOS"></label>
 						<div class="controls">
 							<label class="checkbox">
-								<input type="checkbox" id="aceptTOS" value="aceptTOS">
+								<input type="checkbox" id="aceptTOS" value="aceptTOS" />
 								He leído y acepto las condiciones
 							</label>
 						</div>
@@ -105,7 +105,7 @@ Podrá ejercer, en cualquier momento, sus derechos de acceso, rectificación, ca
 			</div>
 			<div class="modal-footer">
 				<a href="index.htm" class="btn">Cancelar</a>
-				<a href="#" class="btn btn-primary">Registrarme</a>
+				<input id="regbtn" type="submit" value="Registrarme" class="btn btn-primary" />
 			</div>
 		</div>
 	</div>
@@ -113,7 +113,33 @@ Podrá ejercer, en cualquier momento, sus derechos de acceso, rectificación, ca
 	<script src="js/jquery-1.8.2.min.js"></script> 
 	<script src="js/bootstrap.min.js"></script> 
 	<script>
-		
+        $(document).ready(function() {
+        	/*$('#regbtn').click(function() {
+			  alert("OK");
+			});*/
+            $('#regForm').submit(function() {
+                alert("OK");
+                // TODO: validar datos.
+                $.ajaxSetup({ cache: false });
+                var data = $("#regForm").serialize();
+                $.post('test.php', data, function(data, status, jqXHR) { console.log('success 1', data, status, jqXHR) }, 'text')
+                    .success(function() { alert("second success"); })
+                    .error(function() { alert("error"); })
+                    .complete(function() { alert("complete"); });
+
+                /*$.ajax({
+                    type: 'POST',
+                    url: "newmsg.php",
+                    data: "an="+ an +"& betreff="+ betreff +"&text="+ text,
+                    success: function() {
+                        $('#window').html(name);                
+                    }
+                });*/
+                
+                // Evitamos que se envie por el metodo tradicional.
+                return false; 
+            });
+        });
 	</script>
 </body>
 </html>
