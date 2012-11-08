@@ -1,0 +1,40 @@
+body.radialbg {
+	background-color: #97CAF3; /* rgba(82, 168, 236, 0.6); */
+	background-image: -moz-radial-gradient(50% 50%, circle cover, #fff, #97CAF3 100%);
+	background-image: -webkit-radial-gradient(50% 50%, circle cover, #fff, #97CAF3 100%);
+	background-image: -o-radial-gradient(50% 50%, circle cover, #fff, #97CAF3 100%);
+	background-image: -ms-radial-gradient(50% 50%, circle cover, #fff, #97CAF3 100%);
+	background-image: radial-gradient(50% 50%, circle cover, #fff, #97CAF3 100%);
+	background-attachment: fixed;
+
+}
+
+textarea[readonly] {
+	cursor: default;
+	background-color: #fff;
+}
+
+
+
+
+/* LOGIN FORM */
+.form-signin {
+	width: 300px;
+	margin-left: -150px;
+}
+
+.form-signin input[type="text"],
+.form-signin input[type="password"] {
+	font-size: 16px;
+	height: auto;
+	margin-bottom: 15px;
+	padding: 7px 9px;
+}
+
+
+
+/* MAIN APP */
+body.padNavbar {
+	padding-top: 60px;
+	padding-bottom: 40px;
+}
