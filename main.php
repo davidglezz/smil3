@@ -62,7 +62,8 @@ $actions['special']['activate'] = function()
 	$hash = $_POST['c'];
 	unset($_POST['c']);
 
-    // Activar cuenta
+	// Activar cuenta
+	$user->activate($hash);
 	die(0);
 };
 
@@ -76,9 +77,9 @@ $actions['special']['resetPasswd'] = function()
 	//Hash succesfully generated
 
 	// TODO: Send an email to $res['email'] with the URL+HASH $res['hash']
-    // to enter the new password.
+	// to enter the new password.
 	// $url = "../?page=change-password&c=" . $res['hash'];
-    /*mail($res['email'], 'Cambia de contraseña', 'Pulsa el enlace para continuar <a href="{$res["hash"]}">{$res["hash"]}</a>');
+	/*mail($res['email'], 'Cambia de contraseña', 'Pulsa el enlace para continuar <a href="{$res["hash"]}">{$res["hash"]}</a>');
     
     $nombre = $_POST['nombre'];
     $mail = $_POST['mail'];
@@ -118,8 +119,8 @@ $actions['special']['changePasswd'] = function()
 
 $actions['logout'] = function()
 {
-    $user->logout();
-    die(0);
+	$user->logout();
+	die(0);
 };
 		
 $actions['changePasswd'] = function()
@@ -180,16 +181,14 @@ $actions['sendMsg'] = function()
 
 $actions['setProfilePhoto'] = function()
 {
-    empty($_FILES) AND die(30);
-    
-    //$file_name = $_FILES['Filedata']['name'];   
-    $targetPath = $_SERVER['DOCUMENT_ROOT'] . $_REQUEST['folder'] . '/';
-    $targetFile =  str_replace('//','/',$targetPath) . $file_name; 
-     
-    move_uploaded_file($_FILES['Filedata']['tmp_name'], $targetFile) OR die(31);
-    
-    die(0);
+	empty($_FILES) AND die(30);
+	$path = $_SERVER['DOCUMENT_ROOT'] . '/user/'. $user->username . 'jpg';
+	move_uploaded_file($_FILES['Filedata']['tmp_name'], $path) OR die(31);
+
+	die(0);
 };
+
+
 
 
 ?>
