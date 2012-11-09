@@ -35,19 +35,19 @@ class User
 					 );
 	var $validations = array( //Array for default field validations
 							"username" => array(
-									"limit" => "3-15",
+									"limit" => "3-45",
 									"regEx" => '/^([a-zA-Z0-9_])+$/'
 								),
 							"password" => array(
-									"limit" => "3-15",
+									"limit" => "3-20",
 									"regEx" => ''
 								),
 							"email" => array(
-									"limit" => "5-45",
+									"limit" => "5-75",
 									"regEx" => '/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/'
 								),
 							"fullname" => Array(
-									"limit" => "0-15",
+									"limit" => "0-75",
 									"regEx" => "/\w+/"
 								),
 							"webste" => Array(
@@ -110,62 +110,64 @@ class User
 	Returns true if second parameter @activation is false
 	Returns false on Error
 	*/
-function register($info, $activation = false){
+	function register($info, $activation = false)
+	{
 		$this->logger("registration"); //Index for Errors and Reports
 
 		//Saves Registration Data in Class
 		$this->tmp_data = $info;
 
 		//Validate All Fields
-		if(!$this->validateAll()) return false; //There are validations error
+		if (!$this->validateAll())
+			return false;
 
 		//Set Registration Date
 		$info['reg_date'] = $this->tmp_data['reg_date'] = time();
 		
-		//Built in actions for special fields		
+		// Actions for special fields		
 		//Hash Password
-		if(isset($info['password'])){
-			$this->hash_pass($info['password']);
-			$info['password'] = $this->pass;
-		}
+		$this->hash_pass($info['password']);
+		$info['password'] = $this->pass;
+		
 		//Check for Email in database
-		if(isset($info['email']))
-			if($this->check_field('email',$info['email'],"This Email is Already in Use"))
-				return false;
+		if ($this->check_field('email', $info['email'], "La dirección de correo electrónico ya esta en uso"))
+			return false;
 
 		//Check for username in database
-			if(isset($info['username']))
-				if($this->check_field('username',$info['username'], "This Username is not available"))
-					return false;
+		if ($this->check_field('username',$info['username'], "El nombre de usuario no esta disponible"))
+			return false;
 
 		//Check for errors
-				if($this->has_error()) return false;
+		if ($this->has_error()) return false;
 
 		//User Activation
-		if(!$activation){ //Activates user upon registration
+		if (!$activation) //Activates user upon registration
 			$info['activated'] = 1;
-		}
 
 		//Prepare Info for SQL Insertion
-		foreach($info as $index => $val){
-			if(!preg_match("/2$/",$index)){ //Skips double fields
+		foreach ($info as $index => $val)
+		{
+			if (!preg_match("/2$/", $index))
+			{ //Skips double fields
 				$into[] = $index;
 				//For the statement
 				$data[$index] = $val;
 			}
 		}
 		
-		$intoStr = implode(", ",$into);
-		$values = ":" . implode(", :",$into);
+		$intoStr = implode(", ", $into);
+		$values = ":" . implode(", :", $into);
 
 		//Prepare New User	Query
 		$sql = "INSERT INTO :table ({$intoStr}) VALUES({$values})";
 
 		//Enter New user to Database
-		if($this->check_sql($sql, $data)){
+		if($this->check_sql($sql, $data))
+		{
 			$this->report("New User has been registered");
 			$this->id = $this->db->lastInsertId();
-			if($activation){
+			if($activation)
+			{
 				//Insert Validation Hash
 				$this->make_hash($this->id);
 				$this->save_hash();
@@ -190,32 +192,33 @@ On Success returns true
 On Failure return false	
 */
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
-function update($info){
+	function update($info)
+	{
 		$this->logger("update"); //Index for Errors and Reports
 
 		//Saves Updates Data in Class
 		$this->tmp_data = $info;
 
 		//Validate All Fields
-		if(!$this->validateAll())
-			return false; //There are validations error
+		$this->validateAll() OR return false;
 
 		//Built in actions for special fields
 		//Hash Password
-		if(isset($info['password'])){
+		if (isset($info['password']))
 			$info['password'] = $this->hash_pass($info['password']);
-		}
+		
 		//Check for Email in database
-		if(isset($info['email']))
-			if($this->check_field('email',$info['email'],"This Email is Already in Use"))
-				return false;
+		if (isset($info['email']) AND $this->check_field('email',$info['email'],"This Email is Already in Use"))
+			return false;
 
 		//Check for errors
-			if($this->has_error()) return false;
+		$this->has_error() AND return false;
 
 		//Prepare Info for SQL Insertion
-			foreach($info as $index => $val){
-			if(!preg_match("/2$/",$index)){ //Skips double fields
+		foreach ($info as $index => $val)
+		{
+			if (!preg_match("/2$/", $index))
+			{ //Skips double fields
 				$set[] = "{$index}=:{$index}";
 				//For the statement
 				$data[$index] = $val;
@@ -224,15 +227,16 @@ function update($info){
 		
 		$set = implode(", ",$set);
 
-		//Prepare User Update	Query
+		//Prepare User Update Query
 		$sql = "UPDATE :table SET $set WHERE id_user={$this->id}";		
 		
 		//Check for Changes
-		if($this->check_sql($sql, $data)){
+		if($this->check_sql($sql, $data))
+		{
 			$this->report("Information Updated");
 			$_SESSION['userUpdate'] = true;
 			return true;
-		}else{
+		} else {
 			$this->error(2);
 			return false;
 		}
@@ -265,15 +269,17 @@ Multiple Entry:
 				);
 */
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
-function addValidation($name,$limit = "0-1",$regEx = false){
-	$this->logger("registration");
-	if(is_array($name)){
-		if(!is_array($this->validations))
-				$this->validations = array(); //If is not an array yet, make it one
-			$new = array_merge($this->validations,$name);
+	function addValidation($name, $limit = "0-1",$regEx = false)
+	{
+		$this->logger("registration");
+		if (is_array($name))
+		{
+			$new = array_merge($this->validations, $name);
 			$this->validations = $new;
 			$this->report("New Validation Object added");
-		}else{
+		}
+		else
+		{
 			$this->validations[$name]['limit'] = $limit;
 			$this->validations[$name]['regEx'] = $regEx;
 			$this->report("The $name field has been added for validation");
@@ -288,20 +294,21 @@ Takes Only and Only the URL parameter of the confirmation page
 Returns true on account activation and false on failure
 */
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
-function activate($hash){
+function activate($hash)
+{
 	$this->logger("activation");
 
-	if(!$this->check_hash($hash)) return false;
+	$this->check_hash($hash) OR return false;
 
 	$sql = "UPDATE :table SET activated=1, confirmation='' WHERE id_user=:id AND confirmation=:hash";
-	$data = Array(
-				  "hash"	=> $hash,
-				  "id"	=> $this->id
-				  );
-	if($this->check_sql($sql, $data)){
+	$data = Array("hash" => $hash, "id" => $this->id);
+	if ($this->check_sql($sql, $data))
+	{
 		$this->report("Account has been Activated");
 		return true;
-	}else{
+	}
+	else
+	{
 		$this->error(3);
 		return false;
 	}
@@ -317,14 +324,17 @@ On Success it returns an array(email,username,id_user,hash) which could then be 
 On Failure it returns false
 */
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
-function pass_reset($email){
+function pass_reset($email)
+{
 	$this->logger("pass_reset");
 
 	$user = $this->getRow(Array("email" => $email));
 
-	if($user){
-		if(!$user['activated'] and !$user['confirmation']){
-				//The Account has been manually disabled and can't reset password
+	if ($user)
+	{
+		if (!$user['activated'] and !$user['confirmation'])
+		{
+			//The Account has been manually disabled and can't reset password
 			$this->error(9);
 			return false;
 		}
@@ -340,7 +350,9 @@ function pass_reset($email){
 					  "hash" => $this->confirm
 					  );
 		return $data;
-	}else{
+	}
+	else
+	{
 		$this->error(4);
 		return false;
 	}
@@ -363,13 +375,15 @@ Returns true on a successful password change
 Returns false on error
 */
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
-function new_pass($hash,$newPass){
-	$this->logger("new_pass");
+	function new_pass($hash, $newPass)
+	{
+		$this->logger("new_pass");
 
-	if(!$this->check_hash($hash)) return false;
+		$this->check_hash($hash) OR return false;
 
-	$this->tmp_data = $newPass;
-		if(!$this->validateAll()) return false; //There are validations error
+		$this->tmp_data = $newPass;
+
+		$this->validateAll() OR return false;
 
 		$pass = $this->hash_pass($newPass['password']);
 
@@ -379,11 +393,13 @@ function new_pass($hash,$newPass){
 					  "pass" 	=> $pass,
 					  "hash" 	=> $hash
 					  );
-		if($this->check_sql($sql, $data)){
+
+		if ($this->check_sql($sql, $data)){
 			$this->report("Password has been changed");
 			return true;
-		}else{
-			//Error
+		}
+		else  //Error
+		{
 			$this->error(5);
 			return false;
 		}
@@ -392,7 +408,8 @@ function new_pass($hash,$newPass){
 	/*
 	 *  Public function to start a delayed constructor
 	 */
-	function start(){
+	function start()
+	{
 		$this->__construct();
 	}
 	
@@ -400,7 +417,8 @@ function new_pass($hash,$newPass){
 ////////Private and Secondary Methods below this line\\\\\\\\\\\\\
  \*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////////////////*/
  /*Object Constructor*/
- function __construct($name='', $pass=false, $auto=false){
+ function __construct($name='', $pass=false, $auto=false)
+ {
 	if($name === false)
 		return;
 
@@ -835,14 +853,16 @@ function legacy_hash_pass($pass)
 
 	//Saves the confirmation hash in the database
 	function save_hash(){
-		if($this->confirm and $this->id){
+		if($this->confirm and $this->id)
+		{
 			$sql = "UPDATE :table SET confirmation=:hash, activated=0 WHERE id_user=:id";
 			$data = Array(
 						  "id"	=> $this->id,
 						  "hash"	=> $this->confirm
 						  );
 			
-			if(!$this->check_sql($sql, $data)){
+			if(!$this->check_sql($sql, $data))
+			{
 				$this->error(13);
 				return false;
 			}else{
@@ -946,21 +966,21 @@ function legacy_hash_pass($pass)
 	/*
 	 * Get the PDO statment
 	 */
-	function getStatement($sql, $args=false){
-		if(!$this->connect()) return false;
+	function getStatement($sql, $args=false)
+	{
+		$this->connect() OR return false;
 		
-		if($args){
-			foreach($args as $field => $val){
+		if ($args)
+		{
+			foreach ($args as $field => $val)
 				$finalArgs[] = " {$field}=:{$field}";
-			}
 			
 			$finalArgs = implode(" AND", $finalArgs);
 			
-			if(strpos($sql, " :args")){
+			if (strpos($sql, " :args"))
 				$sql = str_replace(" :args", $finalArgs, $sql);
-			}else{
+			else
 				$sql .= $finalArgs;
-			}
 		}
 		
 		//Replace the :table placeholder
