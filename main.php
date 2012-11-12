@@ -14,6 +14,7 @@ isset($_GET['do']) OR die(8);
 $user->signed OR $_GET['do'] == 'special' OR die(10);
 
 isset($actions[$_GET['do']]) OR die(9);
+var_dump($user);
 $actions[$_GET['do']]();
 
 // ------------------------------------------------------------
@@ -29,10 +30,12 @@ $actions['special'] = function()
 $actions['special']['register'] = function()
 {
 	//Proccess Registration
-	count($_POST) OR die(13);
+	count($_POST) OR die(13); // TODO: count($_POST) == x
 	
 	//Register User
 	$user->register($_POST) OR die($user->error());
+
+	// TODO: enviar email de confirmación
 
 	// no errors
 	die(0);
