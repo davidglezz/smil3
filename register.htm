@@ -56,7 +56,7 @@
 					<div class="control-group">
 						<label class="control-label" for="name">Nombre y apellidos</label>
 						<div class="controls">
-							<input type="text" class="input-xlarge" id="fullname" />
+							<input type="text" class="input-xlarge" id="name" />
 						</div>
 					</div>
 					<div class="control-group">
@@ -123,10 +123,12 @@ Podrá ejercer, en cualquier momento, sus derechos de acceso, rectificación, ca
             	regBtn.button('loading');
 
                 // TODO: validar datos.
-                $.ajaxSetup({ cache: false });
+                //$.ajaxSetup({ cache: false });
                 var data = $("#regForm").serialize();
-                $.post('test.php', data, function(data, status, jqXHR) {
+                $.post('main.php?do=special&that=register', data, function(data, status, jqXHR) {
                 	console.log('OK', data, status, jqXHR);
+                	$(data).appendTo($('body'));
+
                 	}, 'text')
                     	.error(function() { alert("error"); })
                     	.complete(function() {

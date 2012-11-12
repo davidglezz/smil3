@@ -15,6 +15,4 @@
 	//Starts the object by triggering the constructor
 	$user->start();
 
-	var_dump($user);
-	
 ?>
