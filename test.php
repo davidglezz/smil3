@@ -1,3 +1,10 @@
 <?php
-    var_dump($_POST);
+	$actions['test'] = function()
+	{
+		echo 'Test';
+		
+	};
+
+
+    var_dump(isset($actions[$_GET['fn']]));
 ?>
