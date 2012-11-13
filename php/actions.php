@@ -173,6 +173,9 @@ $actions['delMsg'] = function()
 
 $actions['sendMsg'] = function()
 {
+	//$a = stripslashes($b);
+	// strip_tags();
+	$msg = htmlspecialchars(mysql_real_escape_string($_POST['$msg'])); 
 	// TODO
 };
 
@@ -180,7 +183,7 @@ $actions['sendMsg'] = function()
 
 $actions['setProfilePhoto'] = function()
 {
-	empty($_FILES) AND die(30);
+	empty($_FILES) AND die('30');
 	$path = $_SERVER['DOCUMENT_ROOT'] . '/user/'. $user->username . 'jpg';
 	move_uploaded_file($_FILES['Filedata']['tmp_name'], $path) OR die('31');
 
