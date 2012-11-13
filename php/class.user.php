@@ -200,7 +200,8 @@ On Failure return false
 		$this->tmp_data = $info;
 
 		//Validate All Fields
-		$this->validateAll() OR return false;
+		if (!$this->validateAll())
+			return false;
 
 		//Built in actions for special fields
 		//Hash Password
@@ -212,7 +213,8 @@ On Failure return false
 			return false;
 
 		//Check for errors
-		$this->has_error() AND return false;
+		if ($this->has_error())
+			return false;
 
 		//Prepare Info for SQL Insertion
 		foreach ($info as $index => $val)
@@ -298,7 +300,8 @@ function activate($hash)
 {
 	$this->logger("activation");
 
-	$this->check_hash($hash) OR return false;
+	if (!$this->check_hash($hash))
+		return false;
 
 	$sql = "UPDATE :table SET activated=1, confirmation='' WHERE id_user=:id AND confirmation=:hash";
 	$data = Array("hash" => $hash, "id" => $this->id);
@@ -379,11 +382,13 @@ Returns false on error
 	{
 		$this->logger("new_pass");
 
-		$this->check_hash($hash) OR return false;
+		if ($this->check_hash($hash))
+			return false;
 
 		$this->tmp_data = $newPass;
 
-		$this->validateAll() OR return false;
+		if ($this->validateAll())
+			return false;
 
 		$pass = $this->hash_pass($newPass['password']);
 
@@ -907,15 +912,14 @@ function legacy_hash_pass($pass)
 	{
 		$res = $this->getRow(Array($field => $val));
 		
-		if($res){
-			if($err){
-				$this->form_error($field,$err);
-			}else{
-				$this->form_error($field,"The $field $val exists in database");
-			}
+		if($res)
+		{
+			$err ? $this->form_error($field,$err) : $this->form_error($field,"The $field $val exists in database");
 			$this->report("There was a match for $field = $val");
 			return true;
-		}else{
+		}
+		else
+		{
 			$this->report("No Match for $field = $val");
 			return false;
 		}
@@ -968,7 +972,8 @@ function legacy_hash_pass($pass)
 	 */
 	function getStatement($sql, $args=false)
 	{
-		$this->connect() OR return false;
+		if ($this->connect())
+			return false;
 		
 		if ($args)
 		{
