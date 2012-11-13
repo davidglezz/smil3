@@ -1,12 +1,17 @@
 <?php
 
-$specialactions['register'] = function()
+$specialActions['register'] = function()
 {
+	global $user;
 	//Proccess Registration
 	count($_POST) OR die('13'); // TODO: count($_POST) == x
-	
+
 	//Register User
-	$user->register($_POST) OR die($user->error());
+	if (!$user->register($_POST))
+	{
+		var_dump($user->error());
+		die();
+	}
 
 	// TODO: enviar email de confirmación
 
@@ -14,8 +19,9 @@ $specialactions['register'] = function()
 	die('0');
 };
 	
-$specialactions['login'] = function()
+$specialActions['login'] = function()
 {
+	global $user;
 	//Proccess Login
 	count($_POST) OR die('14');
 	isset($_POST['username']) OR die('15');
@@ -30,8 +36,9 @@ $specialactions['login'] = function()
 	die('0');
 };
 
-$specialactions['activate'] = function()
+$specialActions['activate'] = function()
 {
+	global $user;
 	count($_POST) OR die('20');
 	isset($_POST['c']) OR die('21');
 
@@ -43,8 +50,9 @@ $specialactions['activate'] = function()
 	die('0');
 };
 
-$specialactions['resetPasswd'] = function()
+$specialActions['resetPasswd'] = function()
 {
+	global $user;
 	count($_POST) OR die('17');
 
 	$res = $user->pass_reset($_POST['email']);
@@ -80,8 +88,9 @@ $specialactions['resetPasswd'] = function()
 };
 
 // cambia la contraseña si la olvidaste
-$specialactions['changePasswd'] = function()
+$specialActions['changePasswd'] = function()
 {
+	global $user;
 	count($_POST) OR die('20');
 	isset($_POST['c']) OR die('21');
 
@@ -96,21 +105,24 @@ $specialactions['changePasswd'] = function()
 
 $actions['special'] = function()
 {
+	global $specialActions;
 	isset($_GET['that']) OR die('11');
-	isset($specialactions[$_GET['that']]) OR die('12');
-	$actions[$_GET['that']]();
+	isset($specialActions[$_GET['that']]) OR die('12');
+	$specialActions[$_GET['that']]();
 	
 };
 
 
 $actions['logout'] = function()
 {
+	global $user;
 	$user->logout();
 	die('0');
 };
 		
 $actions['changePasswd'] = function()
 {
+	global $user;
 	//Proccess Password change
 	count($_POST) OR die('19');
 
@@ -123,6 +135,7 @@ $actions['changePasswd'] = function()
 
 $actions['userUpdate'] = function()
 {
+	global $user;
 	//Proccess Update
 	count($_POST) OR die('19');
 		
@@ -173,6 +186,5 @@ $actions['setProfilePhoto'] = function()
 
 	die('0');
 };
-
 
 ?>

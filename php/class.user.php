@@ -126,6 +126,8 @@ class User
 		
 		// Actions for special fields		
 		//Hash Password
+		var_dump($info);
+
 		$this->hash_pass($info['password']);
 		$info['password'] = $this->pass;
 		
@@ -880,8 +882,10 @@ function legacy_hash_pass($pass)
 		return true;
 	}
 	
-	function connect(){
-		if(is_object($this->db)) return true;
+	function connect()
+	{
+		if (is_object($this->db))
+			return true;
 		
 		/* Connect to an ODBC database using driver invocation */
 		$user = $this->db['user'];
@@ -890,21 +894,19 @@ function legacy_hash_pass($pass)
 		$name = $this->db['name'];
 		$dsn = $this->db['dsn'];
 		
-		if(!$dsn){
+		if (!$dsn)
 			$dsn = "mysql:dbname={$name};host={$host}";
-		}
 		
 		$this->report("Connecting to database...");
 		
-		try{
+		try {
 			$this->db = new PDO($dsn, $user, $pass);
 			$this->report("Connected to database.");
 		}catch(PDOException $e){
 			$this->error("Failed to connect to database, [SQLSTATE] " . $e->getCode());
 		}
-		
-		if(is_object($this->db)) return true;
-		return false;
+
+		return is_object($this->db);
 	}
 	
 	//Test field in database for a value
@@ -993,9 +995,11 @@ function legacy_hash_pass($pass)
 		
 		$this->report("SQL Statement: {$sql}"); //Log the SQL Query first
 		
-		if($args) $this->report("SQL Data Sent: [" . implode(', ',$args) . "]"); //Log the SQL Query first		
+		if ($args)  //Log the SQL Query first
+			$this->report("SQL Data Sent: [" . implode(', ', $args) . "]"); 		
 		
 		//Prepare the statement
+		var_dump($this);
 		$res = $this->db->prepare($sql);
 		
 		if($args) $res->execute($args);
