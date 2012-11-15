@@ -126,8 +126,6 @@ class User
 		
 		// Actions for special fields		
 		//Hash Password
-		var_dump($info);
-
 		$this->hash_pass($info['password']);
 		$info['password'] = $this->pass;
 		
@@ -145,6 +143,7 @@ class User
 		//User Activation
 		if (!$activation) //Activates user upon registration
 			$info['activated'] = 1;
+
 
 		//Prepare Info for SQL Insertion
 		foreach ($info as $index => $val)
@@ -166,6 +165,7 @@ class User
 		//Enter New user to Database
 		if($this->check_sql($sql, $data))
 		{
+			$this->report("Entra!");
 			$this->report("New User has been registered");
 			$this->id = $this->db->lastInsertId();
 			if($activation)
@@ -928,15 +928,24 @@ function legacy_hash_pass($pass)
 	}
 
 	//Executes SQL query and checks for success
-	function check_sql($sql, $args=false){
+	function check_sql($sql, $args=false)
+	{
 		$st = $this->getStatement($sql);
 		
-		if(!$st) return false;
+		if(!$st)
+		{
+			$this->report("No se obtuvo nada de la base de datos");
+			return false;
+		}
+			
 		
-		if($args){
+		if($args)
+		{
 			$st->execute($args);
 			$this->report("SQL Data Sent: [" . implode(', ',$args) . "]"); //Log the SQL Query first		
-		}else{
+		}
+		else
+		{
 			$st->execute();
 		}
 		
@@ -954,7 +963,8 @@ function legacy_hash_pass($pass)
 	}
 
 	//Get a single user row depending on arguments
-	function getRow($args){
+	function getRow($args)
+	{
 		$sql = "SELECT * FROM :table WHERE :args LIMIT 1";
 		
 		$st = $this->getStatement($sql, $args);
@@ -974,9 +984,13 @@ function legacy_hash_pass($pass)
 	 */
 	function getStatement($sql, $args=false)
 	{
-		if ($this->connect())
+		if (!$this->connect())
+		{
+			$this->report("No se a podido conectar a las base de datos.");
 			return false;
-		
+		}
+
+
 		if ($args)
 		{
 			foreach ($args as $field => $val)
@@ -999,7 +1013,6 @@ function legacy_hash_pass($pass)
 			$this->report("SQL Data Sent: [" . implode(', ', $args) . "]"); 		
 		
 		//Prepare the statement
-		var_dump($this);
 		$res = $this->db->prepare($sql);
 		
 		if($args) $res->execute($args);
