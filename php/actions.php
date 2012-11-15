@@ -32,7 +32,6 @@ $specialActions['login'] = function()
 {
 	global $user;
 	//Proccess Login
-	count($_POST) OR die('14');
 	isset($_POST['username']) OR die('15');
 	isset($_POST['password']) OR die('16');
 
