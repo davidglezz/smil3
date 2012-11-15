@@ -4,13 +4,22 @@ $specialActions['register'] = function()
 {
 	global $user;
 	//Proccess Registration
+
 	count($_POST) OR die('13'); // TODO: count($_POST) == x
+
+	isset($_POST['aceptTOS']) OR die('14');
+	unset($_POST['aceptTOS']);
+
+	$_POST['birthdate'] = $_POST['birthdate_year'].'-'.$_POST['birthdate_month'].'-'.$_POST['birthdate_day'];
+	unset($_POST['birthdate_year']);
+	unset($_POST['birthdate_month']);
+	unset($_POST['birthdate_day']);
 
 	//Register User
 	if (!$user->register($_POST))
 	{
-		var_dump($user->error());
-		die();
+		var_dump($user->console);
+		die(json_encode($user->error()));
 	}
 
 	// TODO: enviar email de confirmación
@@ -31,7 +40,11 @@ $specialActions['login'] = function()
 		
 	$user->login($_POST['username'], $_POST['password'], $auto);
 	
-	$user->has_error() AND die($user->error());
+	if ($user->has_error())
+	{
+		var_dump($user->console);
+		die(json_encode($user->error()));
+	}
 
 	die('0');
 };
@@ -109,7 +122,6 @@ $actions['special'] = function()
 	isset($_GET['that']) OR die('11');
 	isset($specialActions[$_GET['that']]) OR die('12');
 	$specialActions[$_GET['that']]();
-	
 };
 
 
