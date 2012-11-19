@@ -171,5 +171,28 @@
 	<script src="js/jquery-1.8.2.min.js"></script> 
 	<script src="js/bootstrap.min.js"></script> 
 	<script src="js/smil3.js"></script>
+	<script>
+
+	$(document).ready(function() {
+				
+		$.post('main.php?do=getStartInfo', data, function(data, status, jqXHR)
+		{
+			if (data === '0')
+				window.location = 'smil3.htm';
+			
+			$('<div class="alert alert-error span11"><button type="button" class="close" data-dismiss="alert">×</button>'+data+'</div>').appendTo($('.container'));
+		}, 'text')
+		.error(function() { alert("error"); })
+		.complete(function() {
+			regBtn.button('reset');
+		});
+
+
+		// Evitamos que se envie por el metodo tradicional.
+		return false; 
+		
+	});
+
+	</script>
 </body>
 </html>
