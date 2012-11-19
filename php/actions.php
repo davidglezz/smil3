@@ -166,6 +166,14 @@ $actions['userUpdate'] = function()
 	die('0');
 };
 
+$actions['getStartInfo'] = function()
+{
+	global $user;
+
+	die(json_encode());
+	
+};
+
 $actions['deleteAccount'] = function()
 {
 	// TODO

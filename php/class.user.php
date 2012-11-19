@@ -39,7 +39,7 @@ class User
 									"regEx" => '/^([a-zA-Z0-9_])+$/'
 								),
 							"password" => array(
-									"limit" => "3-20",
+									"limit" => "6-20",
 									"regEx" => ''
 								),
 							"email" => array(
