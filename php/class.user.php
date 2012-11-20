@@ -1115,7 +1115,7 @@ function legacy_hash_pass($pass)
 			0,2,3,4,5,6,7,8,9
 		);
 
-	var $encoder2 = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ023456789';
+	//  var $encoder2 = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ023456789';
 
 	//Encoder
 	function encode($d)
