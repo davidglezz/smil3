@@ -97,7 +97,6 @@ $specialActions['resetPasswd'] = function()
     
     
 	// redirigir a la pagina de cambiar contraseña
-	die('0');
 };
 
 // cambia la contraseña si la olvidaste

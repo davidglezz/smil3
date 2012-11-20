@@ -34,7 +34,22 @@ textarea[readonly] {
 
 
 /* MAIN APP */
-body.padNavbar {
+body {
 	padding-top: 60px;
-	padding-bottom: 40px;
 }
+
+/* navbar */
+.navbar-fixed-top .navbar-inner,
+.navbar-static-top .navbar-inner {
+	-webkit-box-shadow: 0 1px 10px rgba(0, 0, 0, 0.15);
+	-moz-box-shadow: box-shadow: 0 1px 10px rgba(0, 0, 0, 0.15);
+	box-shadow: 0 1px 10px rgba(0, 0, 0, 0.15);
+}
+
+
+.nav.form-search {
+	position: absolute;
+	left: 50%;
+	margin: 5px 0 0 -140px;
+}
+

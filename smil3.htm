@@ -21,7 +21,7 @@
 	<link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png" />
 </head>
 
-<body class="padNavbar">
+<body class="loading">
 	<div class="navbar navbar-fixed-top">
 		<div class="navbar-inner">
 			<div class="container">
@@ -33,22 +33,39 @@
 				<a class="brand" href="#">Smil3</a>
 				<div class="nav-collapse">
 					<ul class="nav">
-						<li class="active"><a href="#about" data-toggle="tab">Acerca de Smil3</a></li>
-						<li><a href="#login" data-toggle="tab">Iniciar sesion</a></li>
-						<li><a href="#register" data-toggle="tab">Registrarse</a></li>
-						
-						<li><a href="#summary" data-toggle="tab">Conecta</a></li>
-						<li><a href="#admin" data-toggle="tab">Administrar</a></li>
+						<li class="active"><a href="#start" data-toggle="tab">
+							<i class="icon-home"></i> Inicio
+						</a></li>
+						<li><a href="#login" data-toggle="tab">
+							<i class="icon-user"></i> Perfil
+						</a></li>
+						<li><a href="#messages" data-toggle="tab">
+							<i class="icon-envelope"></i> Mensages
+						</a></li>
 					</ul>
+
+					<form class="nav form-search input-append">
+						<div class="input-append">
+							<input class="search-input search-query" type="text" id="search-query" placeholder="Buscar" name="q" autocomplete="off" spellcheck="false" data-focus="false" />
+							<button type="submit" class="btn"><i class="icon-search"></i></button>
+						</div>
+					</form>
+
 					<ul class="nav pull-right">
-						<li><a href="#about" data-toggle="tab">Ayuda</a></li>
+						<li>
+							<a href="#publish"><i class="icon-pencil"></i> Publicar</a>
+						</li>
 						<li class="divider-vertical"></li>
 						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Jonh Doe <b class="caret"></b></a>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+								<i class="icon-wrench"></i> Jonh Doe <b class="caret"></b></a>
 							<ul class="dropdown-menu">
-								<li><a href="#usermod" data-toggle="tab">Modificar cuenta</a></li>
+								<li><a href="#usermod" data-toggle="tab"><i class="icon-check"></i> Modificar perfil</a></li>
+								<li><a href="#usermod" data-toggle="tab"><i class="icon-list-alt"></i> Editar listas y amigos</a></li>
+								<li><a href="#usermod" data-toggle="tab"><i class="icon-cog"></i> Modificar cuenta</a></li>
 								<li class="divider"></li>
-								<li><a href="#logout" data-toggle="tab">Salir</a></li>
+								<li><a href="#help" data-toggle="tab"><i class="icon-question-sign"></i> Ayuda</a></li>
+								<li><a href="#logout" data-toggle="tab"><i class="icon-off"></i> Salir</a></li>
 							</ul>
 						</li>
 					</ul>
