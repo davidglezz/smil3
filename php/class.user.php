@@ -1150,7 +1150,7 @@ class User
 }
 
 /*
- Copyright (c) 2012 David Gonzalez, http://davidxl.es/
+Copyright (c) 2012 David Gonzalez, http://davidxl.es/
 Copyright (c) 2012 Pablo Tejada, http://crusthq.com/projects/uFlex/
 
 Permission is hereby granted, free of charge, to any person obtaining

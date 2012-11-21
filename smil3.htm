@@ -30,7 +30,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</a>
-				<a class="brand" href="#">Smil3</a>
+				<a class="brand" href="#start">Smil3</a>
 				<div class="nav-collapse">
 					<ul class="nav">
 						<li class="active"><a href="#start" data-toggle="tab">
@@ -41,6 +41,7 @@
 						</a></li>
 						<li><a href="#messages" data-toggle="tab">
 							<i class="icon-envelope"></i> Mensages
+							<span class="badge">4</span>
 						</a></li>
 					</ul>
 
@@ -52,20 +53,27 @@
 					</form>
 
 					<ul class="nav pull-right">
-						<li>
-							<a href="#publish"><i class="icon-pencil"></i> Publicar</a>
+						<li class="dropdown">
+							<a href="#publish" class="dropdown-toggle" data-toggle="dropdown">
+								<i class="icon-pencil"></i> Publicar
+							</a>
+							<div id="new_publish" class="dropdown-menu">
+								<textarea name="txt" class="span4" rows="4"></textarea>
+								<button type="submit" class="btn btn-primary">Publicar</button>
+								<button type="button" class="btn">Cancelar</button>
+							</div>
 						</li>
 						<li class="divider-vertical"></li>
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-								<i class="icon-wrench"></i> Jonh Doe <b class="caret"></b></a>
+								<i class="icon-wrench"></i> <span id="username">Jonh Doe</span> <b class="caret"></b></a>
 							<ul class="dropdown-menu">
-								<li><a href="#profilemod" data-toggle="tab"><i class="icon-check"></i> Modificar perfil</a></li>
-								<li><a href="#listmod" data-toggle="tab"><i class="icon-list-alt"></i> Editar listas y amigos</a></li>
-								<li><a href="#acountmod" data-toggle="tab"><i class="icon-cog"></i> Modificar cuenta</a></li>
+								<li><a href="#profilemod"><i class="icon-check"></i> Modificar perfil</a></li>
+								<li><a href="#listmod"><i class="icon-list-alt"></i> Editar listas y amigos</a></li>
+								<li><a href="#acountmod"><i class="icon-cog"></i> Modificar cuenta</a></li>
 								<li class="divider"></li>
-								<li><a href="#help" data-toggle="tab"><i class="icon-question-sign"></i> Ayuda</a></li>
-								<li><a href="#logout" data-toggle="tab"><i class="icon-off"></i> Salir</a></li>
+								<li><a href="#help"><i class="icon-question-sign"></i> Ayuda</a></li>
+								<li><a href="#logout"><i class="icon-off"></i> Salir</a></li>
 							</ul>
 						</li>
 					</ul>
@@ -76,108 +84,26 @@
 	
 	<div class="tab-content container">
 			
-		<div class="tab-pane active hero-unit" id="stat">
+		<div class="tab-pane active" id="start">
 			<h1>Bienvenido a Smil3</h1>
 			<p>Smil3 es una red social bla bla bla.</p>
 			<p><a href="#login" class="btn btn-primary btn-large">Inicia sesión &raquo;</a> o <a href="#register" class="btn btn-large">Regístrate &raquo;</a></p>
 		</div>
 		
-		<div class="tab-pane" id="login">
-			<form class="form-horizontal">
-				<fieldset>
-					<legend>Identifícate</legend>
-					<div class="control-group">
-						<label class="control-label" for="user">E-mail</label>
-						<div class="controls">
-							<input type="text" class="input-xlarge" id="user">
-						</div>
-					</div>
-					<div class="control-group">
-						<label class="control-label" for="passwd">Contraseña</label>
-						<div class="controls">
-							<input type="password" class="input-xlarge"  id="passwd">
-						</div>
-					</div>
-					<div class="control-group">
-						<label class="control-label" for="optionsCheckbox"></label>
-						<div class="controls">
-							<label class="checkbox">
-								<input type="checkbox" id="optionsCheckbox" value="option1">
-								Recordar contraseña
-							</label>
-						</div>
-					</div>
-					<div class="form-actions">
-						<button type="submit" class="btn btn-primary">Iniciar sesión</button>
-						<a class="pull-right" href="#forgottenPassword">No recuerdo mi contrasea.</a>
-					</div>
-				</fieldset>
-			</form>
-		</div>
-		
-		
-		<div class="tab-pane" id="summary">
+		<div class="tab-pane" id="profile">
 			<div class="page-header">
-				<h1>Resumen</h1>
+				<h1>Perfil</h1>
 			</div>
-			
+		</div>
+
+		<div class="tab-pane" id="messages">
+			<div class="page-header">
+				<h1>Mensajes</h1>
+			</div>
 		</div>
 
 		
-		<div class="tab-pane" id="usermod">
-			<form class="form-horizontal">
-				<fieldset>
-					<legend>Cambiar datos del usuario</legend>
-					<div class="control-group">
-						<label class="control-label" for="name">Nombre</label>
-						<div class="controls">
-							<input type="text" class="input-xlarge" id="name">
-						</div>
-					</div>
-					<div class="control-group">
-						<label class="control-label" for="mail">E-mail</label>
-						<div class="controls">
-							<input type="text" class="input-xlarge" id="mail">
-						</div>
-					</div>
-					<div class="control-group">
-						<label class="control-label" for="pass1">Contraseña actual</label>
-						<div class="controls">
-							<input type="password" class="input-xlarge" id="pass1">
-						</div>
-					</div>
-					<div class="control-group">
-						<label class="control-label" for="pass1">Contraseña nueva</label>
-						<div class="controls">
-							<input type="password" class="input-xlarge" id="pass1">
-						</div>
-					</div>
-					<div class="control-group">
-						<label class="control-label" for="pass2">Confirmar contraseña</label>
-						<div class="controls">
-							<input type="password" class="input-xlarge" id="pass2">
-						</div>
-					</div>
-					<div class="control-group">
-						<label class="control-label" for="aceptTOS"></label>
-						<div class="controls">
-							<label class="checkbox">
-								<input type="checkbox" id="aceptTOS" value="aceptTOS">
-								Quiero borrar todos mis datos y darme de baja.
-							</label>
-						</div>
-					</div>
-					<div class="form-actions">
-						<button type="submit" class="btn btn-primary">Guardar</button>
-						<button type="submit" class="btn">Cancelar</button>
-					</div>
-				</fieldset>
-			</form>
-		</div>
 
-		
-		
-		
 		<hr />
 		
 		<footer>
@@ -190,21 +116,56 @@
 	<script src="js/smil3.js"></script>
 	<script>
 
-	$(document).ready(function() {
-				
+	$(document).ready(function()
+	{
+		// Loading icon
+		$("#loading").ajaxStart(function(){
+			$(this).show();
+		});
+		
+		$("#loading").ajaxStop(function(){
+			$(this).hide();
+		});
+
+		// ajax errer handler
+		$('body').ajaxError(function(event, request, settings){
+			$(this).append('<div class="container alert alert-error span11"><button type="button" class="close" data-dismiss="alert">×</button>No se puede acceder a '+settings.url+'</div>');
+		});
+
+		// publish popup
+		$('#new_publish').click(function (e) {
+			e.stopPropagation();
+		});
+
+		// actions
+		$('a[href="#logout"]').click(function (e) {
+			$.get('main.php?do=logout', function(data) {
+				window.location = 'login.htm';
+			});
+		});
+
+
+		// start
 		$.post('main.php?do=getStartInfo', {}, function(data, status, jqXHR)
 		{
-			if (data === '0')
+			if (data === '10')
 			{
-
+				// TODO Show login
+				window.location = 'login.htm';
+				return;
 			}
+
+			//$('<div class="container alert alert-error span11"><button type="button" class="close" data-dismiss="alert">×</button>'+data+'</div>').appendTo($('body'));
+
+			var data = jQuery.parseJSON(data);
+			$('#username').text(data.name)
+
+
 			
-			$('<div class="alert alert-error span11"><button type="button" class="close" data-dismiss="alert">×</button>'+data+'</div>').appendTo($('.container'));
+			
 		}, 'text')
 		.error(function() { alert("error"); })
-		.complete(function() {
-			regBtn.button('reset');
-		});
+		.complete(function() {	});
 
 
 		// Evitamos que se envie por el metodo tradicional.
