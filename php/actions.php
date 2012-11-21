@@ -169,8 +169,16 @@ $actions['userUpdate'] = function()
 $actions['getStartInfo'] = function()
 {
 	global $user;
+	$data = $user->data;
+	unset($data['password']);
+	unset($data['activated']);
+	unset($data['confirmation']);
+	unset($data['signed']);
 
-	die(json_encode());
+	// TODO: Mensages, otras notificaciones
+
+
+	die(json_encode($data)); 
 	
 };
 
@@ -178,6 +186,28 @@ $actions['deleteAccount'] = function()
 {
 	// TODO
 };
+
+/* publications functions **************************************/
+
+$actions['getPub'] = function()
+{
+	// TODO
+};
+
+$actions['delPub'] = function()
+{
+	// TODO
+};
+
+$actions['sendPub'] = function()
+{
+	//$a = stripslashes($b);
+	// strip_tags();
+	$msg = htmlspecialchars(mysql_real_escape_string($_POST['$txt'])); 
+	
+	// TODO
+};
+
 /* Private messages functions **************************************/
 
 $actions['getMsg'] = function()
