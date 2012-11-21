@@ -1,11 +1,11 @@
 <?php
 
 /*
-	main.php
-	Se encarga de recibir todas las peticiones y enviar las respuestas.
-	Se entiende que las peticiones son realizadas mediante ajax,
-	por lo que las respuestas no son documentos si no codigos de error/suceso
-	y datos pedidos que casi siempre estaran en formato json.
+ main.php
+Se encarga de recibir todas las peticiones y enviar las respuestas.
+Se entiende que las peticiones son realizadas mediante ajax,
+por lo que las respuestas no son documentos si no codigos de error/suceso
+y datos pedidos que casi siempre estaran en formato json.
 */
 
 require_once('php/config.php');
