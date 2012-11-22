@@ -6,9 +6,14 @@ Se encarga de gestionar las conexiones con la base de datos
 
 */
 
+define('DB_HOST', '');
+define('DB_NAME', '');
+define('DB_USER', '');
+define('DB_PASS', '');
+
 class Database
 {
-	$var $connection = null;
+	var $connection = null;
 
 
 	function connect()
@@ -156,7 +161,7 @@ class Database
 	}
 
 	// para usar con prepare
-	function getPDOConstantType( $var )
+	function getPDOConstantType($var)
 	{
 		if( is_int( $var ) )
 			return PDO::PARAM_INT;
@@ -167,8 +172,33 @@ class Database
 		//Default  
 		return PDO::PARAM_STR;
 	}
+	
+
+	function __constructor()
+	{
+		$this->connection = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+				
+		if (mysqli_connect_error())
+		{
+			// die('Error de Conexión (' . mysqli_connect_errno() . ') ' . mysqli_connect_error());
+			
+		}
+		
+		// $this->connection->host_info . "\n";
+		
+	}
+	
+	function __destructor()
+	{
+		$this->close();
+	}
+	
+	function close()
+	{
+		return $this->connection->close();
+	}
 }
 
 
-
+// REFERENCIA: http://es2.php.net/manual/es/book.mysqli.php
 ?>
