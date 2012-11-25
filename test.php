@@ -5,6 +5,6 @@
 		
 	};
 
-
+	
     var_dump(isset($actions[$_GET['fn']]));
 ?>
