@@ -11,7 +11,7 @@ class session
 {
 	public static function start()
 	{
-		$fingerprint = md5($_SERVER['REMOTE_ADDR'].$_SERVER['HTTP_USER_AGENT']);
+		$fingerprint = md5($_SERVER['REMOTE_ADDR'].$_SERVER['HTTP_USER_AGENT'].'.5a1T#');
 		if (!isset($_SESSION))
 		{
 			session_start();
@@ -29,12 +29,17 @@ class session
 
 			if ($_SESSION['fingerprint'] != $fingerprint) // posible robo de sesion!!
 			{
-				
-				self::end();
-				
+				die();
 			}
 		}
-		$_SESSION['expirationTime'] = time() + SES_EXPIRATIONTIME;
+		
+		if (!isset($_SESSION['noExpire']))
+		{
+			$_SESSION['expirationTime'] = time() + SES_EXPIRATIONTIME;
+		}
+			
+		
+		
 	}
 	
 	public static function end()

@@ -133,12 +133,33 @@
 		});
 
 		// publish popup
-		$('#new_publish').click(function (e) {
+		var new_publish = $('#new_publish');
+		
+		new_publish.click(function (e) {
 			e.stopPropagation();
 		});
+		
+		new_publish.parent().find('a').click(function(e)
+		{
+			// TODO: fix
+			new_publish.find('textarea').focus();
+		});
+		
+		new_publish.find('button[type="submit"]').click(function(e)
+		{
+			// TODO: Send and close
+			alert ('Send and close');
+			new_publish.parent().removeClass('open');
+		});
+		
+		new_publish.find('button[type="button"]').click(function(e)
+		{
+			new_publish.parent().removeClass('open');
+		});
+		
 
 		// actions
-		$('a[href="#logout"]').click(function (e) {
+		$('a[href="#logout"]').click(function(e) {
 			$.get('main.php?do=logout', function(data) {
 				window.location = 'login.htm';
 			});
