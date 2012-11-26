@@ -1,4 +1,0 @@
-http://www.phpjabbers.com/php-validation-and-verification-php27.html
-
-
-http://www.php.net/manual/es/book.filter.php
