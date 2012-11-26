@@ -790,15 +790,17 @@ class User
 	}
 
 	//Generates a unique comfirm hash
-	function make_hash($uid,$hash = false){
+	function make_hash($uid,$hash = false)
+	{
 		$e_uid = $this->encode($uid);
-		$e_uid_length = strlen($e_uid);
-		$e_uid_length = str_pad($e_uid_length,2,0,STR_PAD_LEFT);
+		$e_uid_length = str_pad(strlen($e_uid),2,0,STR_PAD_LEFT);
 		$e_uid_pos = rand(10,32 - $e_uid_length - 1);
 
-		if(!$hash){
+		if(!$hash)
+		{
 			$hash = md5(uniqid(rand(),true));
 		}
+		
 		//$code = substr($code, 0, $length);
 		$code = $e_uid_pos.$e_uid_length;
 		$code .= substr($hash,0,$e_uid_pos - strlen($code));
@@ -830,8 +832,10 @@ class User
 		$user = $this->getRow($args);
 
 		//Bypass hash confirmation and get the user by partially matching its password
-		if($bypass){
-			preg_match("/^([0-9]{4})(.{2,".($e_uid_pos - 4)."})(".$e_uid.")/",$hash,$exerpt);
+		if($bypass)
+		{
+			//$exerpt = null;
+			preg_match("/^([0-9]{4})(.{2,".($e_uid_pos - 4)."})(".$e_uid.")/", $hash, $exerpt);
 			$pass = $exerpt[2];
 
 			if(strpos($user['password'], $pass) === false){
