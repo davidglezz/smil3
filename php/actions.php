@@ -191,7 +191,7 @@ $actions['deleteAccount'] = function()
 
 $actions['getPub'] = function()
 {
-	// TODO
+	
 };
 
 $actions['delPub'] = function()
@@ -203,7 +203,8 @@ $actions['sendPub'] = function()
 {
 	//$a = stripslashes($b);
 	// strip_tags();
-	$msg = htmlspecialchars(mysql_real_escape_string($_POST['$txt'])); 
+	$txt = htmlspecialchars(mysql_real_escape_string($_POST['$txt']));
+	$query = 'INSERT INTO  publications (user, text) VALUES ( 4,  "'. $txt .'");';
 	
 	// TODO
 };

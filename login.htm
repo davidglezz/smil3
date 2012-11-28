@@ -58,7 +58,6 @@
 			$.ajaxSetup({ cache: false });
 
 			var data = $("#loginForm").serialize();
-			console.log(data);
 			
 			$.post('main.php?do=special&that=login', data, function(data, status, jqXHR)
 			{
