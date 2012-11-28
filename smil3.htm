@@ -147,8 +147,22 @@
 		
 		new_publish.find('button[type="submit"]').click(function(e)
 		{
-			// TODO: Send and close
-			alert ('Send and close');
+			$.ajaxSetup({ cache: false });
+			
+			var data = new_publish.find('textarea').serialize();
+			
+			$.post('main.php?do=sendPub', data, function(data, status, jqXHR)
+			{
+				if (data === '0')
+					window.location = 'smil3.htm';
+				
+				$('<div class="alert alert-error span11"><button type="button" class="close" data-dismiss="alert">×</button>'+data+'</div>').appendTo($('.container'));
+			}, 'text')
+			.error(function() { alert("error"); })
+			.complete(function() {
+				regBtn.button('reset');
+			});
+			
 			new_publish.parent().removeClass('open');
 		});
 		
@@ -157,7 +171,6 @@
 			new_publish.parent().removeClass('open');
 		});
 		
-
 		// actions
 		$('a[href="#logout"]').click(function(e) {
 			$.get('main.php?do=logout', function(data) {
