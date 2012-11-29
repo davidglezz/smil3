@@ -1,47 +1,95 @@
 <?php
 
 /*
-Database class
-Se encarga de gestionar las conexiones con la base de datos
-
+* Database class
+* Se encarga de gestionar las conexiones con la base de datos
+* Usara el gestor de bases de datos mySQL
 */
 
-define('DB_HOST', '');
-define('DB_NAME', '');
-define('DB_USER', '');
-define('DB_PASS', '');
+define('DB_HOST', 'localhost');
+define('DB_NAME', 'smil3');
+define('DB_USER', 'smil3');
+define('DB_PASS', 'smil3');
+
+require_once('query.php');
 
 class Database
 {
-	var $connection = null;
-
-
-	function connect()
+	private static $connection;
+	
+	private static function connect()
 	{
-		if (is_object($this->connection))
+		if (isset(self::$connection))
 			return true;
 
-		/* Connect to an ODBC database using driver invocation */
-		$user = $this->db['user'];
-		$pass = $this->db['pass'];
-		$host = $this->db['host'];
-		$name = $this->db['name'];
-		$dsn = $this->db['dsn'];
-
-		if (!$dsn)
-			$dsn = "mysql:dbname={$name};host={$host}";
-
-		$this->report("Connecting to database...");
-
-		try {
-			$this->db = new PDO($dsn, $user, $pass);
-			$this->report("Connected to database.");
-		}catch(PDOException $e){
-			$this->error("Failed to connect to database, [SQLSTATE] " . $e->getCode());
+		self::$connection = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+		
+		if (mysqli_connect_errno())
+		{
+			// die('Error de Conexion (' . mysqli_connect_errno() . ') ' . mysqli_connect_error());
+			return false;
 		}
-
-		return is_object($this->db);
+		
+		return true;
 	}
+	
+	private static function close()
+	{
+		return self::$connection->close();
+	}
+	
+	/*public static function fetchArray($stmt)
+	{
+		$data = mysqli_stmt_result_metadata($stmt);
+
+		$fields = array();
+		$out = array();
+
+		$fields[0] = &$stmt;
+		for($i = 1; $field = mysqli_fetch_field($data); $i++)
+			$fields[$i] = &$out[$field->name];
+
+		call_user_func_array(mysqli_stmt_bind_result, $fields);
+		$stmt->fetch();
+		return count($out) ? $out : false;
+    }*/
+	
+	public static function query($n, $params = null)
+	{
+		global $query;
+		
+		if (!self::connect())
+			return false;
+
+		/* Create a prepared statement */
+		$stmt = self::$connection->prepare($query[$n][0]);
+
+		if(!$stmt)
+			return false;
+
+		/* TODO: Bind parameters */
+		if ($query[$n][1] != '')
+			$stmt->bind_param($query[$n][1], $params);
+		// 
+		//call_user_func_array(mysqli_stmt_bind_result, $fields);
+
+		$stmt->execute();
+		
+		$result = $stmt->get_result();
+        while ($row = $result->fetch_array(MYSQLI_NUM))
+        {
+            var_dump($row);
+        }
+		
+		//$stmt->bind_result($result);
+		//$result = $stmt->get_result();
+		//var_dump($result);
+		//$stmt->store_result();
+		//$stmt->fetch();
+		$stmt->close();
+
+		return $result;
+   }
 
 	//Test field in database for a value
 	function check_field($field, $val, $err = false)
@@ -174,29 +222,7 @@ class Database
 	}
 	
 
-	function __constructor()
-	{
-		$this->connection = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-				
-		if (mysqli_connect_error())
-		{
-			// die('Error de Conexión (' . mysqli_connect_errno() . ') ' . mysqli_connect_error());
-			
-		}
-		
-		// $this->connection->host_info . "\n";
-		
-	}
-	
-	function __destructor()
-	{
-		$this->close();
-	}
-	
-	function close()
-	{
-		return $this->connection->close();
-	}
+
 }
 
 

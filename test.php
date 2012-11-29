@@ -1,4 +1,7 @@
 <?php
-//echo uniqid(md5(rand()), false);
-echo uniqid(rand(), false);
+
+require_once('php/class.dbm.php');
+
+
+var_dump(Database::query(1));
 ?>
