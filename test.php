@@ -1,7 +1,9 @@
 <?php
 
-require_once('php/class.dbm.php');
 
 
-var_dump(Database::query(1));
+require_once('php/class.database.php');
+
+$db = Database::getInstance();
+var_dump($db->query(1));
 ?>

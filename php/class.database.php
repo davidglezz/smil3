@@ -12,30 +12,32 @@ define('DB_USER', 'smil3');
 define('DB_PASS', 'smil3');
 
 require_once('query.php');
+require_once('class.singleton.php');
 
-class Database
+class Database extends Singleton
 {
-	private static $connection;
+	private $connection;
 	
-	private static function connect()
+	private function connect()
 	{
-		if (isset(self::$connection))
-			return true;
-
-		self::$connection = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+		__construct();
+	}
+	
+	public function __construct()
+	{
+		$this->connection = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 		
 		if (mysqli_connect_errno())
 		{
 			// die('Error de Conexion (' . mysqli_connect_errno() . ') ' . mysqli_connect_error());
-			return false;
+			self::$instance = null;
 		}
-		
-		return true;
 	}
 	
-	private static function close()
+	private function close()
 	{
-		return self::$connection->close();
+		$connection->close();
+		self::$instance = null;
 	}
 	
 	/*public static function fetchArray($stmt)
@@ -54,15 +56,12 @@ class Database
 		return count($out) ? $out : false;
     }*/
 	
-	public static function query($n, $params = null)
+	public function query($n, $params = null)
 	{
 		global $query;
 		
-		if (!self::connect())
-			return false;
-
 		/* Create a prepared statement */
-		$stmt = self::$connection->prepare($query[$n][0]);
+		$stmt = $this->connection->prepare($query[$n][0]);
 
 		if(!$stmt)
 			return false;
@@ -70,25 +69,20 @@ class Database
 		/* TODO: Bind parameters */
 		if ($query[$n][1] != '')
 			$stmt->bind_param($query[$n][1], $params);
-		// 
-		//call_user_func_array(mysqli_stmt_bind_result, $fields);
+		//call_user_func_array(mysqli_stmt_bind_param, $query[$n][1]);
 
 		$stmt->execute();
 		
+		$data = array();
 		$result = $stmt->get_result();
         while ($row = $result->fetch_array(MYSQLI_NUM))
         {
-            var_dump($row);
+            //var_dump($row);
+			$data[] = $row;
         }
 		
-		//$stmt->bind_result($result);
-		//$result = $stmt->get_result();
-		//var_dump($result);
-		//$stmt->store_result();
-		//$stmt->fetch();
 		$stmt->close();
-
-		return $result;
+		return $data;
    }
 
 	//Test field in database for a value

@@ -9,9 +9,10 @@ define('SES_EXPIRATIONTIME', '1000'); // ~16.6 min
 
 class session
 {
+    
 	public static function start()
 	{
-		$fingerprint = md5($_SERVER['REMOTE_ADDR'].$_SERVER['HTTP_USER_AGENT'].'.5a1T#');
+		$fingerprint = md5($_SERVER['REMOTE_ADDR'].$_SERVER['HTTP_USER_AGENT']);
 		if (!isset($_SESSION))
 		{
 			session_start();
@@ -20,6 +21,12 @@ class session
 		}
 		else
 		{
+			if (isset($_SESSION['renew']))
+			{
+				// TODO: renew ses_id
+				unset($_SESSION['renew']);
+			}
+			
 			if ($_SESSION['expirationTime'] > time())
 			{
 				// TODO: puede evitar que se mande un mensage, tener en cuenta
@@ -29,6 +36,7 @@ class session
 
 			if ($_SESSION['fingerprint'] != $fingerprint) // posible robo de sesion!!
 			{
+				$_SESSION['renew'] = true;
 				die();
 			}
 		}
@@ -37,8 +45,6 @@ class session
 		{
 			$_SESSION['expirationTime'] = time() + SES_EXPIRATIONTIME;
 		}
-			
-		
 		
 	}
 	
