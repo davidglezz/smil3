@@ -18,6 +18,7 @@ class session
 			session_start();
 			session_regenerate_id(true);
 			$_SESSION['fingerprint'] = $fingerprint;
+			$_SESSION['expirationTime'] = time() + SES_EXPIRATIONTIME;
 		}
 		else
 		{
@@ -34,18 +35,18 @@ class session
 				die ('234');
 			}
 
-			if ($_SESSION['fingerprint'] != $fingerprint) // posible robo de sesion!!
+			if ($_SESSION['fingerprint'] != $fingerprint) 
 			{
+				// posible robo de sesion!!
 				$_SESSION['renew'] = true;
 				die();
 			}
-		}
-		
-		if (!isset($_SESSION['noExpire']))
-		{
-			$_SESSION['expirationTime'] = time() + SES_EXPIRATIONTIME;
-		}
-		
+			
+			if (!isset($_SESSION['noExpire']))
+			{
+				$_SESSION['expirationTime'] = time() + SES_EXPIRATIONTIME;
+			}
+		}	
 	}
 	
 	public static function end()

@@ -1,26 +1,11 @@
 <?php
 
-class User
+class User extends Singleton
 {
-	static $instance;
-public static function getInstance()
-{
-	if (!(self::$instance instanceof self))
-		self::$instance=new self();
-	
-	return self::$instance;
-}
-   
+	var $id;		//Current user ID
+	var $username;	//Signed username
+	var $signed;	//Boolean, true = user is signed-in
 
-/*private static $instance; 
-  public static function getInstance() { 
-    if(!isset(self::$instance)) { 
-      $c = __CLASS__; 
-      self::$instance = new $c(); 
-    } 
-    return self::$instance; 
-  }*/
-   
 	function login()
 	{
 		if ($db_hash === hash('sha256', $db_salt.$password))
