@@ -36,31 +36,17 @@ class Database extends Singleton
 	
 	private function close()
 	{
-		$connection->close();
+		$this->connection->close();
 		self::$instance = null;
 	}
 	
-	/*public static function fetchArray($stmt)
-	{
-		$data = mysqli_stmt_result_metadata($stmt);
 
-		$fields = array();
-		$out = array();
-
-		$fields[0] = &$stmt;
-		for($i = 1; $field = mysqli_fetch_field($data); $i++)
-			$fields[$i] = &$out[$field->name];
-
-		call_user_func_array(mysqli_stmt_bind_result, $fields);
-		$stmt->fetch();
-		return count($out) ? $out : false;
-    }*/
 	
 	public function query($n, $params = null)
 	{
 		global $query;
 		
-		/* Create a prepared statement */
+		//$stmt = $this->connection->stmt_init();
 		$stmt = $this->connection->prepare($query[$n][0]);
 
 		if(!$stmt)
@@ -75,7 +61,7 @@ class Database extends Singleton
 		
 		$data = array();
 		$result = $stmt->get_result();
-        while ($row = $result->fetch_array(MYSQLI_NUM))
+        while ($row = $result->fetch_array(MYSQLI_NUM)) //MYSQLI_ASSOC
         {
             //var_dump($row);
 			$data[] = $row;
@@ -201,7 +187,9 @@ class Database extends Singleton
 
 		return $res;
 	}
-
+	
+	
+/*
 	// para usar con prepare
 	function getPDOConstantType($var)
 	{
@@ -214,11 +202,49 @@ class Database extends Singleton
 		//Default  
 		return PDO::PARAM_STR;
 	}
+ */
 	
+/*
+	function bind_array($stmt, &$row)
+	{
+		$md = $stmt->result_metadata();
+		$params = array();
+		while($field = $md->fetch_field()) {
+			$params[] = &$row[$field->name];
+		}
 
+		call_user_func_array(array($stmt, 'bind_result'), $params);
+		
+		// FUERA
+		//if($stmt->execute()) {
+		//bind_array($stmt, $row);
+		//$stmt->fetch();
+		//print_r($row);
+	}
+*/
+	
+/*
+	public static function fetchArray($stmt)
+	{
+		$data = mysqli_stmt_result_metadata($stmt);
+
+		$fields = array();
+		$out = array();
+
+		$fields[0] = &$stmt;
+		for($i = 1; $field = mysqli_fetch_field($data); $i++)
+			$fields[$i] = &$out[$field->name];
+
+		call_user_func_array(mysqli_stmt_bind_result, $fields);
+		$stmt->fetch();
+		return count($out) ? $out : false;
+    }
+ */
 
 }
 
 
 // REFERENCIA: http://es2.php.net/manual/es/book.mysqli.php
+// http://erlycoder.com/69/php-mysql-prepared-sql-statement-vs-sql-statement
+
 ?>
