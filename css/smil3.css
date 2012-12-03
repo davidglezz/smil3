@@ -42,7 +42,7 @@ body {
 .navbar-fixed-top .navbar-inner,
 .navbar-static-top .navbar-inner {
 	-webkit-box-shadow: 0 1px 10px rgba(0, 0, 0, 0.15);
-	-moz-box-shadow: box-shadow: 0 1px 10px rgba(0, 0, 0, 0.15);
+	-moz-box-shadow: 0 1px 10px rgba(0, 0, 0, 0.15);
 	box-shadow: 0 1px 10px rgba(0, 0, 0, 0.15);
 }
 
@@ -57,3 +57,47 @@ body {
 	padding: 15px;
 }
 
+
+
+
+
+
+
+/* Feedback */
+/*
+#feedback {
+	position: fixed;
+	top: 50%;
+	left: -5.2em;
+	background-color: #BBB;
+	padding: 5px 10px;
+	border-radius: 0 5px 5px 0;
+	color: #fff;
+	text-shadow: 0 1px 0 #000;
+	text-decoration: none;
+	
+	-moz-transition: all .7s;
+	-webkit-transition: all .7s;
+	-o-transition: all .7s;
+	transition: all .7s;
+}
+
+#feedback:hover {
+	left: 0;
+	background-color: #888;
+}
+
+*/
+
+.overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 1048;
+	cursor: default;
+	background-color: white;
+	background-color: rgba(255,255,255,.5);
+	/*opacity: .5;*/
+}

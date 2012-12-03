@@ -18,7 +18,7 @@ class Database extends Singleton
 {
 	private $connection;
 	
-	private function connect()
+	private function connect()  
 	{
 		__construct();
 	}
@@ -39,8 +39,6 @@ class Database extends Singleton
 		$this->connection->close();
 		self::$instance = null;
 	}
-	
-
 	
 	public function query($n, $params = null)
 	{
