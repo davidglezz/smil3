@@ -106,3 +106,79 @@ body {
 	-o-transition: opacity .2s;
 	transition: opacity .2s;
 }
+
+/*
+.push-loader {
+	display: block;
+	position: fixed;
+	top: 7px;
+	left: 50%;
+	z-index: 10000;
+	width: 24px;
+	height: 24px;
+	margin-left: -12px;
+	opacity: 0;
+	-webkit-transform: scale(0);
+	-moz-transform: scale(0);
+	transform: scale(0);
+}*/
+
+/* profile */
+#profile .profile-pic {
+	width: 260px;
+	height: 260px
+}
+
+#profile .minipics {
+	margin: 0;
+	padding: 0;	
+	max-height: 228px;
+	overflow: hidden;
+}
+
+#profile .minipics:hover {
+
+	overflow-y: scroll;
+}
+
+#profile .minipics img {
+	width: 36px; /*32 36 40*/
+	height: 36px;
+	margin: 1px;
+	padding: 0;
+}
+
+#profile > .row {
+	margin-bottom: 30px;
+}
+
+
+.pub {
+  min-height: 20px;
+  padding: 10px;
+  margin-bottom: 20px;
+  background-color: #fff;
+  border: 1px solid #e3e3e3;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+     -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+          box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+.pub .pub-avatar {
+	margin-right: 5px;
+	width: 32px;
+	height: 32px;
+}
+
+.pub .pub-heading {
+	margin-top: 0;
+}
+
+.pub .comments {
+	margin: 10px 0 0;
+}
+
+
