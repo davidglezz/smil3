@@ -153,6 +153,14 @@ body {
 }
 
 
+/* Publications */
+
+/*
+.bs-docs-example + .prettyprint {
+margin-top: -20px;
+padding-top: 15px;
+}*/
+
 .pub {
   min-height: 20px;
   padding: 10px;
@@ -180,5 +188,53 @@ body {
 .pub .comments {
 	margin: 10px 0 0;
 }
+
+
+/* Messages */
+
+#messages .nav .badge {
+	margin-right: 7px;
+}
+
+#messages .msg {
+	position: relative;
+	padding: 5px 5px 5px 37px;
+	border-top: 1px solid #e3e3e3;
+	min-height: 32px;
+}
+
+#messages .msg:first-child {
+	border-top: 0;
+}
+
+#messages .msg:last-child {
+	border-top: 0;
+}
+
+#messages .msg .msg-avatar {
+	position: absolute;
+	left: 0;
+	width: 32px;
+	height: 32px;
+}
+
+#messages .msg .msg-date {
+	float: right;
+	font-size: 10px;
+	color: #999;
+	white-space: nowrap;
+	background-color: #fff;
+	line-height: 12px;
+}
+
+#messages .msg .msg-text {
+	width: 95%;
+}
+
+#messages .toolbar {
+	padding: 15px 0 0;
+}
+
+
 
 
