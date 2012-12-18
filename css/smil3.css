@@ -123,6 +123,59 @@ body {
 	transform: scale(0);
 }*/
 
+
+/* Home */
+
+.pub {
+  min-height: 20px;
+  padding: 10px;
+  margin-bottom: 20px;
+  background-color: #fff;
+  border: 1px solid #e3e3e3;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+     -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+          box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+.pub .pub-avatar {
+	margin-right: 5px;
+	width: 32px;
+	height: 32px;
+}
+
+.pub .pub-head {
+	  min-height: 20px;
+  padding: 10px;
+  margin-bottom: 20px;
+  background-color: #fff;
+  border: 1px solid #e3e3e3;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+     -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+          box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+.pub .pub-body {
+}
+
+.pub .pub-footer {
+}
+
+.pub .comments {
+	margin-top: -20px;
+	padding-top: 15px;
+}
+
+
+
+
+
+
 /* profile */
 #profile .profile-pic {
 	width: 260px;
@@ -153,41 +206,6 @@ body {
 }
 
 
-/* Publications */
-
-/*
-.bs-docs-example + .prettyprint {
-margin-top: -20px;
-padding-top: 15px;
-}*/
-
-.pub {
-  min-height: 20px;
-  padding: 10px;
-  margin-bottom: 20px;
-  background-color: #fff;
-  border: 1px solid #e3e3e3;
-  -webkit-border-radius: 4px;
-     -moz-border-radius: 4px;
-          border-radius: 4px;
-  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
-     -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
-          box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
-}
-
-.pub .pub-avatar {
-	margin-right: 5px;
-	width: 32px;
-	height: 32px;
-}
-
-.pub .pub-heading {
-	margin-top: 0;
-}
-
-.pub .comments {
-	margin: 10px 0 0;
-}
 
 
 /* Messages */
