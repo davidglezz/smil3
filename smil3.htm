@@ -117,7 +117,7 @@
 							<div class="pub-footer">
 							</div>
 						</div>
-						<div class="pub-comments well state-min">
+						<div class="pub-comments state-min">
 							<div class="comment">
 								<img src="img/default_medium_profile_pic.png" class="comment-avatar" alt="1" />
 								<textarea class="comment-text" name="comment-text" rows="1" placeholder="Añadir un comentario"></textarea>
@@ -136,7 +136,7 @@
 
 							</div>
 						</div>
-						<div class="pub-comments well state-min">
+						<div class="pub-comments state-min">
 							<div class="comment">
 								<img src="img/default_medium_profile_pic.png" class="comment-avatar" alt="1" />
 								<textarea class="comment-text" name="comment-text" rows="1" placeholder="Añadir un comentario"></textarea>
@@ -429,12 +429,33 @@
 				}, 'text')
 				.error(function() { alert("error"); })
 				.complete(function() {	});
+				
+				
+				/*
+				$.ajax({
+					type: "POST",
+					cache: false,
+					contentType: "application/json; charset=utf-8",
+					url: './main.php?do=getStartInfo',
+					data: '',//JSON.stringify(pdata)
+					dataType: 'json',
+					async: true,
+					success: function (data, textStatus, jqXHR) {
+						if (textStatus == "success") {
+							//func(data);
+						}
+
+					},
+					error: function (jqXHR, textStatus, errorThrown) {
+						handleError(jqXHR);
+					}
+				});
 
 
 				// Evitamos que se envie por el metodo tradicional.
 				return false; 
 		
-			});
+			});*/
 
 		</script>
 		<script src="js/feedback.js"></script>
