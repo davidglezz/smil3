@@ -14,10 +14,10 @@ class User extends Singleton
 		}
 	}
 	
-	function register()
+	function register($data)
 	{
 		$salt = '|'.sha256(uniqid(rand(), false)); // O incluso mejor si tuviese mayúsculas, minúsculas, caracteres especiales...
-		$hash = hash('sha256', $password.$salt); // Puede ponerse delante o detrás, es igual
+		$hash = hash('sha256', $password.$salt);
 		unset($password);
 		
 		// Guardar en base de datos el $hash y $salt

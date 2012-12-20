@@ -1,7 +1,8 @@
 <?php
 
-function __autoload($class_name)
+function __autoload($name)
 {
-	include_once 'inc/class.' . $class_name . '.inc.php';
+	require_once "php/class.$name.php";
 }
+
 ?>
