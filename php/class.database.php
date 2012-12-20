@@ -1,248 +1,87 @@
 <?php
 
 /*
-* Database class
-* Se encarga de gestionar las conexiones con la base de datos
-* Usara el gestor de bases de datos mySQL
-*/
+ * Database class
+ * Se encarga de gestionar las conexiones con la base de datos
+ */
 
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'smil3');
 define('DB_USER', 'smil3');
 define('DB_PASS', 'smil3');
 
-require_once('query.php');
-require_once('class.singleton.php');
-
 class Database extends Singleton
 {
+
 	private $connection;
-	
-	private function connect()  
-	{
-		__construct();
-	}
-	
+
 	public function __construct()
 	{
-		$this->connection = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-		
-		if (mysqli_connect_errno())
-		{
-			// die('Error de Conexion (' . mysqli_connect_errno() . ') ' . mysqli_connect_error());
-			self::$instance = null;
+		try {
+			$this->connection = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
+		} catch (PDOException $e) {
+			die("Failed to connect to database, [SQLSTATE] " . $e->getCode());
 		}
 	}
-	
-	private function close()
+
+	public function __destruct()
 	{
-		$this->connection->close();
+		$this->connection = null;
+	}
+
+	public function connect()
+	{
+		if (is_object($this->connection))
+			return;
+
+		__construct();
+	}
+
+	public function close()
+	{
 		self::$instance = null;
 	}
-	
-	public function query($n, $params = null)
+
+	public function query($sql, $params = null)
 	{
-		global $query;
-		
-		//$stmt = $this->connection->stmt_init();
-		$stmt = $this->connection->prepare($query[$n][0]);
+		$stmt = $this->connection->prepare($sql);
 
-		if(!$stmt)
+		if (!$stmt)
 			return false;
-
-		/* TODO: Bind parameters */
-		if ($query[$n][1] != '')
-			$stmt->bind_param($query[$n][1], $params);
-		//call_user_func_array(mysqli_stmt_bind_param, $query[$n][1]);
-
-		$stmt->execute();
 		
-		$data = array();
-		$result = $stmt->get_result();
-        while ($row = $result->fetch_array(MYSQLI_NUM)) //MYSQLI_ASSOC
-        {
-            //var_dump($row);
-			$data[] = $row;
-        }
-		
-		$stmt->close();
+		//$stmt->setFetchMode(PDO::FETCH_NUM);
+
+		$stmt->execute($params);
+
+		if ($stmt->errorCode() > 0) {
+			//$error = $stmt->errorInfo();
+			//log("PDO({$error[0]})[{$error[1]}] {$error[2]}");
+			return false;
+		}
+
+		$data = $stmt->fetchAll(PDO::FETCH_NUM);
+		/*$data = array();
+		while ($row = $stmt->fetch(PDO::FETCH_NUM))
+			$data[] = $row;*/
+
+		//$stmt->closeCursor();
+		//$stmt = null;
 		return $data;
-   }
-
-	//Test field in database for a value
-	function check_field($field, $val, $err = false)
-	{
-		$res = $this->getRow(Array($field => $val));
-
-		if($res)
-		{
-			$err ? $this->form_error($field,$err) : $this->form_error($field,"The $field $val exists in database");
-			$this->report("There was a match for $field = $val");
-			return true;
-		}
-		else
-		{
-			$this->report("No Match for $field = $val");
-			return false;
-		}
 	}
 
-	//Executes SQL query and checks for success
-	function check_sql($sql, $args=false)
+	public function exec($name, $values = array())
 	{
-		$st = $this->getStatement($sql);
+		$_rs = $this->query('CALL ' . $name, $values);
 
-		if(!$st)
-		{
-			$this->report("No se obtuvo nada de la base de datos");
-			return false;
-		}
-			
-
-		if($args)
-		{
-			$st->execute($args);
-			$this->report("SQL Data Sent: [" . implode(', ',$args) . "]"); //Log the SQL Query first
-		}
-		else
-		{
-			$st->execute();
-		}
-
-		$rows = $st->rowCount();
-
-		if($rows > 0){
-			//Good, Rows where affected
-			$this->report("$rows row(s) where Affected");
-			return true;
-		}else{
-			//Bad, No Rows where Affected
-			$this->report("No rows were Affected");
-			return false;
-		}
+		return $_rs;
 	}
-
-	//Get a single user row depending on arguments
-	function getRow($args)
-	{
-		$sql = "SELECT * FROM :table WHERE :args LIMIT 1";
-
-		$st = $this->getStatement($sql, $args);
-
-		if(!$st) return false;
-
-		if(!$st->rowCount()){
-			$this->report("Query returned empty");
-			return false;
-		}
-
-		return $st->fetch(PDO::FETCH_ASSOC);
-	}
-
-	/*
-	 * Get the PDO statment
-	*/
-	function getStatement($sql, $args=false)
-	{
-		if (!$this->connect())
-		{
-			$this->report("No se a podido conectar a las base de datos.");
-			return false;
-		}
-
-
-		if ($args)
-		{
-			foreach ($args as $field => $val)
-				$finalArgs[] = " {$field}=:{$field}";
-
-			$finalArgs = implode(" AND", $finalArgs);
-
-			if (strpos($sql, " :args"))
-				$sql = str_replace(" :args", $finalArgs, $sql);
-			else
-				$sql .= $finalArgs;
-		}
-
-		//Replace the :table placeholder
-		$sql = str_replace(" :table ", " users ", $sql);
-
-		$this->report("SQL Statement: {$sql}"); //Log the SQL Query first
-
-		if ($args)  //Log the SQL Query first
-			$this->report("SQL Data Sent: [" . implode(', ', $args) . "]");
-
-		//Prepare the statement
-		$res = $this->db->prepare($sql);
-
-		if($args) $res->execute($args);
-
-		if($res->errorCode() > 0 ){
-			$error = $res->errorInfo();
-			$this->error("PDO({$error[0]})[{$error[1]}] {$error[2]}");
-			return false;
-		}
-
-		return $res;
-	}
-	
-	
-/*
-	// para usar con prepare
-	function getPDOConstantType($var)
-	{
-		if( is_int( $var ) )
-			return PDO::PARAM_INT;
-		if( is_bool( $var ) )
-			return PDO::PARAM_BOOL;
-		if( is_null( $var ) )
-			return PDO::PARAM_NULL;
-		//Default  
-		return PDO::PARAM_STR;
-	}
- */
-	
-/*
-	function bind_array($stmt, &$row)
-	{
-		$md = $stmt->result_metadata();
-		$params = array();
-		while($field = $md->fetch_field()) {
-			$params[] = &$row[$field->name];
-		}
-
-		call_user_func_array(array($stmt, 'bind_result'), $params);
-		
-		// FUERA
-		//if($stmt->execute()) {
-		//bind_array($stmt, $row);
-		//$stmt->fetch();
-		//print_r($row);
-	}
-*/
-	
-/*
-	public static function fetchArray($stmt)
-	{
-		$data = mysqli_stmt_result_metadata($stmt);
-
-		$fields = array();
-		$out = array();
-
-		$fields[0] = &$stmt;
-		for($i = 1; $field = mysqli_fetch_field($data); $i++)
-			$fields[$i] = &$out[$field->name];
-
-		call_user_func_array(mysqli_stmt_bind_result, $fields);
-		$stmt->fetch();
-		return count($out) ? $out : false;
-    }
- */
 
 }
 
-
-// REFERENCIA: http://es2.php.net/manual/es/book.mysqli.php
 // http://erlycoder.com/69/php-mysql-prepared-sql-statement-vs-sql-statement
 
+/*
+ * @TODO: probar metodos __construct() __destruct() connect() & close()
+ * PDO::quote()
+ */
 ?>
