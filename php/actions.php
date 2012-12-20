@@ -240,4 +240,6 @@ $actions['setProfilePhoto'] = function()
 	die('0');
 };
 
+
+
 ?>
