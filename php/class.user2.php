@@ -16,7 +16,7 @@ class User extends Singleton
 	
 	function register($data)
 	{
-		$salt = '|'.sha256(uniqid(rand(), false)); // O incluso mejor si tuviese mayúsculas, minúsculas, caracteres especiales...
+		$salt = '|'.sha256(uniqid(rand().'Smil3', false)); // O incluso mejor si tuviese mayúsculas, minúsculas, caracteres especiales...
 		$hash = hash('sha256', $password.$salt);
 		unset($password);
 		
