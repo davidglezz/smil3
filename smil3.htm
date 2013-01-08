@@ -420,7 +420,8 @@
 
 					//$('<div class="container alert alert-error span11"><button type="button" class="close" data-dismiss="alert">×</button>'+data+'</div>').appendTo($('body'));
 
-					var data = jQuery.parseJSON(data);
+					data = jQuery.parseJSON(data);
+					console.log(data);
 					$('#username').text(data.name)
 
 
@@ -450,15 +451,15 @@
 						handleError(jqXHR);
 					}
 				});
+				*/
 
 
-				// Evitamos que se envie por el metodo tradicional.
-				return false; 
 		
-			});*/
+			});
+			
 
 		</script>
-		<script src="js/feedback.js"></script>
+		<!--<script src="js/feedback.js"></script>-->
 
 	</body>
 </html>
