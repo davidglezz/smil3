@@ -75,7 +75,79 @@ class Database extends Singleton
 
 		return $_rs;
 	}
+	
+	/*
+	function check_field($field, $val, $err = false)
+	{
+		$res = $this->getRow(Array($field => $val));
 
+		if($res)
+		{
+			$err ? $this->form_error($field,$err) : $this->form_error($field,"The $field $val exists in database");
+			$this->report("There was a match for $field = $val");
+			return true;
+		}
+		else
+		{
+			$this->report("No Match for $field = $val");
+			return false;
+		}
+	}
+	
+	function getRow($args)
+	{
+		$sql = "SELECT * FROM :table WHERE :args LIMIT 1";
+
+		$st = $this->getStatement($sql, $args);
+
+		if(!$st) return false;
+
+		if(!$st->rowCount()){
+			$this->report("Query returned empty");
+			return false;
+		}
+
+		return $st->fetch(PDO::FETCH_ASSOC);
+	}
+	
+	function getStatement($sql, $args=false)
+	{
+
+		if ($args)
+		{
+			foreach ($args as $field => $val)
+				$finalArgs[] = " {$field}=:{$field}";
+
+			$finalArgs = implode(" AND", $finalArgs);
+
+			if (strpos($sql, " :args"))
+				$sql = str_replace(" :args", $finalArgs, $sql);
+			else
+				$sql .= $finalArgs;
+		}
+
+		//Replace the :table placeholder
+		$sql = str_replace(" :table ", " users ", $sql);
+
+		$this->report("SQL Statement: {$sql}"); //Log the SQL Query first
+
+		if ($args)  //Log the SQL Query first
+			$this->report("SQL Data Sent: [" . implode(', ', $args) . "]");
+
+		//Prepare the statement
+		$res = $this->db->prepare($sql);
+
+		if($args) $res->execute($args);
+
+		if($res->errorCode() > 0 ){
+			$error = $res->errorInfo();
+			$this->error("PDO({$error[0]})[{$error[1]}] {$error[2]}");
+			return false;
+		}
+
+		return $res;
+	}
+*/
 }
 
 // http://erlycoder.com/69/php-mysql-prepared-sql-statement-vs-sql-statement

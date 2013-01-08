@@ -5,7 +5,7 @@ class User extends Singleton
 	var $id;		//Current user ID
 	var $username;	//Signed username
 	var $signed;	//Boolean, true = user is signed-in
-
+	
 	function login()
 	{
 		if ($db_hash === hash('sha256', $db_salt.$password))
