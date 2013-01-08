@@ -191,7 +191,15 @@ $actions['deleteAccount'] = function()
 
 $actions['getPub'] = function()
 {
+	isset($_POST['$id']) OR die('111');
 	
+	$txt = $_POST['$txt'];
+	
+	$sql = 'INSERT INTO publications (user, text) VALUES ( ?,  ?);';
+	$params =  array(4, $txt);
+			
+	$db->query($sql, $params);
+	die('0');
 };
 
 $actions['delPub'] = function()
@@ -201,12 +209,19 @@ $actions['delPub'] = function()
 
 $actions['sendPub'] = function()
 {
+	global $user;
 	//$a = stripslashes($b);
 	// strip_tags();
+	isset($_POST['$txt']) OR die('111');
+	$sql = 'INSERT INTO publications (user, text) VALUES ( ?,  ?);';
 	$txt = htmlspecialchars(mysql_real_escape_string($_POST['$txt']));
-	$query = 'INSERT INTO  publications (user, text) VALUES ( 4,  "'. $txt .'");';
+	$id_user = $user->id;
 	
-	// TODO
+	
+	$params =  array($id_user, $txt);
+			
+	$db->query($sql, $params);
+	die('0');
 };
 
 /* Private messages functions **************************************/
