@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta charset="utf-8" />
+		<title>Smil3</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="description" content="SMIL3 - La nueva red social" />
+		<meta name="author" content="David Gonzalez, Tony Marín" />
+		<link href="css/bootstrap.css" rel="stylesheet" />
+		<link href="css/smil3.css" rel="stylesheet" />
+		<link href="css/bootstrap-responsive.css" rel="stylesheet" />
+
+		<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+		<!--[if lt IE 9]>
+			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+
+		<link rel="shortcut icon" href="images/favicon.ico" />
+		<link rel="apple-touch-icon" href="images/apple-touch-icon.png" />
+		<link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png" />
+		<link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png" />
+	</head>
+
+	<body class="loading">
+		<div class="navbar navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container">
+					<a class="brand" href="#start">Smil3</a>
+					<ul class="nav">
+						<li><a href="#start" data-toggle="tab">
+								<i class="icon-home"></i> Inicio
+							</a></li>
+						<li class="active"><a href="#profile" data-toggle="tab">
+								<i class="icon-user"></i> Perfil
+							</a></li>
+						<li><a href="#messages" data-toggle="tab">
+								<i class="icon-envelope"></i> Mensajes
+								<span class="badge">4</span>
+							</a></li>
+					</ul>
+
+					<form class="nav form-search input-append">
+						<div class="input-append">
+							<input class="search-input search-query" type="text" id="search-query" placeholder="Buscar" name="q" autocomplete="off" spellcheck="false" data-focus="false" />
+							<button type="submit" class="btn"><i class="icon-search"></i></button>
+						</div>
+					</form>
+
+					<ul class="nav pull-right">
+						<li class="dropdown">
+							<a href="#publish" class="dropdown-toggle" data-toggle="dropdown">
+								<i class="icon-pencil"></i> Publicar
+							</a>
+							<div id="new_publish" class="dropdown-menu">
+								<textarea name="txt" class="span4" rows="4"></textarea>
+								<button type="submit" class="btn btn-primary">Publicar</button>
+								<button type="button" class="btn">Cancelar</button>
+							</div>
+						</li>
+						<li class="divider-vertical"></li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+								<i class="icon-wrench"></i> <span id="username">Jonh Doe</span> <b class="caret"></b></a>
+							<ul class="dropdown-menu">
+								<li><a href="#profilemod"><i class="icon-check"></i> Modificar perfil</a></li>
+								<li><a href="#editList"><i class="icon-list-alt" data-toggle="tab"></i> Editar listas y amigos</a></li>
+								<li><a href="#acountmod"><i class="icon-cog"></i> Modificar cuenta</a></li>
+								<li class="divider"></li>
+								<li><a href="#help"><i class="icon-question-sign"></i> Ayuda</a></li>
+								<li><a href="#logout"><i class="icon-off"></i> Salir</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div class="tab-content container">
+
+			<div class="tab-pane active" id="start">
+				<div class="btn-group pull-right">
+					<button class="btn"><i class="icon-th-list"></i></button>
+					<button class="btn"><i class="icon-th-large"></i></button>
+					<button class="btn"><i class="icon-th"></i></button>
+				</div>
+				<ul class="nav nav-tabs">
+					<li class="active"><a href="#">Todo</a></li>
+					<li><a href="#">Amigos</a></li>
+					<li><a href="#">Conocidos</a></li>
+					<li><a href="#">Familia</a></li>
+					<li><a href="#">Lista 1</a></li>
+					<li><a href="#">Noticias</a></li>
+					<li><a href="#">Humor</a></li>
+					<li><a href="#">Otros</a></li>
+					<li><a href="#">Lista 2</a></li>
+					<li><a href="#">Lista 3</a></li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown"> Mas <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a href="#">Lista 4</a></li>
+							<li><a href="#">Lista 5</a></li>
+							<li><a href="#">Lista 6</a></li>
+							<li><a href="#">Lista 7</a></li>
+							<li><a href="#">Lista 8</a></li>
+						</ul>
+					</li>
+				</ul>
+				<div class="row">
+					<div class="pub span4">
+						<div class="pub-inner">
+							<div class="pub-head">
+								<h5><a href="#"><img class="pub-avatar img-polaroid" src="img/default_medium_profile_pic.png" alt="pepito">Jonh Doe <small>@JonhDoe</small></a> <small class="pull-right" title="14 / 12 / 2012" rel="tooltip" data-placement="right">15:47</small></h5>
+							</div>
+							<div class="pub-body">
+								Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante <a href="#">#sollicitudin</a> commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.
+							</div>
+							<div class="pub-footer">
+							</div>
+						</div>
+						<div class="pub-comments state-min">
+							<div class="comment">
+								<img src="img/default_medium_profile_pic.png" class="comment-avatar" alt="1" />
+								<textarea class="comment-text" name="comment-text" rows="1" placeholder="Añadir un comentario"></textarea>
+							</div>
+						</div>
+					</div>
+					<div class="pub span4">
+						<div class="pub-inner">
+							<div class="pub-head">
+								<h5><a href="#"><img class="pub-avatar img-polaroid" src="img/default_medium_profile_pic.png" alt="pepito">Jonh Doe <small>@JonhDoe</small></a> <small class="pull-right" title="14 / 12 / 2012" rel="tooltip" data-placement="right">15:47</small></h5>
+							</div>
+							<div class="pub-body">
+								Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante <a href="#">#sollicitudin</a> commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.
+							</div>
+							<div class="pub-footer">
+
+							</div>
+						</div>
+						<div class="pub-comments state-min">
+							<div class="comment">
+								<img src="img/default_medium_profile_pic.png" class="comment-avatar" alt="1" />
+								<textarea class="comment-text" name="comment-text" rows="1" placeholder="Añadir un comentario"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="tab-pane" id="profile">
+				<div class="row">
+					<div class="span3">
+						<!--<a href="#" class="thumbnail">
+							<img src="img/default_medium_profile_pic.png" class="profile-pic" alt="Imagen de prefil" />
+						</a>-->
+						<img src="img/default_medium_profile_pic.png" class="img-polaroid profile-pic" alt="Imagen de prefil" />
+					</div>
+					<div class="span5">
+						<h1>Jonh Doe</h1>
+
+						<h6>Hello people! I am trying Smli3, the new social network</h6>
+						<div class="row">
+							<div class="span3">
+								<h4>@JonhDoe</h4>
+								<p><i class="icon-globe"></i> <a href="www.example.org">www.example.org</a></p>
+								<p><i class="icon-gift"></i> Nació el 17 de Agosto de 1987</p>
+								<p><i class="icon-map-marker"></i> Oviedo, España</p>
+								<p><i class="icon-briefcase"></i> Pizza Movil, Spain S.L.</p>
+								<p><i class="icon-envelope"></i> jonhdoepower@gmail.com</p>
+							</div>
+							<div class="span2">
+								<p><i class="icon-time"></i> Offline: Hace 3 horas</p>
+								<p><i class="icon-heart"></i> En una relación</p>
+								<p><i class="icon-signal"></i> 654321987</p>
+								<p><i class="icon-plus"></i> Mostrar mas</p>
+							</div>
+						</div>
+
+					</div>
+					<div class="span2">
+						<h6>Gente que sigo (10152) <a href="#" class="pull-right icon-resize-full" rel="tooltip" title="Ver todos"></a></h6>
+						<div class="minipics">
+							<div>
+								<img src="img/default_medium_profile_pic.png" alt="1" /><img src="img/default_medium_profile_pic.png" alt="2" /><img src="img/default_medium_profile_pic.png" alt="3" /><img src="img/default_medium_profile_pic.png" alt="4" /><img src="img/default_medium_profile_pic.png" alt="5" /><img src="img/default_medium_profile_pic.png" alt="6" /><img src="img/default_medium_profile_pic.png" alt="7" /><img src="img/default_medium_profile_pic.png" alt="8" /><img src="img/default_medium_profile_pic.png" alt="9" /><img src="img/default_medium_profile_pic.png" alt="10" /><img src="img/default_medium_profile_pic.png" alt="11" /><img src="img/default_medium_profile_pic.png" alt="12" /><img src="img/default_medium_profile_pic.png" alt="13" /><img src="img/default_medium_profile_pic.png" alt="14" /><img src="img/default_medium_profile_pic.png" alt="15" /><img src="img/default_medium_profile_pic.png" alt="15" /><img src="img/default_medium_profile_pic.png" alt="15" /><img src="img/default_medium_profile_pic.png" alt="15" /><img src="img/default_medium_profile_pic.png" alt="15" /><img src="img/default_medium_profile_pic.png" alt="15" /><img src="img/default_medium_profile_pic.png" alt="15" /><img src="img/default_medium_profile_pic.png" alt="15" /><img src="img/default_medium_profile_pic.png" alt="15" /><img src="img/default_medium_profile_pic.png" alt="15" /><img src="img/default_medium_profile_pic.png" alt="15" /><img src="img/default_medium_profile_pic.png" alt="15" /><img src="img/default_medium_profile_pic.png" alt="15" /><img src="img/default_medium_profile_pic.png" alt="15" /><img src="img/default_medium_profile_pic.png" alt="15" /><img src="img/default_medium_profile_pic.png" alt="15" /><img src="img/default_medium_profile_pic.png" alt="15" /><img src="img/default_medium_profile_pic.png" alt="15" /><img src="img/default_medium_profile_pic.png" alt="15" /><img src="img/default_medium_profile_pic.png" alt="15" /><img src="img/default_medium_profile_pic.png" alt="15" /><img src="img/default_medium_profile_pic.png" alt="15" /><img src="img/default_medium_profile_pic.png" alt="15" /><img src="img/default_medium_profile_pic.png" alt="15" /><img src="img/default_medium_profile_pic.png" alt="15" /><img src="img/default_medium_profile_pic.png" alt="15" /><img src="img/default_medium_profile_pic.png" alt="15" />
+							</div>
+						</div>
+
+					</div>
+					<div class="span2">
+						<h6>Gente que me sigue (9456) <a href="#" class="pull-right icon-resize-full" rel="tooltip" title="Ver todos"></a></h6>
+						<div class="minipics">
+							<div>
+								<img src="img/default_medium_profile_pic.png" alt="1" /><img src="img/default_medium_profile_pic.png" alt="2" /><img src="img/default_medium_profile_pic.png" alt="3" /><img src="img/default_medium_profile_pic.png" alt="4" /><img src="img/default_medium_profile_pic.png" alt="5" /><img src="img/default_medium_profile_pic.png" alt="6" /><img src="img/default_medium_profile_pic.png" alt="7" /><img src="img/default_medium_profile_pic.png" alt="8" /><img src="img/default_medium_profile_pic.png" alt="9" /><img src="img/default_medium_profile_pic.png" alt="10" /><img src="img/default_medium_profile_pic.png" alt="11" /><img src="img/default_medium_profile_pic.png" alt="12" /><img src="img/default_medium_profile_pic.png" alt="13" /><img src="img/default_medium_profile_pic.png" alt="14" /><img src="img/default_medium_profile_pic.png" alt="15" /><img src="img/default_medium_profile_pic.png" alt="15" /><img src="img/default_medium_profile_pic.png" alt="15" /><img src="img/default_medium_profile_pic.png" alt="15" /><img src="img/default_medium_profile_pic.png" alt="15" />
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="span6">
+						<h6>Publicaciones</h6>
+						<div>
+							<div class="pub">
+								<h4 class="pub-heading"><a href="#"><img class="pub-avatar" src="img/default_medium_profile_pic.png" alt="pepito">Jonh Doe <small>@JonhDoe</small></a> <small>14/12/2012 15:47</small></h4>
+								<div class="pub-body">
+									Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante <a href="#">#sollicitudin</a> commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.
+								</div>
+								<div class="comments well">Comentarios</div>
+							</div>
+						</div>
+					</div>
+					<div class="span2">
+						<h6>Fotos</h6>
+					</div>
+					<div class="span2">
+						<h6>Listas</h6>
+					</div>
+					<div class="span2">
+						<h6>Le gusta</h6>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="tab-pane" id="messages">
+				<div class="page-header row form-inline">
+					<h1 class="span3">Mensajes</h1>
+					<div class="span9 toolbar">
+						<button class="btn"><i class="icon-arrow-left"></i></button>
+						<button class="btn"><i class="icon-plus"></i></button>
+						<button class="btn"><i class="icon-refresh"></i></button>
+						<button class="btn"><i class="icon-eye-close"></i></button>
+						<button class="btn"><i class="icon-trash"></i></button>
+						<div class="btn-group pull-right">
+							<button class="btn"><i class="icon-th-list"></i></button>
+							<button class="btn"><i class="icon-th-large"></i></button>
+							<button class="btn"><i class="icon-th"></i></button>
+						</div>
+					</div>
+
+
+				</div>
+				<div class="row">
+					<div class="span3">
+						<ul class="nav nav-pills nav-stacked affix-top">
+							<li><a href="#"><small class="badge">1</small>Erika Mustermann<small class="pull-right muted">Hace 27 min.</small></a></li>
+							<li><a href="#">Lieschen Müller</a></li>
+							<li><a href="#">Otto Normalverbraucher</a></li>
+							<li><a href="#">Juan Pérez</a></li>
+							<li><a href="#">Don Nadie</a></li>
+							<li><a href="#">Fulano de Tal</a></li>
+							<li><a href="#">Juan de los Palotes</a></li>
+							<li><a href="#">Doña Rosa</a></li>
+							<li><a href="#">Doña María</a></li>
+							<li class="active"><a href="#">Mongo Aurelio</a></li>
+							<li><a href="#">Fred Nerk</a></li>
+							<li><a href="#">Joe Blow</a></li>
+							<li><a href="#">John Citizen</a></li>
+							<li><a href="#">Simon McCool</a></li>
+							<li><a href="#">Max Muster</a></li>
+							<li><a href="#">Juan Pérez</a></li>
+						</ul>
+					</div>
+					<div class="span9">
+						<div class="msg">
+							<span class="msg-date">19:52</span>
+							<img src="img/default_medium_profile_pic.png" class="msg-avatar" alt="1" />
+							Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature.
+						</div>
+						<div class="msg">
+							<span class="msg-date">19:52</span>
+							<img src="img/default_medium_profile_pic.png" class="msg-avatar" alt="1" />
+							here are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.
+						</div>
+						<div class="msg">
+							<span class="msg-date">19:52</span>
+							<img src="img/default_medium_profile_pic.png" class="msg-avatar" alt="1" />
+							Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature.
+						</div>
+						<div class="msg">
+							<span class="msg-date">19:52</span>
+							<img src="img/default_medium_profile_pic.png" class="msg-avatar" alt="1" />
+							Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature.
+						</div>
+						<div class="msg">
+							<span class="msg-date">19:52</span>
+							<img src="img/default_medium_profile_pic.png" class="msg-avatar" alt="1" />
+							here are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.
+						</div>
+						<div class="msg">
+							<span class="msg-date">19:52</span>
+							<img src="img/default_medium_profile_pic.png" class="msg-avatar" alt="1" />
+							Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+						</div>
+						<div class="msg">
+							<span class="msg-date">19:52</span>
+							<img src="img/default_medium_profile_pic.png" class="msg-avatar" alt="1" />
+							Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature.
+						</div>
+						<div class="msg">
+							<span class="msg-date">19:52</span>
+							<img src="img/default_medium_profile_pic.png" class="msg-avatar" alt="1" />
+							It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+						</div>
+						<div class="msg">
+							<span class="msg-date">19:52</span>
+							<img src="img/default_medium_profile_pic.png" class="msg-avatar" alt="1" />
+							OK
+						</div>
+						<div class="msg">
+							<span class="msg-date">19:52</span>
+							<img src="img/default_medium_profile_pic.png" class="msg-avatar" alt="1" />
+							paragraphs
+						</div>
+						<div class="msg">
+							<span class="msg-date">19:52</span>
+							<img src="img/default_medium_profile_pic.png" class="msg-avatar" alt="1" />
+							200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words
+						</div>
+						<div class="msg">
+							<img src="img/default_medium_profile_pic.png" class="msg-avatar" alt="1" />
+							<textarea class="msg-text" name="msg-text" rows="3"></textarea>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			<div class="tab-pane" id="editList">
+				<h1>Listas</h1>
+				<div id="list">Cargando...</div>
+			</div>
+
+			<hr />
+
+			<footer>
+				<p>&copy; 2012 David Gonzalez, Tony Marín</p>
+			</footer>
+		</div>
+		<div id="loading" class="push-loader alert">Cargando...</div>
+
+		<script src="js/jquery-1.8.2.min.js"></script> 
+		<script src="js/bootstrap.min.js"></script> 
+		<script src="js/smil3.js"></script>
+		<script>
+
+			$(document).ready(function()
+			{
+				$('body').tooltip({
+					selector: '[rel=tooltip]'
+				});
+				// Loading icon
+				$("#loading").ajaxStart(function(){
+					$(this).show();
+				});
+		
+				$("#loading").ajaxStop(function(){
+					$(this).hide();
+				});
+
+				// ajax error handler
+				$('body').ajaxError(function(event, request, settings){
+					$(this).append('<div class="container alert alert-error span11"><button type="button" class="close" data-dismiss="alert">×</button>No se puede acceder a '+settings.url+'</div>');
+				});
+
+				// publish popup
+				var new_publish = $('#new_publish');
+		
+				new_publish.click(function (e) {
+					e.stopPropagation();
+				});
+		
+				new_publish.parent().find('a').click(function(e)
+				{
+					// TODO: fix
+					new_publish.find('textarea').focus();
+				});
+		
+				new_publish.find('button[type="submit"]').click(function(e)
+				{
+					$.ajaxSetup({ cache: false });
+			
+					var data = new_publish.find('textarea').serialize();
+			
+					$.post('main.php?do=sendPub', data, function(data, status, jqXHR)
+					{
+						if (data === '0')
+							window.location = 'smil3.htm';
+				
+						$('<div class="alert alert-error span11"><button type="button" class="close" data-dismiss="alert">×</button>'+data+'</div>').appendTo($('.container'));
+					}, 'text')
+					.error(function() { alert("error"); })
+					.complete(function() {
+						regBtn.button('reset');
+					});
+			
+					new_publish.parent().removeClass('open');
+				});
+		
+				new_publish.find('button[type="button"]').click(function(e)
+				{
+					new_publish.parent().removeClass('open');
+				});
+		
+				// actions
+				$('a[href="#logout"]').click(function(e) {
+					$.get('main.php?do=logout', function(data) {
+						window.location = 'login.htm';
+					});
+				});
+
+
+				// start
+				$.post('main.php?do=getStartInfo', {}, function(data, status, jqXHR)
+				{
+					if (data === '10')
+					{
+						// TODO Show login
+						window.location = 'login.htm';
+						return;
+					}
+
+					//$('<div class="container alert alert-error span11"><button type="button" class="close" data-dismiss="alert">×</button>'+data+'</div>').appendTo($('body'));
+
+					data = jQuery.parseJSON(data);
+					console.log(data);
+					$('#username').text(data.name)
+
+
+			
+			
+				}, 'text')
+				.error(function() { alert("error"); })
+				.complete(function() {	});
+				
+				
+				/*
+				$.ajax({
+					type: "POST",
+					cache: false,
+					contentType: "application/json; charset=utf-8",
+					url: './main.php?do=getStartInfo',
+					data: '',//JSON.stringify(pdata)
+					dataType: 'json',
+					async: true,
+					success: function (data, textStatus, jqXHR) {
+						if (textStatus == "success") {
+							//func(data);
+						}
+
+					},
+					error: function (jqXHR, textStatus, errorThrown) {
+						handleError(jqXHR);
+					}
+				});
+				*/
+
+
+		
+			});
+			
+
+		</script>
+		<!--<script src="js/feedback.js"></script>-->
+
+	</body>
+</html>
