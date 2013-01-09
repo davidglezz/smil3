@@ -138,12 +138,12 @@ class User
 			return false;
 
 		//Check for errors
-		if ($this->has_error()) return false;
+		if ($this->has_error())
+			return false;
 
 		//User Activation
 		if (!$activation) //Activates user upon registration
 			$info['activated'] = 1;
-
 
 		//Prepare Info for SQL Insertion
 		foreach ($info as $index => $val)
@@ -1031,9 +1031,11 @@ class User
 	}
 
 	//Validates All fields in ->tmp_data array
-	function validateAll(){
+	function validateAll()
+	{
 		$info = $this->tmp_data;
-		foreach($info as $field => $val){
+		foreach($info as $field => $val)
+		{
 			//Match double fields
 			if(isset($info[$field.(2)])){
 				if($val != $info[$field.(2)]){
@@ -1153,28 +1155,5 @@ class User
 	}
 }
 
-/*
-Copyright (c) 2012 David Gonzalez, http://davidxl.es/
-Copyright (c) 2012 Pablo Tejada, http://crusthq.com/projects/uFlex/
-
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-		"Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/
 
 ?>

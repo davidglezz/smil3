@@ -5,9 +5,7 @@
 //require_once('php/class.database.php');
 require_once('php/autoload.php');
 
-$db = Database::getInstance();
-
-var_dump($db->query('INSERT INTO publications (user, text) VALUES ( ?,  ?);', array(4,'hola')));
+var_dump(Validate::number(50, array('decimal' => false, 'min' => 1, 'max' => 50)));
 
 
 
