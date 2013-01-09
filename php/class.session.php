@@ -28,13 +28,6 @@ class session
 				unset($_SESSION['renew']);
 			}
 			
-			if ($_SESSION['expirationTime'] > time())
-			{
-				// TODO: puede evitar que se mande un mensage, tener en cuenta
-				// Logout y pedir login;
-				die ('234');
-			}
-
 			if ($_SESSION['fingerprint'] != $fingerprint) 
 			{
 				// posible robo de sesion!!
@@ -42,11 +35,20 @@ class session
 				die();
 			}
 			
-			if (!isset($_SESSION['noExpire']))
+			if (isset($_SESSION['expirationTime']))
 			{
-				$_SESSION['expirationTime'] = time() + SES_EXPIRATIONTIME;
+				if ($_SESSION['expirationTime'] > time())
+				{
+					// TODO: puede evitar que se mande un mensage, tener en cuenta
+					// Logout y pedir login;
+					die ('234');
+				}
+				else
+				{
+					$_SESSION['expirationTime'] = time() + SES_EXPIRATIONTIME;
+				}
 			}
-		}	
+		}
 	}
 	
 	public static function end()
@@ -68,5 +70,6 @@ class session
 }
 
 
-//session_name();session_id();
+// session_name();
+// session_id();
 ?>

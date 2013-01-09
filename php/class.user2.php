@@ -6,21 +6,26 @@ class User extends Singleton
 	var $username;	//Signed username
 	var $signed;	//Boolean, true = user is signed-in
 	
-	function login()
+	function login($data)
 	{
-		if ($db_hash === hash('sha256', $db_salt.$password))
+		$db = Database::getInstance();
+		$res = $db->query('select id_user, username, password, salt from users where email = ?', $data);
+		if ($res && $hash === hash('sha256', $salt.$password))
 		{
+			
 			
 		}
 	}
 	
 	function register($data)
 	{
-		$salt = '|'.sha256(uniqid(rand().'Smil3', false)); // O incluso mejor si tuviese mayúsculas, minúsculas, caracteres especiales...
-		$hash = hash('sha256', $password.$salt);
-		unset($password);
+		// Para evitar que se pueda averiguar la contraseña.
+		$salt = '|'.sha256(uniqid(rand().'Smil3:)', false)); 
+		$password = hash('sha256', $password.$salt);
 		
 		// Guardar en base de datos el $hash y $salt
+		
+		
 	}
 	
 }
