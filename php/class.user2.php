@@ -55,9 +55,10 @@ class User extends Singleton
 		
 		// Insertar en la base de datos
 		$db = Database::getInstance();
-		$sql = 'INSERT INTO users (username, password, salt, email, name, birthdate, sex, country, city) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);';
-		$arg = array($user);
+		$sql = 'INSERT INTO users (username, password, salt, email, name, birthdate, sex, country) VALUES (?, ?, ?, ?, ?, ?, ?, ?);';
+		$arg = array($username, $password, $salt, $email, $name, $birthdate, $sex, $country);
 		$res = $db->query($sql, $arg);
+		return true;
 	}
 	
 	public function update($data)
