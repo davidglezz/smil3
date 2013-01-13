@@ -10,12 +10,13 @@ y datos pedidos que casi siempre estaran en formato json.
 // Turn off all error reporting
 // error_reporting(0);
 
-require_once('php/config.php');
+require_once('php/autoload.php');
 require_once('php/actions.php');
 
 isset($_GET['do']) OR die('8');
 
-$user->signed OR $_GET['do'] == 'special' OR die('10');
+Session::start();
+User::getInstance()->signed OR $_GET['do'] == 'special' OR die('10');
 
 isset($actions[$_GET['do']]) OR die('9');
 

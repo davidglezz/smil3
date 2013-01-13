@@ -1,6 +1,6 @@
 <?php
 
-class User
+class User_OLD
 {
 	/* PDO / database credentials */
 	var $db = array(
