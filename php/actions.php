@@ -2,25 +2,44 @@
 
 $specialActions['register'] = function()
 {
-	global $user;
-	//Proccess Registration
-
-	count($_POST) OR die('13'); // TODO: count($_POST) == x
-
+	isset($_POST) OR die('13'); // TODO: count($_POST) == x
+	
+	// Se deben aceptar los terminos de uso y de servicio
 	isset($_POST['aceptTOS']) OR die('14');
-	unset($_POST['aceptTOS']);
+	
+	// array con los datos del registro.
+	$data = array();
 
-	$_POST['birthdate'] = $_POST['birthdate_year'].'-'.$_POST['birthdate_month'].'-'.$_POST['birthdate_day'];
-	unset($_POST['birthdate_year']);
-	unset($_POST['birthdate_month']);
-	unset($_POST['birthdate_day']);
+	// Nombre de usuario
+	Validate::string($_POST['username'], array('format' => 'a-zA-Z0-9_', 'min_length' => 3, 'max_length' => 30)) OR die('15');
+	$data['username'] = $_POST['username'];
+	
+	// Contraseña
+	Validate::string($_POST['password'], array('min_length' => 6, 'max_length' => 25)) OR die('16');
+	$data['password'] = $_POST['password'];
+	
+	// Email
+	Validate::email($_POST['email']) OR die('17');
+	$data['email'] = $_POST['email'];
+	
+	// Nombre
+	Validate::string($_POST['name'], array(/*'format' => VALIDATE_EALPHA.VALIDATE_SPACE,*/ 'min_length' => 6, 'max_length' => 75)) OR die('18');
+	$data['name'] = $_POST['name'];
+	
+	// Fecha (YYYY-MM-DD) //TODO verificar que sea mayor de edad
+	$data['birthdate'] = $_POST['birthdate_year'].'-'.$_POST['birthdate_month'].'-'.$_POST['birthdate_day'];
+	Validate::date($data['birthdate'], array('format'=>'%Y-%m-%d')) OR die('19');
+	
+	// Sexo (Male, Female)
+	Validate::string($_POST['sex'], array('format' => 'MF', 'min_length' => 1, 'max_length' => 1)) OR die('20');
+	$data['sex'] = $_POST['sex'];	
+			
+	// Pais (ES)
+	Validate::string($_POST['country'], array('format' => VALIDATE_ALPHA_UPPER, 'min_length' => 2, 'max_length' => 2)) OR die('21');
+	$data['country'] = $_POST['country'];	
 
 	//Register User
-	if (!$user->register($_POST))
-	{
-		var_dump($user->console);
-		die(json_encode($user->error()));
-	}
+	User::getInstance()->register($data) AND die('22');
 
 	// TODO: enviar email de confirmación
 
@@ -30,21 +49,10 @@ $specialActions['register'] = function()
 	
 $specialActions['login'] = function()
 {
-	global $user;
 	//Proccess Login
-	isset($_POST['username']) OR die('15');
-	isset($_POST['password']) OR die('16');
-
-	$auto = isset($_POST['auto']) ? $_POST['auto'] : false;
-		
-	$user->login($_POST['username'], $_POST['password'], $auto);
-	
-	if ($user->has_error())
-	{
-		var_dump($user->console);
-		die(json_encode($user->error()));
-	}
-
+	isset($_POST['username'], $_POST['password']) OR die('25');
+	Validate::string($_POST['username'], array('format' => 'a-zA-Z0-9_', 'min_length' => 3, 'max_length' => 30)) OR die('26');
+	User::getInstance()->login($_POST['username'], $_POST['password']) OR die('27');
 	die('0');
 };
 

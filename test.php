@@ -1,5 +1,5 @@
 <?php
-
+/*
 if (!isset($_SESSION))
 	session_start();
 
@@ -39,5 +39,9 @@ var_dump($_SESSION);
 
 $t->a = 3;
 $t->setB();
-var_dump($_SESSION);
+var_dump($_SESSION);*/
+
+$key = 'hola';
+$value = 'mundo';
+var_dump(array($key => $value));
 ?>
