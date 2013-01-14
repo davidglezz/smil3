@@ -13,7 +13,7 @@ define('DB_PASS', 'smil3');
 class Database extends Singleton
 {
 
-	private $connection;
+	public $connection;
 
 	public function __construct()
 	{
@@ -55,6 +55,7 @@ class Database extends Singleton
 
 		if ($stmt->errorCode() > 0)
 		{
+			//var_dump($stmt->errorInfo());
 			//$error = $stmt->errorInfo();
 			//log("PDO({$error[0]})[{$error[1]}] {$error[2]}");
 			return false;
@@ -71,7 +72,7 @@ class Database extends Singleton
 		//$stmt->closeCursor();
 		//$stmt = null;
 		
-		return $data;
+		return $data;//var_dump($data);
 	}
 
 	public function exec($name, $values = array())

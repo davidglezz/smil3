@@ -1,6 +1,8 @@
 <?php
-include('php/config.php');
+require_once('php/autoload.php');
 
-header("Location: " . (!$user->signed ? 'smil3.htm' : 'login.htm'));
+Session::start();
 
+//header('Location: ' . (User::getInstance()->signed ? 'smil3.htm' : 'login.htm'));
+var_dump($_SESSION);
 ?>
