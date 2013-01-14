@@ -880,18 +880,17 @@ class Validate
      */
     protected static function _multWeights($number, &$weights)
     {
-        if (!is_array($weights)) {
+        if (!is_array($weights))
             return -1;
-        }
+
         $sum = 0;
 
         $count = min(count($weights), strlen($number));
-        if ($count == 0) { // empty string or weights array
+        if ($count == 0)  // empty string or weights array
             return -1;
-        }
-        for ($i = 0; $i < $count; ++$i) {
+        
+        for ($i = 0; $i < $count; ++$i)
             $sum += intval(substr($number, $i, 1)) * $weights[$i];
-        }
 
         return $sum;
     }

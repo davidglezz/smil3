@@ -52,7 +52,7 @@
 								<i class="icon-pencil"></i> Publicar
 							</a>
 							<div id="new_publish" class="dropdown-menu">
-								<textarea name="txt" class="span4" rows="4"></textarea>
+								<textarea name="pub" class="span4" rows="4"></textarea>
 								<button type="submit" class="btn btn-primary">Publicar</button>
 								<button type="button" class="btn">Cancelar</button>
 							</div>
@@ -352,6 +352,7 @@
 				$('body').tooltip({
 					selector: '[rel=tooltip]'
 				});
+				
 				// Loading icon
 				$("#loading").ajaxStart(function(){
 					$(this).show();
@@ -368,7 +369,8 @@
 
 				// publish popup
 				var new_publish = $('#new_publish');
-				
+				var new_publish_btn = new_publish.find('button[type="submit"]');
+				new_publish_btn.button();
 		
 				new_publish.click(function (e) {
 					e.stopPropagation();
@@ -388,22 +390,22 @@
 					
 				});
 		
-				new_publish.find('button[type="submit"]').click(function(e)
+				new_publish_btn.click(function(e)
 				{
+					new_publish_btn.button('Publicando...');
 					$.ajaxSetup({ cache: false });
 			
 					var data = new_publish.find('textarea').serialize();
 			
 					$.post('main.php?do=sendPub', data, function(data, status, jqXHR)
 					{
-						if (data === '0')
-							window.location = 'smil3.htm';
+						console.log('data');
 				
 						$('<div class="alert alert-error span11"><button type="button" class="close" data-dismiss="alert">×</button>'+data+'</div>').appendTo($('.container'));
 					}, 'text')
 					.error(function() { alert("error"); })
 					.complete(function() {
-						regBtn.button('reset');
+						new_publish_btn.button('reset');
 					});
 			
 					new_publish.parent().removeClass('open');
@@ -425,12 +427,13 @@
 				// start
 				$.post('main.php?do=getStartInfo', {}, function(data, status, jqXHR)
 				{
-					if (data === '10')
+					console.log(data);
+					/*if (data === '10')
 					{
 						// TODO Show login
 						window.location = 'login.htm';
 						return;
-					}
+					}*/
 
 					//$('<div class="container alert alert-error span11"><button type="button" class="close" data-dismiss="alert">×</button>'+data+'</div>').appendTo($('body'));
 
@@ -470,6 +473,36 @@
 
 		
 			});
+			
+	var activeList = 0;
+			
+	var uptade = function()
+	{
+		$.post('main.php?do=getPub', {}, function(data, status, jqXHR)
+			{
+				console.log(data);
+				/*if (data === '10')
+				{
+					// TODO Show login
+					window.location = 'login.htm';
+					return;
+				}*/
+
+				//$('<div class="container alert alert-error span11"><button type="button" class="close" data-dismiss="alert">×</button>'+data+'</div>').appendTo($('body'));
+
+				data = jQuery.parseJSON(data);
+				console.log(data);
+				$('#username').text(data.name)
+
+
+
+
+			}, 'text')
+			.error(function() { alert("error"); })
+			.complete(function() {	});
+	}
+			
+	var updateTimer = setInterval(update, 30000);
 			
 
 		</script>

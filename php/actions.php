@@ -39,7 +39,7 @@ $specialActions['register'] = function()
 	$data['country'] = $_POST['country'];	
 
 	//Register User
-	User::getInstance()->register($data) AND die('22');
+	User::getInstance()->register($data) OR die('22');
 
 	// TODO: enviar email de confirmación
 
@@ -49,7 +49,6 @@ $specialActions['register'] = function()
 	
 $specialActions['login'] = function()
 {
-	//Proccess Login
 	isset($_POST['username'], $_POST['password']) OR die('25');
 	Validate::string($_POST['username'], array('format' => 'a-zA-Z0-9_', 'min_length' => 3, 'max_length' => 30)) OR die('26');
 	User::getInstance()->login($_POST['username'], $_POST['password']) OR die('27');
@@ -58,22 +57,21 @@ $specialActions['login'] = function()
 
 $specialActions['activate'] = function()
 {
-	global $user;
-	count($_POST) OR die('20');
-	isset($_POST['c']) OR die('21');
+	isset($_GET, $_GET['c']) OR die('30');
+	
+	$hash = $_GET['c'];
+	unset($_GET['c']);
+	
+	Validate::string($hash, array('format' => VALIDATE_ALPHA.VALIDATE_NUM, 'min_length' => 1, 'max_length' => 1)) OR die('31');
 
-	$hash = $_POST['c'];
-	unset($_POST['c']);
+	User::getInstance()->activate($hash) OR die('32');
 
-	// Activar cuenta
-	$user->activate($hash);
 	die('0');
 };
 
 $specialActions['resetPasswd'] = function()
 {
-	global $user;
-	count($_POST) OR die('17');
+	isset($_POST) OR die('40');
 
 	$res = $user->pass_reset($_POST['email']);
 		
@@ -134,8 +132,7 @@ $actions['special'] = function()
 
 $actions['logout'] = function()
 {
-	global $user;
-	$user->logout();
+	User::getInstance()->logout();
 	die('0');
 };
 		
@@ -154,11 +151,12 @@ $actions['changePasswd'] = function()
 
 $actions['userUpdate'] = function()
 {
-	global $user;
+	$user = User::getInstance();
+	
 	//Proccess Update
 	count($_POST) OR die('19');
 		
-	foreach($_POST as $name=>$val)
+	foreach($_POST as $name => $val)
 		if($user->data[$name] == $val)
 			unset($_POST[$name]);
 
@@ -176,15 +174,11 @@ $actions['userUpdate'] = function()
 
 $actions['getStartInfo'] = function()
 {
-	global $user;
-	$data = $user->data;
-	unset($data['password']);
-	unset($data['activated']);
-	unset($data['confirmation']);
-	unset($data['signed']);
-
-	// TODO: Mensages, otras notificaciones
-
+	$user = User::getInstance();
+	
+	$data['user'] = array($user->id, $user->username, $user->name);
+	$data['msgs'] = 0;
+	$data['notif'] = 0;
 
 	die(json_encode($data)); 
 	
@@ -203,7 +197,7 @@ $actions['getPub'] = function()
 	
 	$txt = $_POST['$txt'];
 	
-	$sql = 'INSERT INTO publications (user, text) VALUES ( ?,  ?);';
+	$sql = 'SELECT publications (user, text) VALUES ( ?,  ?);';
 	$params =  array(4, $txt);
 			
 	$db->query($sql, $params);
@@ -217,18 +211,12 @@ $actions['delPub'] = function()
 
 $actions['sendPub'] = function()
 {
-	global $user;
-	//$a = stripslashes($b);
-	// strip_tags();
-	isset($_POST['$txt']) OR die('111');
-	$sql = 'INSERT INTO publications (user, text) VALUES ( ?,  ?);';
-	$txt = htmlspecialchars(mysql_real_escape_string($_POST['$txt']));
-	$id_user = $user->id;
-	
-	
-	$params =  array($id_user, $txt);
-			
-	$db->query($sql, $params);
+	isset($_POST['pub']) OR die('60');
+	$user = User::getInstance();
+	$sql = 'INSERT INTO publications (user, text, time) VALUES ( ?,  ?, ?);';
+	$pub = htmlspecialchars($_POST['pub']);
+	$params =  array($user->id, $pub, time());	
+	Database::getInstance()->query($sql, $params);
 	die('0');
 };
 

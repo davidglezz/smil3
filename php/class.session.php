@@ -7,7 +7,7 @@
 define('SES_EXPIRATIONTIME', '1000'); // ~16.6 min 
 
 
-class session
+class Session
 {
     
 	public static function start()
