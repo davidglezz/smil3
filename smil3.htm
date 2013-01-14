@@ -48,7 +48,7 @@
 
 					<ul class="nav pull-right">
 						<li class="dropdown">
-							<a href="#publish" class="dropdown-toggle" data-toggle="dropdown">
+							<a href="#publish">
 								<i class="icon-pencil"></i> Publicar
 							</a>
 							<div id="new_publish" class="dropdown-menu">
@@ -328,6 +328,11 @@
 				<h1>Listas</h1>
 				<div id="list">Cargando...</div>
 			</div>
+			
+			<div class="tab-pane" id="about">
+				<h1>SMIL3</h1>
+				<div id="list">Smil3 es una red social para el proyecto ...</div>
+			</div>
 
 			<hr />
 
@@ -363,6 +368,7 @@
 
 				// publish popup
 				var new_publish = $('#new_publish');
+				
 		
 				new_publish.click(function (e) {
 					e.stopPropagation();
@@ -370,8 +376,16 @@
 		
 				new_publish.parent().find('a').click(function(e)
 				{
-					// TODO: fix
+					new_publish.parent().addClass('open');
 					new_publish.find('textarea').focus();
+					
+					$('body').on('click', function(){
+						// FIX: 
+						//new_publish.parent().removeClass('open');
+						
+					});
+					
+					
 				});
 		
 				new_publish.find('button[type="submit"]').click(function(e)
