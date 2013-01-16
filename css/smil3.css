@@ -1,3 +1,15 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,300,400,700,600);
+/* MAIN APP */
+body {
+	padding-top: 60px;
+	font-family: 'Open Sans', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-weight: 300;
+}
+
+
 body.radialbg {
 	background-color: #97CAF3; /* rgba(82, 168, 236, 0.6); */
 	background-image: -moz-radial-gradient(50% 50%, circle cover, #fff, #97CAF3 100%);
@@ -14,8 +26,6 @@ textarea[readonly] {
 }
 
 
-
-
 /* LOGIN FORM */
 .form-signin {
 	width: 300px;
@@ -30,12 +40,6 @@ textarea[readonly] {
 	padding: 7px 9px;
 }
 
-
-
-/* MAIN APP */
-body {
-	padding-top: 60px;
-}
 
 /* navbar */
 .navbar-fixed-top .navbar-inner,

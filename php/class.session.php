@@ -9,13 +9,16 @@ define('SES_EXPIRATIONTIME', '1000'); // ~16.6 min
 
 class Session
 {
-    
 	public static function start()
 	{
-		$fingerprint = md5($_SERVER['REMOTE_ADDR'].$_SERVER['HTTP_USER_AGENT']);
 		if (!isset($_SESSION))
-		{
 			session_start();
+			
+		$fingerprint = md5($_SERVER['REMOTE_ADDR'].$_SERVER['HTTP_USER_AGENT']);
+		
+		if (!isset($_SESSION['fingerprint']))
+		{
+			//var_dump('Creando sesion');
 			session_regenerate_id(true);
 			$_SESSION['fingerprint'] = $fingerprint;
 			$_SESSION['expirationTime'] = time() + SES_EXPIRATIONTIME;
@@ -37,7 +40,7 @@ class Session
 			
 			if (isset($_SESSION['expirationTime']))
 			{
-				if ($_SESSION['expirationTime'] > time())
+				if ($_SESSION['expirationTime'] < time())
 				{
 					// TODO: puede evitar que se mande un mensage, tener en cuenta
 					// Logout y pedir login;

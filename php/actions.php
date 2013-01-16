@@ -242,7 +242,17 @@ $actions['sendMsg'] = function()
 
 /*  **************************************/
 
-$actions['setProfilePhoto'] = function()
+$actions['updatePhoto'] = function()
+{
+	empty($_FILES) AND die('30');
+	$path = $_SERVER['DOCUMENT_ROOT'] . '/user/'. $user->username . 'jpg';
+	move_uploaded_file($_FILES['Filedata']['tmp_name'], $path) OR die('31');
+
+	die('0');
+};
+
+
+$actions['getProfile'] = function()
 {
 	empty($_FILES) AND die('30');
 	$path = $_SERVER['DOCUMENT_ROOT'] . '/user/'. $user->username . 'jpg';
