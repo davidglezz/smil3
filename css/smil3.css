@@ -38,6 +38,14 @@ h1, h2, h3, .brand {
 	margin-left: 100px;
 }
 
+.navbar .nav.pull-right {
+	margin-left: 0;
+}
+
+.navbar .search-input {
+	margin-top: 5px;
+}
+
 body.radialbg {
 	background-color: #97CAF3; /* rgba(82, 168, 236, 0.6); */
 	background-image: -moz-radial-gradient(50% 50%, circle cover, #fff, #97CAF3 100%);
