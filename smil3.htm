@@ -27,24 +27,39 @@
 				<div class="container">
 					<a class="brand" href="#start">Smil3</a>
 					<ul class="nav">
-						<li><a href="#start" data-toggle="tab">
+						<li class="active">
+							<a href="#start" data-toggle="tab">
 								<i class="icon-home"></i> Inicio
-							</a></li>
-						<li class="active"><a href="#profile" data-toggle="tab">
+							</a>
+						</li>
+						<li>
+							<a href="#profile" data-toggle="tab">
 								<i class="icon-user"></i> Perfil
-							</a></li>
-						<li><a href="#messages" data-toggle="tab">
+							</a>
+						</li>
+						<li>
+							<a href="#messages" data-toggle="tab">
 								<i class="icon-envelope"></i> Mensajes
 								<span class="badge">4</span>
-							</a></li>
-					</ul>
+							</a>
+						</li>
+						<li>
+							<a href="#notifications" data-toggle="tab">
+								<i class="icon-bell"></i> Notificaciones
+								<span class="badge">12</span>
+							</a>
+						</li>
 
-					<form class="nav form-search input-append">
-						<div class="input-append">
+						<li class="divider-vertical"></li>
+
+						<li>
+							<!--<form class="navbar-search pull-left">
+								<input type="text" class="search-query" placeholder="Search">
+							</form>-->
 							<input class="search-input search-query" type="text" id="search-query" placeholder="Buscar" name="q" autocomplete="off" spellcheck="false" data-focus="false" />
-							<button type="submit" class="btn"><i class="icon-search"></i></button>
-						</div>
-					</form>
+						</li>
+						<li class="divider-vertical"></li>
+					</ul>
 
 					<ul class="nav pull-right">
 						<li class="dropdown">
@@ -63,7 +78,7 @@
 								<i class="icon-wrench"></i> <span id="username">Jonh Doe</span> <b class="caret"></b></a>
 							<ul class="dropdown-menu">
 								<li><a href="#profilemod"><i class="icon-check"></i> Modificar perfil</a></li>
-								<li><a href="#editList"><i class="icon-list-alt" data-toggle="tab"></i> Editar listas y amigos</a></li>
+								<li><a href="#prueba"><i class="icon-list-alt" data-toggle="tab"></i> Editar listas y amigos</a></li>
 								<li><a href="#acountmod"><i class="icon-cog"></i> Modificar cuenta</a></li>
 								<li class="divider"></li>
 								<li><a href="#help"><i class="icon-question-sign"></i> Ayuda</a></li>
@@ -324,15 +339,19 @@
 				</div>
 			</div>
 
-			<div class="tab-pane" id="editList">
-				<h1>Listas</h1>
-				<div id="list">Cargando...</div>
+
+			<div class="tab-pane" id="prueba">
+				<div class="page-header">
+					<h1>Listas</h1>
+				</div>
+				<div class="row">
+					<div class="span4">1</div>
+					<div class="span1">2</div>
+					<div class="span4">3</div>
+				</div>
 			</div>
-			
-			<div class="tab-pane" id="about">
-				<h1>SMIL3</h1>
-				<div id="list">Smil3 es una red social para el proyecto ...</div>
-			</div>
+
+
 
 			<hr />
 
@@ -381,13 +400,10 @@
 					new_publish.parent().addClass('open');
 					new_publish.find('textarea').focus();
 					
-					$('body').on('click', function(){
-						// FIX: 
-						//new_publish.parent().removeClass('open');
-						
+					$('body').on('click', function() {
+						new_publish.parent().removeClass('open');
 					});
-					
-					
+					e.stopPropagation();
 				});
 		
 				new_publish_btn.click(function(e)
@@ -468,42 +484,37 @@
 						handleError(jqXHR);
 					}
 				});
-				*/
+				 */
 
 
 		
 			});
 			
-	var activeList = 0;
+			/*
+			var activeList = 0;
 			
-	var uptade = function()
-	{
-		$.post('main.php?do=getPub', {}, function(data, status, jqXHR)
+			var uptade = function()
 			{
-				console.log(data);
-				/*if (data === '10')
+				$.post('main.php?do=getPub', {}, function(data, status, jqXHR)
 				{
-					// TODO Show login
-					window.location = 'login.htm';
-					return;
-				}*/
+					console.log(data);
+				
+					//$('<div class="container alert alert-error span11"><button type="button" class="close" data-dismiss="alert">×</button>'+data+'</div>').appendTo($('body'));
 
-				//$('<div class="container alert alert-error span11"><button type="button" class="close" data-dismiss="alert">×</button>'+data+'</div>').appendTo($('body'));
-
-				data = jQuery.parseJSON(data);
-				console.log(data);
-				$('#username').text(data.name)
+					data = jQuery.parseJSON(data);
+					console.log(data);
+					$('#username').text(data.name)
 
 
 
 
-			}, 'text')
-			.error(function() { alert("error"); })
-			.complete(function() {	});
-	}
+				}, 'text')
+				.error(function() { alert("error"); })
+				.complete(function() {	});
+			}
 			
-	var updateTimer = setInterval(update, 30000);
-			
+			var updateTimer = setInterval(update, 30000);
+			 */
 
 		</script>
 		<!--<script src="js/feedback.js"></script>-->
