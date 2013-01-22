@@ -28,23 +28,23 @@
 					<a class="brand" href="#start">Smil3</a>
 					<ul class="nav">
 						<li class="active">
-							<a href="#start" data-toggle="tab">
+							<a href="#start">
 								<i class="icon-home"></i> Inicio
 							</a>
 						</li>
 						<li>
-							<a href="#profile" data-toggle="tab">
+							<a href="#profile">
 								<i class="icon-user"></i> Perfil
 							</a>
 						</li>
 						<li>
-							<a href="#messages" data-toggle="tab">
+							<a href="#messages">
 								<i class="icon-envelope"></i> Mensajes
 								<span class="badge">4</span>
 							</a>
 						</li>
 						<li>
-							<a href="#notifications" data-toggle="tab">
+							<a href="#notifications">
 								<i class="icon-bell"></i> Notificaciones
 								<span class="badge">12</span>
 							</a>
@@ -78,7 +78,7 @@
 								<i class="icon-wrench"></i> <span id="username">Jonh Doe</span> <b class="caret"></b></a>
 							<ul class="dropdown-menu">
 								<li><a href="#profilemod"><i class="icon-check"></i> Modificar perfil</a></li>
-								<li><a href="#prueba"><i class="icon-list-alt" data-toggle="tab"></i> Editar listas y amigos</a></li>
+								<li><a href="#prueba"><i class="icon-list-alt"></i> Editar listas y amigos</a></li>
 								<li><a href="#acountmod"><i class="icon-cog"></i> Modificar cuenta</a></li>
 								<li class="divider"></li>
 								<li><a href="#help"><i class="icon-question-sign"></i> Ayuda</a></li>
@@ -362,7 +362,9 @@
 		<div id="loading" class="push-loader alert">Cargando...</div>
 
 		<script src="js/jquery-1.8.2.min.js"></script> 
-		<script src="js/bootstrap.min.js"></script> 
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/jquery.history.js"></script>
+		<script src="js/staterouter.js"></script> 
 		<script src="js/smil3.js"></script>
 		<script>
 
@@ -438,12 +440,30 @@
 						window.location = 'login.htm';
 					});
 				});
-
+				
+				var pathFn = {
+					'home' : function(){console.log('home')},
+					'profile' : function(){console.log('profile')},
+					'profiles' : function(){console.log('profiles')},
+					'messages' : function(){console.log('messages')}
+				};
+				
+				// ROUTER
+				var router = new staterouter.Router();
+				
+				router.route('/', pathFn.home)
+				router.route('/profile', pathFn.profile);
+				router.route('/profile/:id', pathFn.profiles);
+				router.route('/messages', pathFn.messages);
+				
+				//router.navigate('/');
+				router.perform();
+				router.navigate('/persons');
 
 				// start
 				$.post('main.php?do=getStartInfo', {}, function(data, status, jqXHR)
 				{
-					console.log(data);
+					//console.log(data);
 					/*if (data === '10')
 					{
 						// TODO Show login
@@ -453,9 +473,9 @@
 
 					//$('<div class="container alert alert-error span11"><button type="button" class="close" data-dismiss="alert">×</button>'+data+'</div>').appendTo($('body'));
 
-					data = jQuery.parseJSON(data);
-					console.log(data);
-					$('#username').text(data.name)
+					//data = jQuery.parseJSON(data);
+					//console.log(data);
+					//$('#username').text(data.name)
 
 
 			

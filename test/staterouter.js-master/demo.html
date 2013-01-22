@@ -1,0 +1,78 @@
+<html>
+	<head>
+		<title></title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<style>
+			#body {
+				margin-top: 20px;
+				margin-left: 20px;
+			}
+			h1 {
+				font-size: 30px;
+				margin-bottom: 10px;
+			}
+			.red {
+				color: red;
+			}
+			.blue {
+				color: blue;
+			}
+		</style>
+	</head>
+	<body>
+		<h1 id="heading">Heading</h1>
+		<div id="content"></div>
+		
+		<script src="staterouter.js-master/jquery.history.js"></script>
+		<script src="staterouter.js-master/staterouter.js"></script> 
+		<script>
+			var persons = ['John Doe', 'Jane Doe'];
+			var colours = ['blue', 'red'];
+			var lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vel augue sed mauris mattis posuere vitae at nisl. Praesent lacinia, nibh in laoreet convallis, libero enim elementum turpis, sit amet consequat nunc erat sed magna. Fusce facilisis venenatis tempus. Mauris dictum suscipit tempus. Suspendisse metus ligula, malesuada in tempor sed, placerat non nunc. Vivamus sed magna justo, at interdum libero. Aenean tristique, purus eu aliquet rutrum, lorem nisl auctor velit, ut volutpat sem velit vitae lorem. Nulla augue lectus, placerat non ultrices eget, pretium sit amet risus. Pellentesque scelerisque purus sit amet tellus ultrices sed tincidunt nunc ornare. Morbi ultricies fringilla pellentesque. Nam eu erat id felis porttitor sollicitudin in nec ligula. In tempor nulla non dolor dapibus nec porttitor est fringilla. Nulla facilisis scelerisque lorem sit amet congue. Proin eu auctor leo.';
+
+			function getHomePage() {
+				$('#heading').html('Welcome to the Homepage');
+				$('#content').html(lorem);
+			}
+
+			function getPersons() {
+				$('#heading').html('The Directory of Persons');
+				var list = $('#content').html('<ul></ul>');
+				$.each(persons, function (id) {
+					list.append('<li>' + persons[id] + '</li>');
+				});
+			}
+
+			function getPerson(id) {
+				var person = persons[id];
+				$('#heading').html('Welcome to the Page of <i>' + person + '</i>');
+				$('#content').html('<p>' + lorem + '</p>');
+				$('#content').attr('class', colours[id]);
+			}
+
+			function goodbye() {
+				$('#heading').html('Goodbye');
+				$('#content').html('We hope you liked this demonstration; to try for yourself, grab <a href="https://github.com/aknuds1/staterouter.js">StateRouter.js</a> and get coding!');
+				$('#content').attr('class', '');
+			}
+
+			var router = new staterouter.Router();
+			router.route('/', getHomePage).route('/persons', getPersons).route('/persons/:id', getPerson).route('/goodbye', goodbye);
+			router.navigate('/');
+
+			function loadNext(url) {
+				$('#body').queue(function (next) {
+					setTimeout(function () {
+						router.navigate(url);
+						next();
+					}, 3000);
+				});
+			}
+
+			loadNext('/persons');
+			loadNext('/persons/0');
+			loadNext('/persons/1');
+			loadNext('/goodbye');
+		</script>
+	</body>
+</html>
