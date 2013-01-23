@@ -8,8 +8,9 @@ Se encarga de gestionar los errores
 
 define('DEBUG');
 
-class Database
+class error
 {
+
 
 
 }
