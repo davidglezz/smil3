@@ -25,26 +25,26 @@
 		<div class="navbar navbar-fixed-top">
 			<div class="navbar-inner">
 				<div class="container">
-					<a class="brand" href="#start">Smil3</a>
+					<a class="brand" href="/">Smil3</a>
 					<ul class="nav">
 						<li class="active">
-							<a href="#start">
+							<a href="/">
 								<i class="icon-home"></i> Inicio
 							</a>
 						</li>
 						<li>
-							<a href="#profile">
+							<a href="/profile">
 								<i class="icon-user"></i> Perfil
 							</a>
 						</li>
 						<li>
-							<a href="#messages">
+							<a href="/messages">
 								<i class="icon-envelope"></i> Mensajes
 								<span class="badge">4</span>
 							</a>
 						</li>
 						<li>
-							<a href="#notifications">
+							<a href="/notifications">
 								<i class="icon-bell"></i> Notificaciones
 								<span class="badge">12</span>
 							</a>
@@ -441,24 +441,81 @@
 					});
 				});
 				
-				var pathFn = {
-					'home' : function(){console.log('home')},
-					'profile' : function(){console.log('profile')},
-					'profiles' : function(){console.log('profiles')},
-					'messages' : function(){console.log('messages')}
-				};
 				
 				// ROUTER
-				var router = new staterouter.Router();
 				
-				router.route('/', pathFn.home)
+				$('a').click(function(e) {
+					var $this = $(this),
+						url = $this.attr('href');
+						
+					if (url[0] !== '/')
+						return;
+					
+					router.navigate(url);
+					
+					e.preventDefault();
+					//e.stopPropagation();
+					return false;
+				});
+				
+				
+				var routes = {
+					'/' : function(){
+						console.log('home')
+					},
+					
+					'/profile' : function(){
+						console.log('profile')
+					},
+					
+					'/profile/:id' : function(p){
+						console.log('profiles',p)
+					},
+					
+					'/messages' : function(){
+						console.log('messages')
+					},
+
+					'/messages/:id': function(){
+					},
+					
+					'/notifications': function(){
+					},
+					
+					'/login': function(){
+					},
+					
+					'/configs': function(){
+					},
+					
+					'/register': function(){
+					},
+					
+					'/ForgotPassword': function(){
+					}
+				};
+
+				//$this.parent().addClass('active');
+				
+				var router = new staterouter(routes);
+				
+				/*router.route('/', pathFn.home)
 				router.route('/profile', pathFn.profile);
-				router.route('/profile/:id', pathFn.profiles);
+				router.route('/profile/:id', pathFn.profileOf);
 				router.route('/messages', pathFn.messages);
+				router.route('/messages/:id', pathFn.messageOf);
+				router.route('/notifications', pathFn.notifications);
+				router.route('/', pathFn.home)
+				router.route('/', pathFn.home)
 				
-				//router.navigate('/');
+				router.route()
+				router.route('/register', pathFn.home)
+				router.route('/ForgotPassword', pathFn.home)
+				*/
 				router.perform();
-				router.navigate('/persons');
+				router.navigate('/profile/david');
+				 
+
 
 				// start
 				$.post('main.php?do=getStartInfo', {}, function(data, status, jqXHR)
