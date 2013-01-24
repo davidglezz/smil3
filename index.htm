@@ -10,11 +10,6 @@
 		<link href="css/smil3.css" rel="stylesheet" />
 		<link href="css/bootstrap-responsive.css" rel="stylesheet" />
 
-		<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-		<!--[if lt IE 9]>
-			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
-		<![endif]-->
-
 		<link rel="shortcut icon" href="images/favicon.ico" />
 		<link rel="apple-touch-icon" href="images/apple-touch-icon.png" />
 		<link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png" />
@@ -22,6 +17,72 @@
 	</head>
 
 	<body class="loading">
+		
+		<div id="loadingMsg" class="center show">
+			<h1>Cargando ...</h1>
+		</div>
+		
+
+		<div id="login" class="fullscreen radialbg">
+			<form id="loginForm" method="post" action="main.php?do=special&amp;that=login">
+				<div class="modal form-signin">
+					<div class="modal-header">
+						<h3>Identifícate</h3>
+					</div>
+					<div class="modal-body">
+						<input type="text" class="input-block-level" name="username" placeholder="Usuario" autofocus required />
+						<input type="password" name="password" class="input-block-level" placeholder="Contraseña" required/>
+						<label class="checkbox">
+							<input type="checkbox" value="remember" /> Recordar datos
+						</label>
+					</div>
+					<div class="modal-footer">
+						<input type="submit" class="btn btn-large btn-primary" value="Iniciar sesion" data-loading-text="Enviando..." />
+					</div>
+				</div>
+			</form>	
+		</div>
+
+
+		<div id="lostPasswd" class="fullscreen radialbg">
+			<div class="modal">
+				<div class="modal-header">
+					<h3>Recuperar contraseña</h3>
+				</div>
+				<div class="modal-body" style="max-height:initial">
+					<form class="form-horizontal">
+						<div class="control-group">
+							<label class="control-label" for="umail">E-mail o Usuario</label>
+							<div class="controls">
+								<input type="text" class="input-xlarge" id="umail">
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="instructions">Instrucciones</label>
+							<div class="controls">
+								<textarea class="input-xlarge" id="instructions" rows="5" readonly="readonly">
+Recibirás un email con un enlace de confirmación. Una vez confirmes el sistema generar una contraseña aleatoria y te la enviara a tu correo electronico. Se recomienda cambiarla por una mas fácil de recordar. Si no recibes el email, acuérdate de mirar en la bandeja de spam.Reciviras un email con un enlace de confirmacion. Una vez confirmes el sistema generar una contraseña aleatoria y te la enviara a tu email. Se recomienda cambiarla por una mas fácil de recordar. Si no recibes el email, acuérdate de mirar en la bandeja del spam.</textarea>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="aceptIns"></label>
+							<div class="controls">
+								<label class="checkbox">
+									<input type="checkbox" id="aceptIns" value="aceptIns">
+									He leído las instrucciones
+								</label>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<a href="index.htm" class="btn">Cancelar</a>
+					<a href="#" class="btn btn-primary">Recuperar contraseña</a>
+				</div>
+			</div>
+		</div>
+
+
 		<div class="navbar navbar-fixed-top">
 			<div class="navbar-inner">
 				<div class="container">
@@ -90,9 +151,9 @@
 			</div>
 		</div>
 
-		<div class="tab-content container">
+		<div id="main-content" class="tab-content container">
 
-			<div class="tab-pane active" id="start">
+			<div class="tab-pane" id="home">
 				<div class="btn-group pull-right">
 					<button class="btn"><i class="icon-th-list"></i></button>
 					<button class="btn"><i class="icon-th-large"></i></button>
@@ -364,7 +425,8 @@
 		<script src="js/jquery-1.8.2.min.js"></script> 
 		<script src="js/bootstrap.min.js"></script>
 		<script src="js/jquery.history.js"></script>
-		<script src="js/staterouter.js"></script> 
+		<script src="js/staterouter.js"></script>
+		<script src="js/jstorage.js"></script> 
 		<script src="js/smil3.js"></script>
 		<script>
 
@@ -446,7 +508,7 @@
 				
 				$('a').click(function(e) {
 					var $this = $(this),
-						url = $this.attr('href');
+					url = $this.attr('href');
 						
 					if (url[0] !== '/')
 						return;
@@ -459,13 +521,23 @@
 				});
 				
 				
+				var changeTab = function(name)	{
+					$('#main-content > .active').removeClass('active');
+					$('li.active > a[href^="/"]').parent().removeClass('active');
+					$('#' + name).addClass('active');
+					$('a[href="/' + name + '"]').parent().addClass('active');
+				};
+				
 				var routes = {
 					'/' : function(){
-						console.log('home')
+						$('#main-content > .active').removeClass('active');
+						$('li.active > a[href^="/"]').parent().removeClass('active');
+						$('#home').addClass('active');
+						$('a[href="/"]').parent().addClass('active');
 					},
 					
 					'/profile' : function(){
-						console.log('profile')
+						changeTab('profile');
 					},
 					
 					'/profile/:id' : function(p){
@@ -473,7 +545,7 @@
 					},
 					
 					'/messages' : function(){
-						console.log('messages')
+						changeTab('messages');
 					},
 
 					'/messages/:id': function(){
@@ -495,25 +567,11 @@
 					}
 				};
 
-				//$this.parent().addClass('active');
-				
 				var router = new staterouter(routes);
-				
-				/*router.route('/', pathFn.home)
-				router.route('/profile', pathFn.profile);
-				router.route('/profile/:id', pathFn.profileOf);
-				router.route('/messages', pathFn.messages);
-				router.route('/messages/:id', pathFn.messageOf);
-				router.route('/notifications', pathFn.notifications);
-				router.route('/', pathFn.home)
-				router.route('/', pathFn.home)
-				
-				router.route()
-				router.route('/register', pathFn.home)
-				router.route('/ForgotPassword', pathFn.home)
-				*/
+	
 				router.perform();
-				router.navigate('/profile/david');
+				
+				//router.navigate('/profile');
 				 
 
 
