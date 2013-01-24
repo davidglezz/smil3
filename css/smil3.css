@@ -12,6 +12,10 @@ body {
 	/*font-family: 'Open Sans', sans-serif;*/
 }
 
+body > div {
+	display: none;
+}
+
 h1, h2, h3, .brand {
 	font-family: "Myriad Pro Lite", "Helvetica Neue", Helvetica, Arial, sans-serif;;
 	font-weight: 300;
@@ -46,7 +50,7 @@ h1, h2, h3, .brand {
 	margin-top: 5px;
 }
 
-body.radialbg {
+.radialbg {
 	background-color: #97CAF3; /* rgba(82, 168, 236, 0.6); */
 	background-image: -moz-radial-gradient(50% 50%, circle cover, #fff, #97CAF3 100%);
 	background-image: -webkit-radial-gradient(50% 50%, circle cover, #fff, #97CAF3 100%);
@@ -54,6 +58,26 @@ body.radialbg {
 	background-image: -ms-radial-gradient(50% 50%, circle cover, #fff, #97CAF3 100%);
 	background-image: radial-gradient(50% 50%, circle cover, #fff, #97CAF3 100%);
 	background-attachment: fixed;
+}
+
+.fullscreen {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+}
+
+.center {
+	position: fixed;
+	top: 50%;
+	left: 0;
+	width: 100%;
+	text-align: center;
+	margin-top: -100px;
 }
 
 textarea[readonly] {
@@ -129,14 +153,6 @@ textarea[readonly] {
 */
 
 .overlay {
-	position: fixed;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	width: 100%;
-	height: 100%;
-	z-index: 1048;
 	cursor: default;
 	background-color: white;
 	/*opacity: .75;*/
