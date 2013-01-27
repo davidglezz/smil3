@@ -209,7 +209,7 @@ $actions['delPub'] = function()
 	// TODO
 };
 
-$actions['sendPub'] = function()
+$actions['publish'] = function()
 {
 	isset($_POST['pub']) OR die('60');
 	$user = User::getInstance();

@@ -4,7 +4,7 @@
  * Session class
  */
 
-define('SES_EXPIRATIONTIME', '1000'); // ~16.6 min 
+define('SES_EXPIRATIONTIME', '10000'); // ~16.6 min * 10
 
 
 class Session

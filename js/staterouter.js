@@ -1,7 +1,7 @@
 
 "use strict";
 
-var staterouter = function(constRoutes) {
+var Staterouter = function(theRoutes) {
 	
 	function normalizePath(path) { // comprobar que nunca es llamada esta funcion
 		if (path[0] !== '/') {
@@ -12,7 +12,7 @@ var staterouter = function(constRoutes) {
 	}
 	
 	var self = this;
-	self.routes = constRoutes || {};
+	self.routes = theRoutes || {};
 
 	self.route = function (path, func) {
 		self.routes[normalizePath(path)] = func;
