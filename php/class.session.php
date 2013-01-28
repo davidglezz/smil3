@@ -43,6 +43,7 @@ class Session
 				if ($_SESSION['expirationTime'] < time())
 				{
 					// TODO: puede evitar que se mande un mensage, tener en cuenta
+					// EVITA QUE SE PUEDA LOGEAR
 					// Logout y pedir login;
 					die ('234');
 				}
