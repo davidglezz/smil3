@@ -245,8 +245,10 @@ $actions['sendMsg'] = function()
 $actions['updatePhoto'] = function()
 {
 	empty($_FILES) AND die('30');
-	$path = $_SERVER['DOCUMENT_ROOT'] . '/user/'. $user->username . 'jpg';
-	move_uploaded_file($_FILES['Filedata']['tmp_name'], $path) OR die('31');
+	$username = User::getInstance()->username;
+	$path = $_SERVER['DOCUMENT_ROOT'] . '/user/'. $username . '.jpg';
+	$_FILES['file']['error'] AND die('31');
+	move_uploaded_file($_FILES['file']['tmp_name'], $path) OR die('32');
 
 	die('0');
 };
@@ -254,11 +256,7 @@ $actions['updatePhoto'] = function()
 
 $actions['getProfile'] = function()
 {
-	empty($_FILES) AND die('30');
-	$path = $_SERVER['DOCUMENT_ROOT'] . '/user/'. $user->username . 'jpg';
-	move_uploaded_file($_FILES['Filedata']['tmp_name'], $path) OR die('31');
 
-	die('0');
 };
 
 
