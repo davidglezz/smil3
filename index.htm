@@ -46,7 +46,7 @@
 		</div>
 
 
-		<div id="lostPasswd" class="fullscreen radialbg">
+		<div id="forgotPassword" class="fullscreen radialbg">
 			<div class="modal">
 				<div class="modal-header">
 					<h3>Recuperar contraseña</h3>
@@ -830,10 +830,10 @@ Recibirás un email con un enlace de confirmación. Una vez confirmes el sistema
 						if (data === '0')
 						{
 							$('#login input[type="text"], #login input[type="password"]').val('');
+							app.getStartInfo();
 							var goTo = app.dest || '/';
 							app.dest = null;
 							app.router.navigate(goTo);
-							
 						}
 						else
 						{
@@ -934,11 +934,11 @@ Recibirás un email con un enlace de confirmación. Una vez confirmes el sistema
 				},
 				
 				'/register': function(){
-					app.currView.hide();
-					app.currView = $('#register').show();
+					app.chView($('#register'));
 				},
 					
-				'/ForgotPassword': function(){
+				'/forgotPassword': function(){
+					app.chView($('#forgotPassword'));
 				}
 			};
 
@@ -1009,11 +1009,16 @@ Recibirás un email con un enlace de confirmación. Una vez confirmes el sistema
 					popup.parent().removeClass('open');
 				});
 			}
-	
-			var initApp = function()
+			
+			var getRoute = function()
 			{
-				app.router = new Staterouter(app.routes);
-				
+				var link = document.createElement("a");
+				link.href = History.getState().url;
+				return link.pathname;
+			}
+			
+			app.getStartInfo = function()
+			{
 				$.post('main.php?do=getStartInfo', {}, function(data, status, jqXHR)
 				{
 					if (data === '10' || data === '234')
@@ -1022,9 +1027,7 @@ Recibirás un email con un enlace de confirmación. Una vez confirmes el sistema
 							app.alert.show('La sesion ha caducado.');
 
 						// Obtenemos la direccion a la que se queria acceder y la guardamos para ir despues de identificarse.
-						var link = document.createElement("a");
-						link.href = History.getState().url;
-						app.dest = link.pathname;
+						app.dest = getRoute();
 						app.router.navigate('/login');
 						return;
 					}
@@ -1040,7 +1043,15 @@ Recibirás un email con un enlace de confirmación. Una vez confirmes el sistema
 				}, 'text')
 				.error(function() { console.warn('Error de conexion'); })
 				.complete(function() {	});
+			}
+	
+			var initApp = function()
+			{
+				app.router = new Staterouter(app.routes);
+				
+				// TODO: comprobar si se quiere acceder a una pagina que no hace falta estar identificado.
 
+				app.getStartInfo()
 			}
 			
 		
