@@ -1,0 +1,35 @@
+DNS -------------------------------------------------------
+Editar "C:\Windows\System32\drivers\etc\hosts"
+Añadir la siguiente linea
+127.0.0.1       smil3.org
+
+VirtualHost -----------------------------------------------
+Editar C:\wamp\bin\apache\ApacheX.X.X\conf\httpd.conf
+Descomentar linea ~494
+Include conf/extra/httpd-vhosts.conf
+
+Editar conf/extra/httpd-vhosts.conf y añadir
+
+<VirtualHost *:80>
+    ServerAdmin mail@mail.com
+    DocumentRoot "c:/wamp/www"
+    ServerName localhost
+    ErrorLog "C:/wamp/logs/localhost-error.log"
+    CustomLog "C:/wamp/logs/localhost-access.log" common
+</VirtualHost>
+
+<VirtualHost *:80>
+    ServerAdmin davidgg666@gmail.com
+    DocumentRoot "D:/Programacion/www/smil3"
+    ServerName smil3.org
+    ServerAlias www.smil3.org
+    ErrorLog "D:/Programacion/www/smil3/logs/error.log"
+    CustomLog "D:/Programacion/www/smil3/logs/access.log" common
+	<directory "D:/Programacion/www/smil3">
+		Options Indexes FollowSymLinks
+		AllowOverride all
+		Allow from all
+	</directory>
+</VirtualHost>
+
+

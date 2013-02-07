@@ -1,0 +1,5 @@
+http://user-agent-string.info/
+
+http://www.user-agents.org/
+
+http://wurfl.sourceforge.net/

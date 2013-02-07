@@ -1,0 +1,4 @@
+http://www.eden-php.com/documentation/social/google#auth
+https://foauth.org/
+
+http://dev.umpirsky.com/list-of-all-countries-in-all-languages-and-all-data-formats/
