@@ -218,11 +218,10 @@ var Smil3 = function()
 	self.profile = (function(){
 		var conainer = $('profile');
 		
-		
 		return {
 			'load' : function (u)
 			{
-				$.post('main.php?do=getProfile', {'user':u}, function(data, status, jqXHR)
+				$.getJSON('main.php', {'do':'getProfile','user':u}, function(data, status, jqXHR)
 				{
 					console.log(data);
 					
@@ -233,14 +232,14 @@ var Smil3 = function()
 					else
 					{
 						// TODO: show error
-						console.warn('No se ha podido publicar.')
+						console.warn('No se ha podido.')
 					}
 				}, 'text')
 				.error(function() {
-					console.warn('No se ha podido publicar.')
+					console.warn('No se ha podido.')
 				})
 				.complete(function() {
-					publishBtn.button('reset');
+					
 				});
 			}
 		};
