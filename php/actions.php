@@ -280,6 +280,12 @@ $actions['userUpdateField'] = function()
 };
 
 
+$updateFieldFn[''] = function()
+{
+	
+};
+
+
 
 $actions['getProfile'] = function()
 {
