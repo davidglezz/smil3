@@ -52,7 +52,8 @@ class User extends Singleton
 	
 	public function logout()
 	{
-		$this->__construct();
+		$this->__construct(); // No deberia hacer falta
+		Session::end();
 	}
 	
 	public function register($data)

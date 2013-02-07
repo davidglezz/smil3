@@ -1,15 +1,18 @@
 <?php
 
-/*
+/**
  * Session class
+ * @author David Gonzalez <davidgg666@gmail.com>
+ * @version 1.2.1
+ * @date 20/11/2012
  */
 
-define('SES_EXPIRATIONTIME', '10000'); // ~16.6 min * 10
+define('SES_EXPIRATIONTIME', '1000'); // ~16.6 min
 
 
 class Session
 {
-	public static function start()
+	public static function start($expire = true)
 	{
 		if (!isset($_SESSION))
 			session_start();
@@ -18,34 +21,35 @@ class Session
 		
 		if (!isset($_SESSION['fingerprint']))
 		{
-			//var_dump('Creando sesion');
 			session_regenerate_id(true);
 			$_SESSION['fingerprint'] = $fingerprint;
-			$_SESSION['expirationTime'] = time() + SES_EXPIRATIONTIME;
+			$_SESSION['expirationTime'] = $expire ? time() + SES_EXPIRATIONTIME : 0;
 		}
 		else
 		{
 			if ($_SESSION['fingerprint'] != $fingerprint) 
 			{
 				// posible robo de sesion!!
+				// TODO: borrar cookie. (si se actualiza el navegador fingerprint es diferente, no hay robo de sesion.)
 				$_SESSION['renew'] = true;
+				// TODO: ban ip (si mas de 2 intentos)
 				die();
 			}
 			
 			if (isset($_SESSION['renew']))
 			{
-				// TODO: renew ses_id
+				session_regenerate_id(true);
 				unset($_SESSION['renew']);
 			}
 			
-			if (isset($_SESSION['expirationTime']))
+			if ($_SESSION['expirationTime'] != 0)
 			{
 				if ($_SESSION['expirationTime'] < time())
 				{
 					// TODO: puede evitar que se mande un mensage, tener en cuenta
-					// EVITA QUE SE PUEDA LOGEAR
 					// Logout y pedir login;
-					die ('234');
+					self::end();
+					self::start();
 				}
 				else
 				{
@@ -64,7 +68,7 @@ class Session
 		if (ini_get("session.use_cookies"))
 		{
 			$params = session_get_cookie_params();
-			setcookie(session_name(), '', time() - 42000, $params["path"], $params["domain"], $params["secure"], $params["httponly"]);
+			setcookie(session_name(), '', time() - 42000, $params['path'], $params['domain'], $params['secure'], $params['httponly']);
 		}
 
 		// Destruir la sesión.
@@ -74,6 +78,4 @@ class Session
 }
 
 
-// session_name();
-// session_id();
 ?>

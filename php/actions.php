@@ -253,10 +253,37 @@ $actions['updatePhoto'] = function()
 	die('0');
 };
 
+$actions['userUpdateField'] = function()
+{
+	//Proccess Update
+	count($_POST) OR die('19');
+	
+	$user = User::getInstance();
+	
+	$sql = "UPDATE users SET `activated`=1, `web`='www.davidxl.es', `bio`='Me gusta la Smile. ', `work`='Estudiante' WHERE  `id_user`=45 LIMIT 1;";
+	
+	
+	foreach($_POST as $name => $val)
+		if($user->data[$name] == $val)
+			unset($_POST[$name]);
+
+	//Update info
+	if (count($_POST))
+	{
+		$user->update($_POST);
+
+		//If there are errors
+		$user->has_error() AND die($user->error());
+	}
+		
+	die('0');
+};
+
+
 
 $actions['getProfile'] = function()
 {
-
+	
 };
 
 

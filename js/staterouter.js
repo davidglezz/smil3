@@ -25,17 +25,18 @@ var Staterouter = function(theRoutes) {
 
 	self.perform = function () {
 		var state = History.getState(),
-		// Get pathname part of URL, which is what we'll be matching
-		link = document.createElement("a");
+			link = document.createElement("a");
 		link.href = state.url;
 		var url = normalizePath(link.pathname);
-		for (var route in self.routes) {
-			if (self.routes.hasOwnProperty(route)) {
+		for (var route in self.routes)
+		{
+			if (self.routes.hasOwnProperty(route))
+			{
 				// Replace :[^/]+ with ([^/]+), f.ex. /persons/:id/resource -> /persons/([^/]+)/resource
 				var rx = new RegExp('^' + route.replace(/:\w+/g, '(\\w+)') + '$');
 				var match = rx.exec(url);
-				//console.log("Route " + route + ", " + url + ", match: " + match);
-				if (match !== null) {
+				if (match !== null)
+				{
 					self.routes[route].apply(state, match.slice(1));
 					break;
 				}

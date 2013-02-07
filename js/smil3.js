@@ -1,6 +1,20 @@
+/* Nano Templates (Tomasz Mazur, Jacek Becela) */
+//http://jsfiddle.net/UXZDy/1/
+(function($){
+  $.nano = function(template, data) {
+    return template.replace(/\{([\w\.]*)\}/g, function (str, key) {
+      var keys = key.split("."), value = data[keys.shift()];
+      $.each(keys, function () { value = value[this]; });
+      return (value === null || value === undefined) ? "" : value;
+    });
+  };
+})(jQuery);
+
 var Smil3 = function()
 {
 	var self = this;
+	
+	self.user = {};
 				
 	// Util functions
 	var getRoute = function()
@@ -14,11 +28,8 @@ var Smil3 = function()
 	{
 		$.post('main.php?do=getStartInfo', {}, function(data, status, jqXHR)
 		{
-			if (data === '10' || data === '234')
+			if (data === '10')
 			{
-				if (data === '234')
-					self.alert.show('La sesion ha caducado.');
-
 				// Obtenemos la direccion a la que se queria acceder y la guardamos para ir despues de identificarse.
 				self.dest = getRoute();
 				self.router.navigate('/login');
@@ -26,11 +37,17 @@ var Smil3 = function()
 			}
 
 			data = jQuery.parseJSON(data);
+			
+			console.log(data);
 
 			//self.user = data.user;
 			$('#username').text(data.user[2]);
-
-			self.chView($('#mainApp'));
+			
+			var mainApp = $('#mainApp');
+			var profileLink = mainApp.find('.navbar a[href^="/profile"]');
+			profileLink.attr('href', profileLink.attr('href') + '/' + data.user[1]);
+	
+			self.chView(mainApp);
 			self.router.perform();
 
 		}, 'text')
@@ -43,21 +60,21 @@ var Smil3 = function()
 	// Alertas
 	self.alert = (function()
 	{
-		var alertsContainer = $('#alerts');
-		var alertTemplate = $('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">×</button><span></span></div>');
+		var container = $('#alerts');
+		var template = $('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">×</button><span></span></div>');
 					
 		return {
-			'container': alertsContainer,
+			'container': container,
 			'show': function(msg){
-				alertTemplate.find('span').html(msg);
-				alertTemplate.clone().appendTo(alertsContainer);
+				template.find('span').html(msg);
+				template.clone().appendTo(container);
 			},
 			'delete': function(){
-				alertsContainer.find('.alert').remove();
+				container.find('.alert').remove();
 			}
 		}
 	})();
-				
+	
 	
 	// Vistas
 	var currView = $('#loadingMsg');
@@ -124,9 +141,9 @@ var Smil3 = function()
 	var changeTab = function(id)
 	{
 		$('#main-content > .active').removeClass('active');
-		mainContent.find('li.active > a[href^="/"]').parent().removeClass('active');
+		mainNavbar.find('li.active > a[href^="/"]').parent().removeClass('active');
 		$('#' + id).addClass('active');
-		$('a[href="/' + id + '"]').parent().addClass('active');
+		mainNavbar.find('a[href="/' + id + '"]').parent().addClass('active');
 	};
 				
 	// Main/Publish
@@ -197,6 +214,37 @@ var Smil3 = function()
 	});
 				
 	// Main/Profile
+	
+	self.profile = (function(){
+		var conainer = $('profile');
+		
+		
+		return {
+			'load' : function (u)
+			{
+				$.post('main.php?do=getProfile', {'user':u}, function(data, status, jqXHR)
+				{
+					console.log(data);
+					
+					if (data === '0')
+					{
+						data = jQuery.parseJSON(data);
+					}
+					else
+					{
+						// TODO: show error
+						console.warn('No se ha podido publicar.')
+					}
+				}, 'text')
+				.error(function() {
+					console.warn('No se ha podido publicar.')
+				})
+				.complete(function() {
+					publishBtn.button('reset');
+				});
+			}
+		};
+	})();
 
 	// Main/Settings
 	var settingsSidenav = $('#settings .sidenav');
@@ -210,13 +258,20 @@ var Smil3 = function()
 			settingsTabContent.find('.active').removeClass('active');
 			$('#s-' + id).addClass('active');
 			settingsSidenav.find('a[href="/settings/' + id + '"]').parent().addClass('active');
+		},
+		'init': function()
+		{
+			
 		}
 	}
+	
+	
 	
 	
 	var profileFotoIn = $('#profileFotoIn');
 	var profileFotoForm = profileFotoIn.parent();
 	var progressBar = profileFotoForm.find('.bar').eq(0);
+	var profileFoto = profileFotoForm.prev();
 	
 	var progressHandleFn = function(e)
 	{
@@ -243,7 +298,6 @@ var Smil3 = function()
 			return;
 		}
 
-		//var parent = $(this).parent().eq(0);
 		var formData = new FormData(profileFotoForm[0]);
 
 		$.ajax({
@@ -256,7 +310,7 @@ var Smil3 = function()
 				if(myXhr.upload) // check if upload property exists
 				{
 					progressBar.css({'width': '0%'});
-					profileFotoForm.find('div.progress').show(250);
+					profileFotoForm.find('div.progress').show(100);
 					myXhr.upload.addEventListener('progress',progressHandleFn, false);
 				}
 				return myXhr;
@@ -268,6 +322,8 @@ var Smil3 = function()
 				profileFotoForm.find('div.progress').hide(250);
 				// TODO: load thumb
 				profileFotoIn.val('');
+				profileFoto.attr('src', profileFoto.attr('src') + '?' + (new Date).getTime());
+				
 			},
 			'error': function(){console.log('error')},
 			//Options to tell JQuery not to process data or worry about content-type
@@ -294,11 +350,12 @@ var Smil3 = function()
 		},
 
 		'/profile' : function(){
-			changeTab('profile');
+			console.warn('Se intenta acceder a /profile')
 		},
 
 		'/profile/:id' : function(p){
-			console.log('profiles',p)
+			self.profile.load(p);
+			changeTab('profile');
 		},
 
 		'/messages' : function(){
@@ -399,7 +456,8 @@ var Smil3 = function()
 				
 	return self;
 };
-			
+		
+// Creamos la instancia.
 var app = new Smil3();
 			
 
@@ -423,4 +481,28 @@ var uptade = function()
 }
 
 var updateTimer = setInterval(update, 30000);
+
+
+
+
+
+App.Helpers.checkSyncStatus = function() {
+  if (App.get('syncCheck')) { return; }
+
+  var check = function() {
+    $.ajax('/sync_status', {
+      dataType: 'json',
+      success: function(resp) {
+        if (resp.status === 'done') {
+          App.Helpers.reloadUser(function() {
+            clearInterval(App.get('syncCheck'));
+            App.set('syncCheck', null);
+          });
+        }
+      }
+    });
+  };
+
+  App.set('syncCheck', setInterval(check, 1000));
+};
  */
