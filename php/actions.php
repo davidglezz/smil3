@@ -289,7 +289,29 @@ $updateFieldFn[''] = function()
 
 $actions['getProfile'] = function()
 {
+	isset($_GET['user']) OR die('81');
+	Validate::string($_GET['user'], array('format' => 'a-zA-Z0-9_', 'min_length' => 3, 'max_length' => 30)) OR die('82');
 	
+	$sql = 'SELECT  id_user,  username, email, name, birthdate, sex, country, city, last_login, reg_date, web, bio, work, showMail, showBirth FROM users WHERE username=? LIMIT 1;';
+	$sql = 'SELECT  id_user,  username, email, name, birthdate, sex, country, city, last_login, reg_date, web, bio, work, showMail, showBirth FROM users WHERE username=? LIMIT 1;';
+	$sql = 'SELECT  id_user,  username, email, name, birthdate, sex, country, city, last_login, reg_date, web, bio, work, showMail, showBirth FROM users WHERE username=? LIMIT 1;';
+	$db = Database::getInstance();
+	$profile = $db->query($sql, array($_GET['user']),PDO::FETCH_ASSOC);
+	
+	isset($profile[0]) or die('83');
+	$profile = $profile[0];
+	
+	if ($profile['showMail'] !== '1')
+		unset($profile['email']);
+	
+	if ($profile['showBirth'] !== '1')
+		unset($profile['birthdate']);
+	
+	unset($profile['showBirth'], $profile['showMail']);
+	
+	// TODO: comprobar si se esta siguiendo
+	
+	die(json_encode($profile));
 };
 
 
