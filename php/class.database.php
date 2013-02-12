@@ -42,14 +42,14 @@ class Database extends Singleton
 		self::$instance = null;
 	}
 
-	public function query($sql, $params = null)
+	public function query($sql, $params = null, $fetchMode = PDO::FETCH_NUM)
 	{
 		$stmt = $this->connection->prepare($sql);
 
 		if (!$stmt)
 			return false;
 		
-		//$stmt->setFetchMode(PDO::FETCH_NUM);
+		//$stmt->setFetchMode($fetchMode);
 
 		$stmt->execute($params);
 
@@ -61,7 +61,7 @@ class Database extends Singleton
 			return false;
 		}
 
-		$data = $stmt->fetchAll(PDO::FETCH_NUM);
+		$data = $stmt->fetchAll($fetchMode);
 		
 		/* Consume menos memoria
 		$data = array();

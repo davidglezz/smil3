@@ -14,6 +14,8 @@ var Smil3 = function()
 {
 	var self = this;
 	
+	self.api = 'http://smil3.org/main.php';
+	
 	self.user = {};
 				
 	// Util functions
@@ -26,7 +28,7 @@ var Smil3 = function()
 				
 	var getStartInfo = function()
 	{
-		$.post('main.php?do=getStartInfo', {}, function(data, status, jqXHR)
+		$.post(self.api + '?do=getStartInfo', {}, function(data, status, jqXHR)
 		{
 			if (data === '10')
 			{
@@ -105,7 +107,7 @@ var Smil3 = function()
 
 		var data = loginForm.serialize();
 			
-		$.post('main.php?do=special&that=login', data, function(data, status, jqXHR)
+		$.post(self.api + '?do=special&that=login', data, function(data, status, jqXHR)
 		{
 			if (data === '0')
 			{
@@ -143,7 +145,7 @@ var Smil3 = function()
 		$('#main-content > .active').removeClass('active');
 		mainNavbar.find('li.active > a[href^="/"]').parent().removeClass('active');
 		$('#' + id).addClass('active');
-		mainNavbar.find('a[href="/' + id + '"]').parent().addClass('active');
+		mainNavbar.find('a[href^="/' + id + '"]').parent().addClass('active');
 	};
 				
 	// Main/Publish
@@ -185,7 +187,7 @@ var Smil3 = function()
 			
 		var data = publishPopup.find('textarea').serialize();
 			
-		$.post('main.php?do=publish', data, function(data, status, jqXHR)
+		$.post(self.api + '?do=publish', data, function(data, status, jqXHR)
 		{
 			console.log(data);
 			if (data === '0')
@@ -216,27 +218,66 @@ var Smil3 = function()
 	// Main/Profile
 	
 	self.profile = (function(){
-		var conainer = $('profile');
+		var container = $('#profile');
+
+		var pField = {
+			'photo' : container.find('.profile-pic'),
+			'name' : container.find('h1').eq(0),
+			'user' : container.find('h4').eq(0),
+			'bio' : container.find('h6').eq(0),
+			'web' : $('#p-web'),
+			'birthdate' : $('#p-birthdate'),
+			'location' : $('#p-location'),
+			'email' : $('#p-email'),
+			'work' : $('#p-work'),
+			'gender' : $('#p-gender'),
+			'last_login' : $('#p-lastLogin'),
+			'reg_date' : $('#p-regdate')
+		}
+		
+		
 		
 		return {
 			'load' : function (u)
 			{
-				$.getJSON('main.php', {'do':'getProfile','user':u}, function(data, status, jqXHR)
+				// Rellena los datos de la persona
+				$.getJSON(self.api, {'do':'getProfile','user':u}, function(data)
 				{
-					console.log(data);
+					var doProperty = function(name)
+					{
+						if (data[name])
+						{
+							pField[name].text(data[name]);
+							pField[name].parent().show();
+						} else pField[name].parent().hide();
+					}
 					
-					if (data === '0')
+					pField.photo.attr('src', 'http://smil3.org/user/' + data.username + '.jpg');
+					pField.name.text(data.name);
+					pField.user.text('@' + data.username);
+					pField.bio.text(data.bio || '');
+					
+					if (data.web)
 					{
-						data = jQuery.parseJSON(data);
-					}
-					else
-					{
-						// TODO: show error
-						console.warn('No se ha podido.')
-					}
+						pField.web.text(data.web);
+						pField.web.attr('href', '//' + data.web);
+						pField.web.parent().show();
+					} else pField.web.parent().hide();
+					
+					doProperty('birthdate');
+					pField.location.text(data.country + (data.city ? ', ' + data.city : ''));
+					doProperty('email');
+					doProperty('work');
+					pField.gender.text(data.sex == 'M' ? 'Masculino' : 'Femenino');
+					doProperty('last_login');
+					doProperty('reg_date');
+					
+					
+
 				}, 'text')
 				.error(function() {
-					console.warn('No se ha podido.')
+					console.warn('No se ha podido.');
+					self.alert.show('Error al cargar el perfil, inentelo mas tarde');
 				})
 				.complete(function() {
 					
@@ -300,7 +341,7 @@ var Smil3 = function()
 		var formData = new FormData(profileFotoForm[0]);
 
 		$.ajax({
-			'url': 'main.php?do=updatePhoto',
+			'url': self.api + '?do=updatePhoto',
 			'type': 'POST',
 			'data': formData,
 			'xhr': function()
@@ -376,7 +417,7 @@ var Smil3 = function()
 			// Por seguridad seria mejor recargar la pagina para que no queden datos del anterior usuario.
 			self.chView($('#loadingMsg'));
 
-			$.get('main.php?do=logout', function() {
+			$.get(self.api + '?do=logout', function() {
 				self.router.navigate('/login');
 			});
 		},
@@ -449,7 +490,7 @@ var Smil3 = function()
 			$("#loading").hide()
 		},
 		error: function() {
-			shelf.alert.show('No se pudo acceder');
+			self.alert.show('No se pudo acceder');
 		}
 	});
 				
@@ -466,7 +507,7 @@ var activeList = 0;
 
 var uptade = function()
 {
-	$.post('main.php?do=getPub', {}, function(data, status, jqXHR)
+	$.post(self.api + '?do=getPub', {}, function(data, status, jqXHR)
 	{
 		console.log(data);
 

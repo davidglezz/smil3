@@ -17,4 +17,9 @@ class image
 // IMG_GIF | IMG_JPG | IMG_PNG | IMG_WBMP | IMG_XPM.
 // (imagetypes() & IMG_PNG)
 
+
+
+//http://lineadecodigo.com/php/alto-y-ancho-de-una-imagen-en-php/
+//http://www.scriptiny.com/2013/01/image-resize-using-php/
+
 ?>
