@@ -240,6 +240,8 @@ var Smil3 = function()
 		return {
 			'load' : function (u)
 			{
+				// TODO: check error 10
+				
 				// Rellena los datos de la persona
 				$.getJSON(self.api, {'do':'getProfile','user':u}, function(data)
 				{

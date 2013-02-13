@@ -19,6 +19,7 @@ $specialActions['register'] = function()
 	$data['password'] = $_POST['password'];
 	
 	// Email
+	$_POST['email'] = trim($_POST['email']);
 	Validate::email($_POST['email']) OR die('17');
 	$data['email'] = $_POST['email'];
 	
@@ -255,33 +256,26 @@ $actions['updatePhoto'] = function()
 
 $actions['userUpdateField'] = function()
 {
-	//Proccess Update
-	count($_POST) OR die('19');
+	//global $updateFieldFn;
+	isset($_GET['field'], $_GET['value']) OR die('19');
+	//isset($updateFieldFn[$_GET['field']]) OR die('20');
+	//$updateFieldFn[$_GET['field']]();
 	
+	$sql = 'UPDATE users SET '.$_GET['field'].'=? WHERE id_user=54 LIMIT 1;';
+	$db = Database::getInstance();
+	$res = $db->query($sql, array($_GET['value']), PDO::FETCH_ASSOC);
+};
+
+
+$updateFieldFn['username'] = function()
+{
 	$user = User::getInstance();
 	
 	$sql = "UPDATE users SET `activated`=1, `web`='www.davidxl.es', `bio`='Me gusta la Smile. ', `work`='Estudiante' WHERE  `id_user`=45 LIMIT 1;";
 	
 	
-	foreach($_POST as $name => $val)
-		if($user->data[$name] == $val)
-			unset($_POST[$name]);
-
-	//Update info
-	if (count($_POST))
-	{
-		$user->update($_POST);
-
-		//If there are errors
-		$user->has_error() AND die($user->error());
-	}
-		
+	
 	die('0');
-};
-
-
-$updateFieldFn[''] = function()
-{
 	
 };
 
@@ -292,8 +286,6 @@ $actions['getProfile'] = function()
 	isset($_GET['user']) OR die('81');
 	Validate::string($_GET['user'], array('format' => 'a-zA-Z0-9_', 'min_length' => 3, 'max_length' => 30)) OR die('82');
 	
-	$sql = 'SELECT  id_user,  username, email, name, birthdate, sex, country, city, last_login, reg_date, web, bio, work, showMail, showBirth FROM users WHERE username=? LIMIT 1;';
-	$sql = 'SELECT  id_user,  username, email, name, birthdate, sex, country, city, last_login, reg_date, web, bio, work, showMail, showBirth FROM users WHERE username=? LIMIT 1;';
 	$sql = 'SELECT  id_user,  username, email, name, birthdate, sex, country, city, last_login, reg_date, web, bio, work, showMail, showBirth FROM users WHERE username=? LIMIT 1;';
 	$db = Database::getInstance();
 	$profile = $db->query($sql, array($_GET['user']),PDO::FETCH_ASSOC);
@@ -309,13 +301,48 @@ $actions['getProfile'] = function()
 	
 	unset($profile['showBirth'], $profile['showMail']);
 	
-	// TODO: comprobar si se esta siguiendo
+	$sql = 'SELECT name FROM relations LEFT JOIN lists ON  id_list = list WHERE userA=? AND userB=? LIMIT 1;';
+	$res = $db->query($sql, array(User::getInstance()->id , $profile['id_user'] ));
+	
+	$profile['relation'] = count($res) ? ($res[0][0] === null ? '-' : $res[0][0]) : null;
+	
+	// TODO: Lista de seguidores y los que sigue
 	
 	die(json_encode($profile));
 };
 
 
 /* ***************************************** */
+
+$actions['follow'] = function()
+{
+	isset($_GET['uid'])  OR die('85');
+	is_numeric ($_GET['uid']) OR die('86');
+	
+	// TODO: list support
+	
+	$sql = 'INSERT INTO `relations` (`userA`, `userB`) VALUES (?, ?);';
+	$db = Database::getInstance();
+	$res = $db->query($sql, array(User::getInstance()->id, intval($_GET['uid'])));
+	
+	if ($res === false)
+		die ('87');
+	else
+		die ('0');
+};
+
+$actions['unfollow'] = function()
+{
+	isset($_GET['uid'])  OR die('85');
+	is_numeric ($_GET['uid']) OR die('86');
+	
+	$sql = 'DELETE FROM relations WHERE userA=? AND userB=? LIMIT 1;';
+	$db = Database::getInstance();
+	$db->query($sql, array(User::getInstance()->id, intval($_GET['uid'])));
+
+	die ('0');
+};
+
 
 
 ?>
