@@ -60,15 +60,16 @@ var Smil3 = function()
 	}
 				
 	// Alertas
-	self.alert = (function()
+	self.alert = (function() // error, success, info
 	{
 		var container = $('#alerts');
-		var template = $('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">×</button><span></span></div>');
+		var template = $('<div class="alert"><button type="button" class="close" data-dismiss="alert">×</button><span></span></div>');
 					
 		return {
 			'container': container,
-			'show': function(msg){
+			'show': function(msg, type){
 				template.find('span').html(msg);
+				if (type) template.addClass('alert-' + type);
 				template.clone().appendTo(container);
 			},
 			'delete': function(){

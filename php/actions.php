@@ -194,20 +194,25 @@ $actions['deleteAccount'] = function()
 
 $actions['getPub'] = function()
 {
-	isset($_POST['$id']) OR die('111');
+	isset($_POST['id']) OR die('111');
 	
 	$txt = $_POST['$txt'];
 	
 	$sql = 'SELECT publications (user, text) VALUES ( ?,  ?);';
 	$params =  array(4, $txt);
 			
-	$db->query($sql, $params);
+	Database::getInstance()->query($sql, $params);
 	die('0');
 };
 
 $actions['delPub'] = function()
 {
-	// TODO
+	isset($_GET['pid']) OR die('71');
+	is_numeric($_GET['pid']) OR die('72');
+	// La consulta no hace falta que sea preparada
+	$sql = 'DELETE FROM publications WHERE id_publication=? AND user=? LIMIT 1;';
+	$args = array(intval($_GET['pid']), User::getInstance()->id);
+	Database::getInstance()->query($sql, $args);
 };
 
 $actions['publish'] = function()
@@ -261,6 +266,9 @@ $actions['userUpdateField'] = function()
 	//isset($updateFieldFn[$_GET['field']]) OR die('20');
 	//$updateFieldFn[$_GET['field']]();
 	
+	// TODO: Validar
+	User::getInstance()->update($_GET['field'], $_GET['value']);
+	
 	$sql = 'UPDATE users SET '.$_GET['field'].'=? WHERE id_user=54 LIMIT 1;';
 	$db = Database::getInstance();
 	$res = $db->query($sql, array($_GET['value']), PDO::FETCH_ASSOC);
@@ -273,12 +281,9 @@ $updateFieldFn['username'] = function()
 	
 	$sql = "UPDATE users SET `activated`=1, `web`='www.davidxl.es', `bio`='Me gusta la Smile. ', `work`='Estudiante' WHERE  `id_user`=45 LIMIT 1;";
 	
-	
-	
 	die('0');
 	
 };
-
 
 
 $actions['getProfile'] = function()
@@ -333,7 +338,7 @@ $actions['follow'] = function()
 
 $actions['unfollow'] = function()
 {
-	isset($_GET['uid'])  OR die('85');
+	isset($_GET['uid']) OR die('85');
 	is_numeric ($_GET['uid']) OR die('86');
 	
 	$sql = 'DELETE FROM relations WHERE userA=? AND userB=? LIMIT 1;';

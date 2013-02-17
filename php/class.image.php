@@ -3,7 +3,7 @@
 set_time_limit ("60");
 ini_set('gd.jpeg_ignore_warning', 1);
 
-class image
+class Image
 {
 	private $img;
 	private $path;

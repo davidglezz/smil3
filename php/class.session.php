@@ -30,9 +30,9 @@ class Session
 			if ($_SESSION['fingerprint'] != $fingerprint) 
 			{
 				// posible robo de sesion!!
-				// TODO: borrar cookie. (si se actualiza el navegador fingerprint es diferente, no hay robo de sesion.)
 				$_SESSION['renew'] = true;
-				// TODO: ban ip (si mas de 2 intentos)
+				self::deleteCookie();
+				// TODO: ban ip (si mas de 2 o 3 intentos)
 				die();
 			}
 			
@@ -65,16 +65,23 @@ class Session
 		$_SESSION = array();
 
 		// Borrar la cookie de sesión.
-		if (ini_get("session.use_cookies"))
-		{
-			$params = session_get_cookie_params();
-			setcookie(session_name(), '', time() - 42000, $params['path'], $params['domain'], $params['secure'], $params['httponly']);
-		}
+		self::deleteCookie();
 
 		// Destruir la sesión.
 		return session_destroy();
 	}
 	
+	private static function deleteCookie()
+	{
+		if (!ini_get("session.use_cookies"))
+			return;
+		
+		$params = session_get_cookie_params();
+		setcookie(session_name(), '', time() - 42000, $params['path'],
+				$params['domain'], $params['secure'], $params['httponly']);
+	}
+
+
 }
 
 
