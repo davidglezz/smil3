@@ -41,7 +41,10 @@ $t->a = 3;
 $t->setB();
 var_dump($_SESSION);*/
 
-$key = 'hola';
-$value = 'mundo';
-var_dump(array($key => $value));
+$v1 = array();
+$v2 = false;
+
+var_dump($v1 === false, $v2 === false);
+
+
 ?>

@@ -2,33 +2,58 @@
 
 /**
  * Response class
- * Se encarga de gestionar la salida de los datos al cliente,
- * por lo que no puede haber ningun die, echo o semejantes.
+ * Se encarga de gestionar la salida de los datos al cliente, y
+ * que sean siempre datos json por lo que no deberia haber ningun
+ * die, echo, print o semejantes. La salida de texto estandar quedara
+ * reflejada en la variable stdout
  *
  * @author David Gonzalez
  */
 
-class response extends Singleton
+class Response extends Singleton
 {
 	private $data;
 	
-	protected function __construct() {
-		$this->data = array('error' => '0');
+	protected function __construct()
+	{
+		ob_start();
+		$this->data = array('error' => 0);
 	}
 	
-	protected function __destruct() {
+	public function __destruct()
+	{
+		$this->data['stdout'] = ob_get_contents();
+		ob_end_clean();
 		$this->send();
 	}
 
-	public function send()
+	protected function send()
 	{
-		die(json_encode($this->data));
+		echo json_encode($this->data);
 	}
 	
-	public function add()
+	protected function addData($new)
 	{
-		
+		$this->data = array_merge($this->data, $new);
+	}
+	
+	// Accesos directos para mas facilidad
+	public static function sendError($param)
+	{
+		self::getInstance()->addData(array('error' => $param));
+		die();
+	}
+	
+	public static function add($param)
+	{
+		self::getInstance()->addData($param);
+	}
+	
+	public static function init()
+	{
+		self::getInstance();
 	}
 }
+
 
 ?>

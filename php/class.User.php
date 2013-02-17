@@ -31,7 +31,7 @@ class User extends Singleton
 		$sql = 'SELECT id_user, username, password, salt, name FROM users WHERE username = ? LIMIT 1';
 		$res = $db->query($sql, array($user));
 		
-		if (empty($res))
+		if (!$res) // || empty($res)
 			return false;
 		
 		if ($res[0][2] === hash('sha256', $password.$res[0][3]))
@@ -46,8 +46,8 @@ class User extends Singleton
 		{
 			// TODO
 			// Log login fail.
+			return false;
 		}
-		return false;
 	}
 	
 	public function logout()
@@ -73,9 +73,8 @@ class User extends Singleton
 	
 	public function update($key, $value)
 	{
-		$db = Database::getInstance();
-		$sql = "UPDATE users SET $key=:$key WHERE id_user=".$this->id.' LIMIT 1;';
-		$res = $db->query($sql, array($key => $value));
+		$sql = "UPDATE users SET $key=:$key WHERE id_user=$this->id LIMIT 1;";
+		$res = Database::getInstance()->query($sql, array($key => $value));
 		return $res !== false;
 	}
 	
