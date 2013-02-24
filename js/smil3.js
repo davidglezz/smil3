@@ -1,510 +1,559 @@
 /* Nano Templates (Tomasz Mazur, Jacek Becela) */
 //http://jsfiddle.net/UXZDy/1/
 (function($){
-  $.nano = function(template, data) {
-    return template.replace(/\{([\w\.]*)\}/g, function (str, key) {
-      var keys = key.split("."), value = data[keys.shift()];
-      $.each(keys, function () { value = value[this]; });
-      return (value === null || value === undefined) ? "" : value;
-    });
-  };
+    $.nano2 = function(template, data) {
+        return template.replace(/\{([\w\.]*)\}/g, function (str, key) {
+            var keys = key.split("."), value = data[keys.shift()];
+            $.each(keys, function () {
+                value = value[this];
+            });
+            return (value === null || value === undefined) ? "" : value;
+        });
+    };
 })(jQuery);
+
+$.nano = function(t,d){
+    return t.replace(/\{([\w\.]*)\}/g,function(s,n){
+        var k=n.split('.'),v=d[k.shift()];
+        $.each(k,function(){
+            v=v[this]
+        });
+        return v===null||v===undefined?'':v
+    })
+};
+
 
 var Smil3 = function()
 {
-	var self = this;
-	
-	self.api = 'http://smil3.org/main.php';
-	
-	self.user = {};
-				
-	// Util functions
-	var getRoute = function()
-	{
-		var link = document.createElement("a");
-		link.href = History.getState().url;
-		return link.pathname;
-	}
-				
-	var getStartInfo = function()
-	{
-		$.post(self.api + '?do=getStartInfo', {}, function(data, status, jqXHR)
-		{
-			if (data === '10')
-			{
-				// Obtenemos la direccion a la que se queria acceder y la guardamos para ir despues de identificarse.
-				self.dest = getRoute();
-				self.router.navigate('/login');
-				return;
-			}
+    var self = this;
 
-			data = jQuery.parseJSON(data);
-			
-			console.log(data);
+    self.api = '//smil3.org/main.php';
 
-			//self.user = data.user;
-			$('#username').text(data.user[2]);
-			
-			var mainApp = $('#mainApp');
-			var profileLink = mainApp.find('.navbar a[href^="/profile"]');
-			profileLink.attr('href', profileLink.attr('href') + '/' + data.user[1]);
-	
-			self.chView(mainApp);
-			self.router.perform();
+    self.user = {};
 
-		}, 'text')
-		.error(function() {
-			console.warn('Error de conexion');
-		})
-		.complete(function() {	});
-	}
-				
-	// Alertas
-	self.alert = (function() // error, success, info
-	{
-		var container = $('#alerts');
-		var template = $('<div class="alert"><button type="button" class="close" data-dismiss="alert">×</button><span></span></div>');
-					
-		return {
-			'container': container,
-			'show': function(msg, type){
-				template.find('span').html(msg);
-				if (type) template.addClass('alert-' + type);
-				template.clone().appendTo(container);
-			},
-			'delete': function(){
-				container.find('.alert').remove();
-			}
-		}
-	})();
-	
-	
-	// Vistas
-	var currView = $('#loadingMsg');
-				
-	self.chView = function(el)
-	{
-		if (el === currView)
-			return;
+    // Util functions
+    var getRoute = function()
+    {
+        var link = document.createElement("a");
+        link.href = History.getState().url;
+        return link.pathname;
+    }
 
-		currView.hide();
-		currView = el.show();
-	}
-				
-				
-	// Login
-	var loginElement = $('#login');
-	var loginForm = $('#login form:first');
-	var loginBtn = $('#login input[type="submit"]').button();
-				
-	loginForm.submit(function(e)
-	{
-		e.preventDefault();
-		loginBtn.button('loading');
+    var getStartInfo = function()
+    {
+        $.getJSON(self.api, {
+            'do':'getStartInfo'
+        }, function(data)
 
-		$.ajaxSetup({
-			cache: false
-		});
+        {
+                console.log(data);
+                if (data.error == 10)
+                {
+                    // Obtenemos la direccion a la que se queria acceder
+                    // y la guardamos para ir despues de identificarse.
+                    self.dest = getRoute();
+                    self.router.navigate('/login');
+                    return;
+                }
 
-		var data = loginForm.serialize();
-			
-		$.post(self.api + '?do=special&that=login', data, function(data, status, jqXHR)
-		{
-			if (data === '0')
-			{
-				$('#login input[type="text"], #login input[type="password"]').val('');
-				getStartInfo();
-				var goTo = self.dest || '/';
-				self.dest = null;
-				self.router.navigate(goTo);
-			}
-			else
-			{
-				$('#login input[type="password"]').val('');
-				self.alert.show('Usuario o contraseña incorrecto.');
-			}
-						
-		}, 'text')
-		.error(function() {
-			console.warn('Error en la peticion');
-		})
-		.complete(function() {
-			loginBtn.button('reset');
-		});
+                self.user = data.user;
+                $('#username').text(data.user[2]);
 
-		return false; 
-	});
-				
+                var mainApp = $('#mainApp');
+                var profileLink = mainApp.find('.navbar a[href^="/profile"]');
+                profileLink.attr('href', profileLink.attr('href') + '/' + data.user[1]);
 
-	// MainApp
-	var mainApp = $('#mainApp');
-	var mainNavbar = mainApp.find('.navbar');
-	var mainContent = $('#main-content');
-				
-	var changeTab = function(id)
-	{
-		$('#main-content > .active').removeClass('active');
-		mainNavbar.find('li.active > a[href^="/"]').parent().removeClass('active');
-		$('#' + id).addClass('active');
-		mainNavbar.find('a[href^="/' + id + '"]').parent().addClass('active');
-	};
-				
-	// Main/Publish
-	var publishPopup = $('#new_publish');
-	var publishCont = publishPopup.parent();
-	var publishBtn = publishPopup.find('button[type="submit"]').button();
-				
-				
-	publishPopup.click(function (e) {
-		e.stopPropagation();
-	});
-		
-	publishCont.find('a').click(function(e)
-	{
-		e.preventDefault();
-		e.stopPropagation();
-	
-		if (publishCont.hasClass('open')) {
-			publishCont.removeClass('open');
-			// TODO: remove .one Click event
-			return;
-		}
-					
-		publishCont.addClass('open');
-		publishPopup.find('textarea').focus();
-					
-		$('body').one('click', function() {
-			publishCont.removeClass('open');
-		});
-	});
-				
-	publishBtn.click(function(e)
-	{
-		e.preventDefault();
-		publishBtn.button('loading');
-		$.ajaxSetup({
-			cache: false
-		});
-			
-		var data = publishPopup.find('textarea').serialize();
-			
-		$.post(self.api + '?do=publish', data, function(data, status, jqXHR)
-		{
-			console.log(data);
-			if (data === '0')
-			{
-				$('#new_publish textarea').val('');
-			}
-			else
-			{
-				// TODO: show error
-				console.warn('No se ha podido publicar.')
-			}
-		}, 'text')
-		.error(function() {
-			console.warn('No se ha podido publicar.')
-		})
-		.complete(function() {
-			publishBtn.button('reset');
-		});
-			
-		publishCont.removeClass('open');
-	});
-		
-	publishPopup.find('button[type="button"]').click(function()
-	{
-		publishCont.removeClass('open');
-	});
-				
-	// Main/Profile
-	
-	self.profile = (function(){
-		var container = $('#profile');
+                self.chView(mainApp);
+                self.router.perform();
 
-		var pField = {
-			'photo' : container.find('.profile-pic'),
-			'name' : container.find('h1').eq(0),
-			'user' : container.find('h4').eq(0),
-			'bio' : container.find('h6').eq(0),
-			'web' : $('#p-web'),
-			'birthdate' : $('#p-birthdate'),
-			'location' : $('#p-location'),
-			'email' : $('#p-email'),
-			'work' : $('#p-work'),
-			'gender' : $('#p-gender'),
-			'last_login' : $('#p-lastLogin'),
-			'reg_date' : $('#p-regdate')
-		}
-		
-		
-		
-		return {
-			'load' : function (u)
-			{
-				// TODO: check error 10
-				
-				// Rellena los datos de la persona
-				$.getJSON(self.api, {'do':'getProfile','user':u}, function(data)
-				{
-					var doProperty = function(name)
-					{
-						if (data[name])
-						{
-							pField[name].text(data[name]);
-							pField[name].parent().show();
-						} else pField[name].parent().hide();
-					}
-					
-					pField.photo.attr('src', 'http://smil3.org/user/' + data.username + '.jpg');
-					pField.name.text(data.name);
-					pField.user.text('@' + data.username);
-					pField.bio.text(data.bio || '');
-					
-					if (data.web)
-					{
-						pField.web.text(data.web);
-						pField.web.attr('href', '//' + data.web);
-						pField.web.parent().show();
-					} else pField.web.parent().hide();
-					
-					doProperty('birthdate');
-					pField.location.text(data.country + (data.city ? ', ' + data.city : ''));
-					doProperty('email');
-					doProperty('work');
-					pField.gender.text(data.sex == 'M' ? 'Masculino' : 'Femenino');
-					doProperty('last_login');
-					doProperty('reg_date');
-					
-					
 
-				}, 'text')
-				.error(function() {
-					console.warn('No se ha podido.');
-					self.alert.show('Error al cargar el perfil, inentelo mas tarde');
-				})
-				.complete(function() {
-					
-				});
-			}
-		};
-	})();
+            });
+    }
 
-	// Main/Settings
-	var settingsSidenav = $('#settings .sidenav');
-	var settingsTabContent = $('#settings .tab-content');
-				
-	self.settings = {
-		'showTab': function(id)
-		{
-			changeTab('settings');
-			settingsSidenav.find('.active').removeClass('active');
-			settingsTabContent.find('.active').removeClass('active');
-			$('#s-' + id).addClass('active');
-			settingsSidenav.find('a[href="/settings/' + id + '"]').parent().addClass('active');
-		},
-		'init': function()
-		{
-			
-		}
-	}
-	
-	
-	
-	
-	var profileFotoIn = $('#profileFotoIn');
-	var profileFotoForm = profileFotoIn.parent();
-	var progressBar = profileFotoForm.find('.bar').eq(0);
-	var profileFoto = profileFotoForm.prev();
-	
-	var progressHandleFn = function(e)
-	{
-		if(e.lengthComputable)
-		{
-			var value = e.loaded * 100 / e.total;
-			if (value > 100) value = 100;
-			if (value < 0) value = 0;
-			progressBar.css({'width': value+'%'});
-		}
-	}
-				
-	profileFotoIn.change(function()
-	{
-		var file = this.files[0];
-		
-		if (!file)
-			return;
-		
-		if (file.size > 8000000)
-		{
-			self.alert.show('El archivo es demasiado grande. Máximo 8MB');
-			profileFotoIn.val('');
-			return;
-		}
+    // Error handler
+    self.error = {};
+    self.error.handle = function(n)
+    {
+        console.warn('Ha ocurrido un error ' + n);
+        
+        if (n == 10)
+        {
+            // Obtenemos la direccion a la que se queria acceder
+            // y la guardamos para ir despues de identificarse.
+            self.dest = getRoute();
+            self.router.navigate('/login');
+            return;
+        }
 
-		var formData = new FormData(profileFotoForm[0]);
+    };
 
-		$.ajax({
-			'url': self.api + '?do=updatePhoto',
-			'type': 'POST',
-			'data': formData,
-			'xhr': function()
-			{
-				myXhr = $.ajaxSettings.xhr();
-				if(myXhr.upload) // check if upload property exists
-				{
-					progressBar.css({'width': '0%'});
-					profileFotoForm.find('div.progress').show(100);
-					myXhr.upload.addEventListener('progress',progressHandleFn, false);
-				}
-				return myXhr;
-			},
-			//Ajax events
-			'beforeSend':  function(e){console.log('beforeSend', e)},
-			'success': function(e)
-			{
-				profileFotoForm.find('div.progress').hide(250);
-				// TODO: load thumb
-				profileFotoIn.val('');
-				profileFoto.attr('src', profileFoto.attr('src') + '?' + (new Date).getTime());
-				
-			},
-			'error': function(){console.log('error')},
-			//Options to tell JQuery not to process data or worry about content-type
-			'cache': false,
-			'contentType': false,
-			'processData': false
-		});
-		
-	
 
-	});			
-				
-				
-				
-				
-	// Router
-	var routes = {
-		'/' : function(){
-			self.chView($('#mainApp'));
-			$('#main-content > .active').removeClass('active');
-			$('li.active > a[href^="/"]').parent().removeClass('active');
-			$('#home').addClass('active');
-			$('a[href="/"]').parent().addClass('active');
-		},
+    //self.errorHandler  = [];
+    //self.errorHandler[10]
 
-		'/profile' : function(){
-			console.warn('Se intenta acceder a /profile')
-		},
+    // Alertas
+    self.alert = (function() // error, success, info
+    {
+        var container = $('#alerts');
+        var template = $('<div class="alert"><button type="button" class="close" data-dismiss="alert">×</button><span></span></div>');
 
-		'/profile/:id' : function(p){
-			self.profile.load(p);
-			changeTab('profile');
-		},
+        return {
+            'container': container,
+            'show': function(msg, type){
+                template.find('span').html(msg);
+                if (type) template.addClass('alert-' + type);
+                template.clone().appendTo(container);
+            },
+            'delete': function(){
+                container.find('.alert').remove();
+            }
+        }
+    })();
 
-		'/messages' : function(){
-			changeTab('messages');
-		},
 
-		'/messages/:id': function(){
-		},
+    // Vistas
+    var currView = $('#loadingMsg');
 
-		'/notifications': function(){
-			changeTab('notifications');
-		},
+    self.chView = function(el)
+    {
+        if (el === currView)
+            return;
 
-		'/login': function(){
-			self.chView($('#login'));
-		},
+        currView.hide();
+        currView = el.show();
+    }
 
-		'/logout': function(){
-			// Por seguridad seria mejor recargar la pagina para que no queden datos del anterior usuario.
-			self.chView($('#loadingMsg'));
 
-			$.get(self.api + '?do=logout', function() {
-				self.router.navigate('/login');
-			});
-		},
+    // Login
+    var loginElement = $('#login');
+    var loginForm = $('#login form:first');
+    var loginBtn = $('#login input[type="submit"]').button();
 
-		'/settings': function(){
-			self.settings.showTab('profile');
-		},
+    loginForm.submit(function(e)
+    {
+        e.preventDefault();
+        loginBtn.button('loading');
 
-		'/settings/profile': function(){
-			self.settings.showTab('profile');
-		},
+        $.ajaxSetup({
+            cache: false
+        });
 
-		'/settings/account': function(){
-			self.settings.showTab('account');
-		},
+        var data = loginForm.serialize();
 
-		'/settings/password': function(){
-			self.settings.showTab('password');
-		},
+        $.post(self.api + '?do=special&that=login', data, function(data)
+        {
+            if (data.error === 0)
+            {
+                $('#login input[type="text"], #login input[type="password"]').val('');
+                getStartInfo();
+                var goTo = self.dest || '/';
+                self.dest = null;
+                self.router.navigate(goTo);
+            }
+            else
+            {
+                $('#login input[type="password"]').val('');
+                self.alert.show('Usuario o contraseña incorrecto.');
+            }
 
-		'/settings/notifications': function(){
-			self.settings.showTab('notifications');
-		},
+        }, 'json')
+        .error(function() {
+            console.warn('Error en la peticion de inicio de sesion');
+        })
+        .complete(function() {
+            loginBtn.button('reset');
+        });
 
-		'/settings/lists': function(){
-			self.settings.showTab('lists');
-		},
+        return false;
+    });
 
-		'/help': function(){
-			self.settings.showTab('help');
-		},
 
-		'/about': function(){
-			self.settings.showTab('about');
-		},
+    // MainApp
+    var mainApp = $('#mainApp');
+    var mainNavbar = mainApp.find('.navbar');
+    var mainContent = $('#main-content');
 
-		'/register': function(){
-			self.chView($('#register'));
-		},
+    var changeTab = function(id)
+    {
+        $('#main-content > .active').removeClass('active');
+        mainNavbar.find('li.active > a[href^="/"]').parent().removeClass('active');
+        $('#' + id).addClass('active');
+        mainNavbar.find('a[href^="/' + id + '"]').parent().addClass('active');
+    };
 
-		'/forgotPassword': function(){
-			self.chView($('#forgotPassword'));
-		}
-	};
-				
-	self.router = new Staterouter(routes);
-				
-	// Router links handler
-	$(document).on('click', 'a[href^="/"]', function(e) {
-		e.preventDefault();
-		self.router.navigate($(this).attr('href'));
-		//e.stopPropagation();
-		return false;
-	});
-				
-	// INIT
-	// TODO: comprobar si se quiere acceder a una pagina que no hace falta estar identificado.
-	getStartInfo()
-	//console.log($.jStorage.storageAvailable());
-	//$('body').tooltip({	selector: '[rel=tooltip]'});
-				
+    // Main/Publish
+    var publishPopup = $('#new_publish');
+    var publishCont = publishPopup.parent();
+    var publishBtn = publishPopup.find('button[type="submit"]').button();
 
-				
-	// ajax handler
-	$.ajaxSetup({
-		beforeSend: function() {
-			$("#loading").show()
-		},
-		complete:   function() {
-			$("#loading").hide()
-		},
-		error: function() {
-			self.alert.show('No se pudo acceder');
-		}
-	});
-				
-	return self;
+
+    publishPopup.click(function (e) {
+        e.stopPropagation();
+    });
+
+    publishCont.find('a').click(function(e)
+    {
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (publishCont.hasClass('open')) {
+            publishCont.removeClass('open');
+            // TODO: remove .one Click event
+            return;
+        }
+
+        publishCont.addClass('open');
+        publishPopup.find('textarea').focus();
+
+        $('body').one('click', function() {
+            publishCont.removeClass('open');
+        });
+    });
+
+    publishBtn.click(function(e)
+    {
+        e.preventDefault();
+        publishBtn.button('loading');
+        $.ajaxSetup({
+            cache: false
+        });
+
+        var data = publishPopup.find('textarea').serialize();
+
+        $.post(self.api + '?do=publish', data, function(data, status, jqXHR)
+        {
+            console.log(data);
+            if (data === '0')
+            {
+                $('#new_publish textarea').val('');
+            }
+            else
+            {
+                // TODO: show error
+                console.warn('No se ha podido publicar.')
+            }
+        }, 'text')
+        .error(function() {
+            console.warn('No se ha podido publicar.')
+        })
+        .complete(function() {
+            publishBtn.button('reset');
+        });
+
+        publishCont.removeClass('open');
+    });
+
+    publishPopup.find('button[type="button"]').click(function()
+    {
+        publishCont.removeClass('open');
+    });
+
+    // Main/Profile
+
+    self.profile = (function(){
+        var container = $('#profile');
+
+        var pField = {
+            'photo' : container.find('.profile-pic'),
+            'name' : container.find('h1').eq(0),
+            'user' : container.find('h4').eq(0),
+            'bio' : container.find('h6').eq(0),
+            'web' : $('#p-web'),
+            'birthdate' : $('#p-birthdate'),
+            'location' : $('#p-location'),
+            'email' : $('#p-email'),
+            'work' : $('#p-work'),
+            'gender' : $('#p-gender'),
+            'last_login' : $('#p-lastLogin'),
+            'reg_date' : $('#p-regdate')
+        }
+
+
+
+        return {
+            'load' : function (u)
+            {
+                $.getJSON(self.api, {
+                    'do':'getProfile',
+                    'user':u
+                }, function(data)
+
+                {
+                        console.log(data);
+                        if (data.error !== 0)
+                        {
+                               // TODO Handle errors
+                               return
+                        }
+
+                        var doProperty = function(name)
+                        {
+                            if (data[name])
+                            {
+                                pField[name].text(data[name]);
+                                pField[name].parent().show();
+                            } else pField[name].parent().hide();
+                        }
+
+                        pField.photo.attr('src', 'http://smil3.org/user/' + data.username + '.jpg');
+                        pField.name.text(data.name);
+                        pField.user.text('@' + data.username);
+                        pField.bio.text(data.bio || '');
+
+                        if (data.web)
+                        {
+                            pField.web.text(data.web);
+                            pField.web.attr('href', '//' + data.web);
+                            pField.web.parent().show();
+                        } else pField.web.parent().hide();
+
+                        doProperty('birthdate');
+                        pField.location.text(data.country + (data.city ? ', ' + data.city : ''));
+                        doProperty('email');
+                        doProperty('work');
+                        pField.gender.text(data.sex == 'M' ? 'Masculino' : 'Femenino');
+                        doProperty('last_login');
+                        doProperty('reg_date');
+
+
+
+                    }, 'text')
+                .error(function() {
+                    console.warn('No se ha podido.');
+                    self.alert.show('Error al cargar el perfil, inentelo mas tarde');
+                })
+                .complete(function() {
+
+                    });
+            }
+        };
+    })();
+
+    // Main/Settings
+    var settingsSidenav = $('#settings .sidenav');
+    var settingsTabContent = $('#settings .tab-content');
+
+    self.settings = {
+        'showTab': function(id)
+        {
+            changeTab('settings');
+            settingsSidenav.find('.active').removeClass('active');
+            settingsTabContent.find('.active').removeClass('active');
+            $('#s-' + id).addClass('active');
+            settingsSidenav.find('a[href="/settings/' + id + '"]').parent().addClass('active');
+        },
+        'init': function()
+        {
+
+        }
+    }
+
+
+
+
+    var profileFotoIn = $('#profileFotoIn');
+    var profileFotoForm = profileFotoIn.parent();
+    var progressBar = profileFotoForm.find('.bar').eq(0);
+    var profileFoto = profileFotoForm.prev();
+
+    var progressHandleFn = function(e)
+    {
+        if(e.lengthComputable)
+        {
+            var value = e.loaded * 100 / e.total;
+            if (value > 100) value = 100;
+            if (value < 0) value = 0;
+            progressBar.css({
+                'width': value+'%'
+            });
+        }
+    }
+
+    profileFotoIn.change(function()
+    {
+        var file = this.files[0];
+
+        if (!file)
+            return;
+
+        if (file.size > 8000000)
+        {
+            self.alert.show('El archivo es demasiado grande. Máximo 8MB');
+            profileFotoIn.val('');
+            return;
+        }
+
+        var formData = new FormData(profileFotoForm[0]);
+
+        $.ajax({
+            'url': self.api + '?do=updatePhoto',
+            'type': 'POST',
+            'data': formData,
+            'xhr': function()
+            {
+                myXhr = $.ajaxSettings.xhr();
+                if(myXhr.upload) // check if upload property exists
+                {
+                    progressBar.css({
+                        'width': '0%'
+                    });
+                    profileFotoForm.find('div.progress').show(100);
+                    myXhr.upload.addEventListener('progress',progressHandleFn, false);
+                }
+                return myXhr;
+            },
+            //Ajax events
+            'beforeSend':  function(e){
+                console.log('beforeSend', e)
+            },
+            'success': function(e)
+            {
+                profileFotoForm.find('div.progress').hide(250);
+                // TODO: load thumb
+                profileFotoIn.val('');
+                profileFoto.attr('src', profileFoto.attr('src') + '?' + (new Date).getTime());
+
+            },
+            'error': function(){
+                console.log('error')
+            },
+            //Options to tell JQuery not to process data or worry about content-type
+            'cache': false,
+            'contentType': false,
+            'processData': false
+        });
+
+
+
+    });
+
+
+
+
+    // Router
+    var routes = {
+        '/' : function(){
+            self.chView($('#mainApp'));
+            $('#main-content > .active').removeClass('active');
+            $('li.active > a[href^="/"]').parent().removeClass('active');
+            $('#home').addClass('active');
+            $('a[href="/"]').parent().addClass('active');
+        },
+
+        '/profile' : function(){
+            console.warn('Se intenta acceder a /profile')
+        },
+
+        '/profile/:id' : function(p){
+            self.profile.load(p);
+            changeTab('profile');
+        },
+
+        '/messages' : function(){
+            changeTab('messages');
+        },
+
+        '/messages/:id': function(){
+        },
+
+        '/notifications': function(){
+            changeTab('notifications');
+        },
+
+        '/login': function(){
+            self.chView($('#login'));
+        },
+
+        '/logout': function(){
+            // Por seguridad seria mejor recargar la pagina para que no queden datos del anterior usuario.
+            self.chView($('#loadingMsg'));
+
+            $.get(self.api + '?do=logout', function() {
+                self.router.navigate('/login');
+            });
+        },
+
+        '/settings': function(){
+            self.settings.showTab('profile');
+        },
+
+        '/settings/profile': function(){
+            self.settings.showTab('profile');
+        },
+
+        '/settings/account': function(){
+            self.settings.showTab('account');
+        },
+
+        '/settings/password': function(){
+            self.settings.showTab('password');
+        },
+
+        '/settings/notifications': function(){
+            self.settings.showTab('notifications');
+        },
+
+        '/settings/lists': function(){
+            self.settings.showTab('lists');
+        },
+
+        '/help': function(){
+            self.settings.showTab('help');
+        },
+
+        '/about': function(){
+            self.settings.showTab('about');
+        },
+
+        '/register': function(){
+            self.chView($('#register'));
+        },
+
+        '/forgotPassword': function(){
+            self.chView($('#forgotPassword'));
+        }
+    };
+
+    self.router = new Staterouter(routes);
+
+    // Router links handler
+    $(document).on('click', 'a[href^="/"]', function(e) {
+        e.preventDefault();
+        self.router.navigate($(this).attr('href'));
+        //e.stopPropagation();
+        return false;
+    });
+
+    // ajax handler
+    $.ajaxSetup({
+        beforeSend: function() {
+            $("#loading").show()
+        },
+        complete:   function() {
+            $("#loading").hide()
+        },
+        error: function() {
+            self.alert.show('No se pudo acceder');
+        }
+    });
+
+    // INIT
+    // TODO: comprobar si se quiere acceder a una pagina que no hace falta estar identificado.
+    getStartInfo()
+    //console.log($.jStorage.storageAvailable());
+    //$('body').tooltip({	selector: '[rel=tooltip]'});
+
+
+
+
+    return self;
 };
-		
+
 // Creamos la instancia.
 var app = new Smil3();
-			
 
-			
+
+
 /*
 var activeList = 0;
 

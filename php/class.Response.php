@@ -13,45 +13,52 @@
 class Response extends Singleton
 {
 	private $data;
-	
+
 	protected function __construct()
 	{
 		ob_start();
 		$this->data = array('error' => 0);
 	}
-	
+
 	public function __destruct()
+	{
+		$this->forceSend();
+	}
+
+	protected function forceSend()
 	{
 		$this->data['stdout'] = ob_get_contents();
 		ob_end_clean();
-		$this->send();
-	}
-
-	protected function send()
-	{
 		echo json_encode($this->data);
 	}
-	
+
 	protected function addData($new)
 	{
 		$this->data = array_merge($this->data, $new);
 	}
-	
+
 	// Accesos directos para mas facilidad
-	public static function sendError($param)
+	public static function sendError($err)
 	{
-		self::getInstance()->addData(array('error' => $param));
+		Response::getInstance()->addData(array('error' => $err));
 		die();
 	}
-	
+
+	public static function send($data = null)
+	{
+		if ($data && is_array($data))
+			Response::getInstance()->addData($data);
+		die();
+	}
+
 	public static function add($param)
 	{
-		self::getInstance()->addData($param);
+		Response::getInstance()->addData($param);
 	}
-	
+
 	public static function init()
 	{
-		self::getInstance();
+		Response::getInstance();
 	}
 }
 
