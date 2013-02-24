@@ -8,7 +8,7 @@ echo 'Hola';
 
 Response::add(array('clave' => 'Valor', 5));
 
-Response::sendError(3);
+//Response::sendError(3);
 
-die('');
+die('_');
 ?>

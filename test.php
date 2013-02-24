@@ -1,50 +1,48 @@
 <?php
+
 /*
-if (!isset($_SESSION))
-	session_start();
+  if (!isset($_SESSION))
+  session_start();
 
-class test
-{
-	public $a;
-	public $b;
-	public $c = 'hola';
-	
-	public static function getInstance()
-	{
-		if (!isset($_SESSION[__CLASS__]))
-			$_SESSION[__CLASS__] = new static;
+  class test
+  {
+  public $a;
+  public $b;
+  public $c = 'hola';
 
-		return $_SESSION[__CLASS__];
-	}
-	
-	private function __construct()
-	{
+  public static function getInstance()
+  {
+  if (!isset($_SESSION[__CLASS__]))
+  $_SESSION[__CLASS__] = new static;
 
-		$this->a = 1;
-		$this->b = 2;
-		$_SESSION['test'] = $this;
-	}
-	
-	public function setB ()
-	{
-		$this->b = 9;
-	}
-}
+  return $_SESSION[__CLASS__];
+  }
+
+  private function __construct()
+  {
+
+  $this->a = 1;
+  $this->b = 2;
+  $_SESSION['test'] = $this;
+  }
+
+  public function setB ()
+  {
+  $this->b = 9;
+  }
+  }
 
 
-var_dump($_SESSION);
+  var_dump($_SESSION);
 
-$t = test::getInstance();
-var_dump($_SESSION);
+  $t = test::getInstance();
+  var_dump($_SESSION);
 
-$t->a = 3;
-$t->setB();
-var_dump($_SESSION);*/
+  $t->a = 3;
+  $t->setB();
+  var_dump($_SESSION);
+ */
 
-$v1 = array();
-$v2 = false;
-
-var_dump($v1 === false, $v2 === false);
-
+//var_dump(md5(str_shuffle(chr(mt_rand(32, 126)) . uniqid() . microtime(TRUE))));
 
 ?>
