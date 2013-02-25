@@ -932,6 +932,11 @@ class Validate
         return true;
     }
 
+    public function date2($year, $month, $day)
+    {
+        return checkdate($month, $day, $year);
+    }
+
     /**
      * Substr
      *
