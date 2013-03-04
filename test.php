@@ -43,6 +43,6 @@
   var_dump($_SESSION);
  */
 
-var_dump(md5(str_shuffle(chr(mt_rand(32, 126)) . uniqid() . microtime(TRUE))));
+var_dump();
 
 ?>

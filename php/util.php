@@ -1,9 +1,9 @@
 <?php
 
-
 /*
  * Calcula los años desde la fecha $year-$month-$day
  */
+
 function age($year, $month, $day)
 {
     $now = getdate();
@@ -21,6 +21,13 @@ function age($year, $month, $day)
     }
 
     return $$age;
+}
+
+
+// cadena de 32 letras y numeros aleatorios.
+function authToken()
+{
+    return md5(str_shuffle(chr(mt_rand(32, 126)) . uniqid() . microtime(TRUE)));
 }
 
 ?>

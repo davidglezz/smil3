@@ -75,7 +75,7 @@ var Smil3 = function()
     self.error.handle = function(n)
     {
         console.warn('Ha ocurrido un error ' + n);
-        
+
         if (n == 10)
         {
             // Obtenemos la direccion a la que se queria acceder
@@ -282,8 +282,8 @@ var Smil3 = function()
                         console.log(data);
                         if (data.error !== 0)
                         {
-                               // TODO Handle errors
-                               return
+                            // TODO Handle errors
+                            return
                         }
 
                         var doProperty = function(name)
@@ -543,7 +543,10 @@ var Smil3 = function()
     //console.log($.jStorage.storageAvailable());
     //$('body').tooltip({	selector: '[rel=tooltip]'});
 
-
+    if (!window.WebSocket)
+    {
+        self.alert.show('Su navegador no permite chat en tiempo real. Actualicelo o cambie a uno mejor.');
+    }
 
 
     return self;

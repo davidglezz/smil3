@@ -3,7 +3,7 @@
 /**
  * Description of SmileValidate
  *
- * @author Administrador
+ * @author David Gonzalez
  */
 class SmileValidate
 {
