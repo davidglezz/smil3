@@ -44,12 +44,27 @@ class Error
     37 => '',
     38 => '',
     39 => '',
-    40 => '';
+    40 => '',
     //
-    => '',
-    => '',
-    => ''
+    41 => 'Faltan datos.',
+    42 => 'Las contraseñas deben coincidir.',
 
+    // Publicaciones
+    60 => 'No se pueden hacer publicaciones vacias.',
+    61 => 'No se ha podido publicar.',
+    65 => 'Se debe especificar una publicacion.',
+    66 => 'El argumento debe ser un número.',
+
+    // Mensajes privados
+    70 => '',
+
+    // Seguir
+    80 => 'Se requiere el id de la persona.',
+    81 => 'El identificador de la persona debe ser un número.',
+    82 => 'No se ha podido realizar la operacion.',
+    83 => '',
+
+    85 => 'No se han podido las listas.'
     );
 }
 

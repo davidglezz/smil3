@@ -125,10 +125,10 @@ $actions['logout'] = function()
 
 $actions['changePasswd'] = function()
 {
-            // si pass1 != pass2 Response::sendError('19');
-            //Proccess Password change
-            count($_POST) OR Response::sendError('19');
 
+            //Proccess Password change
+            count($_POST) OR Response::sendError(41);
+            // si pass1 != pass2 Response::sendError(42);
             // TODO: validar y comprobar contraseña
             //$user->update($_POST);
 };
@@ -138,7 +138,7 @@ $actions['userUpdate'] = function()
             $user = User::getInstance();
 
             //Proccess Update
-            count($_POST) OR Response::sendError('19');
+            count($_POST) OR Response::sendError(41);
 
             foreach ($_POST as $name => $val)
                 if ($user->data[$name] == $val)
@@ -170,18 +170,35 @@ $actions['getPub'] = function()
 {
             isset($_POST['id']) OR Response::sendError('111');
 
-            $txt = $_POST['$txt'];
 
             $sql = 'SELECT publications (user, text) VALUES ( ?,  ?);';
-            $params = array(4, $txt);
+            $params = array($_POST['id']);
 
             Database::getInstance()->query($sql, $params);
 };
 
+$actions['getLatestPosts'] = function()
+{
+            $sql = 'SELECT id_publication, user, text, time, originalPub FROM publications INNER JOIN relations ON userB = user WHERE userA = ' . User::getInstance()->id;
+
+            if (isset($_POST['list']) && is_numeric($_POST['list']))
+            {
+                $sql .= ' AND list = ' . intval($_POST['list']);
+            }
+
+            if (isset($_POST['time']) && is_numeric($_POST['time']))
+            {
+                $sql .= ' AND time > ' . intval($_POST['time']);
+            }
+
+            $res = Database::getInstance()->query($sql);
+            Response::add($res);
+};
+
 $actions['delPub'] = function()
 {
-            isset($_GET['pid']) OR Response::sendError('71');
-            is_numeric($_GET['pid']) OR Response::sendError('72');
+            isset($_GET['pid']) OR Response::sendError(65);
+            is_numeric($_GET['pid']) OR Response::sendError(66);
             // La consulta no hace falta que sea preparada
             $sql = 'DELETE FROM publications WHERE id_publication=? AND user=? LIMIT 1;';
             $args = array(intval($_GET['pid']), User::getInstance()->id);
@@ -190,12 +207,12 @@ $actions['delPub'] = function()
 
 $actions['publish'] = function()
 {
-            isset($_POST['pub']) OR Response::sendError('60');
+            isset($_POST['pub']) OR Response::sendError(60);
             $user = User::getInstance();
             $sql = 'INSERT INTO publications (user, text, time) VALUES ( ?,  ?, ?);';
             $pub = htmlspecialchars($_POST['pub']);
             $params = array($user->id, $pub, time());
-            Database::getInstance()->query($sql, $params);
+            Database::getInstance()->query($sql, $params); // OR 61;
 };
 
 /* Private messages functions ************************************* */
@@ -282,13 +299,18 @@ $actions['getProfile'] = function()
             Response::add($profile);
 };
 
+$actions['getFullProfile'] = function()
+{
+    
+};
+
 
 /* * **************************************** */
 
 $actions['follow'] = function()
 {
-            isset($_GET['uid']) OR Response::sendError('85');
-            is_numeric($_GET['uid']) OR Response::sendError('86');
+            isset($_GET['uid']) OR Response::sendError(80);
+            is_numeric($_GET['uid']) OR Response::sendError(81);
 
             // TODO: list support
 
@@ -296,16 +318,51 @@ $actions['follow'] = function()
             $db = Database::getInstance();
             $res = $db->query($sql, array(User::getInstance()->id, intval($_GET['uid'])));
 
-            $res !== false OR Response::sendError('87');
+            $res !== false OR Response::sendError(83);
 };
 
 $actions['unfollow'] = function()
 {
-            isset($_GET['uid']) OR Response::sendError('85');
-            is_numeric($_GET['uid']) OR Response::sendError('86');
+            isset($_GET['uid']) OR Response::sendError(80);
+            is_numeric($_GET['uid']) OR Response::sendError(81);
 
             $sql = 'DELETE FROM relations WHERE userA=? AND userB=? LIMIT 1;';
             $db = Database::getInstance();
             $db->query($sql, array(User::getInstance()->id, intval($_GET['uid'])));
 };
+
+$actions['following'] = function()
+{
+    $sql = 'SELECT userB FROM relations WHERE userA = ? ;';
+    $db = Database::getInstance();
+    $params = array(User::getInstance()->id);
+    $res = $db->query($sql, $params);
+    $res !== false OR Response::sendError(86);
+    Response::add($res);
+};
+
+$actions['followers'] = function()
+{
+    $sql = 'SELECT userA FROM relations WHERE userB = ? ;';
+    $db = Database::getInstance();
+    $params = array(User::getInstance()->id);
+    $res = $db->query($sql, $params);
+    $res !== false OR Response::sendError(86);
+    Response::add($res);
+};
+
+$actions['lists'] = function()
+{
+    $sql = 'SELECT  id_list, name FROM lists WHERE owner = ? ;';
+    $db = Database::getInstance();
+    $params = array(User::getInstance()->id);
+    $res = $db->query($sql, $params);
+    $res !== false OR Response::sendError(85);
+    Response::add($res);
+}
+
+
+
+
+
 ?>
