@@ -5,7 +5,7 @@
  * Se encarga de gestionar la salida de los datos al cliente, y
  * que sean siempre datos json por lo que no deberia haber ningun
  * die, echo, print o semejantes. La salida de texto estandar quedara
- * reflejada en la variable stdout
+ * reflejada en la variable debug
  *
  * @author David Gonzalez
  */
@@ -27,8 +27,11 @@ class Response extends Singleton
 
 	protected function forceSend()
 	{
-		$this->data['stdout'] = ob_get_contents();
+		if (isset($_COOKIE['debug']) && $_COOKIE['debug'] == '1')
+            $this->data['debug'] = ob_get_contents();
+
 		ob_end_clean();
+
 		echo json_encode($this->data);
 	}
 

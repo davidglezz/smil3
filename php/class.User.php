@@ -37,7 +37,7 @@ class User extends Singleton
 
 		if ($res[0][2] === hash('sha256', $password.$res[0][3]))
 		{
-			$this->id = $res[0][0];
+			$this->id = intval($res[0][0]);
 			$this->username = $res[0][1];
 			$this->name = $res[0][4];
 			$this->signed = true;

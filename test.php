@@ -1,48 +1,28 @@
 <?php
 
-/*
-  if (!isset($_SESSION))
-  session_start();
-
-  class test
-  {
-  public $a;
-  public $b;
-  public $c = 'hola';
-
-  public static function getInstance()
-  {
-  if (!isset($_SESSION[__CLASS__]))
-  $_SESSION[__CLASS__] = new static;
-
-  return $_SESSION[__CLASS__];
-  }
-
-  private function __construct()
-  {
-
-  $this->a = 1;
-  $this->b = 2;
-  $_SESSION['test'] = $this;
-  }
-
-  public function setB ()
-  {
-  $this->b = 9;
-  }
-  }
+$entrada = array("a", "b", "c", "d", "e");
+array_splice($entrada, 2, 1);
+var_dump($entrada);
 
 
-  var_dump($_SESSION);
 
-  $t = test::getInstance();
-  var_dump($_SESSION);
+$entrada = array("rojo", "verde", "azul", "amarillo");
+array_splice($entrada, 1, -1);
+var_dump($entrada);
+// $entrada ahora es array("rojo", "amarillo")
 
-  $t->a = 3;
-  $t->setB();
-  var_dump($_SESSION);
- */
+$entrada = array("rojo", "verde", "azul", "amarillo");
+array_splice($entrada, 1, count($entrada), "naranja");
+var_dump($entrada);
+// $entrada ahora es array("rojo", "naranja")
 
-var_dump();
+$entrada = array("rojo", "verde", "azul", "amarillo");
+array_splice($entrada, -1, 1, array("negro", "granate"));
+var_dump($entrada);//array("rojo", "verde", "azul", "negro", "granate")
 
+$entrada = array("rojo", "verde", "azul", "amarillo");
+array_splice($entrada, 3, 0, "púpura");
+var_dump($entrada);
+// $entrada ahora es array("rojo", "verde",
+//          "azul", "púpura", "amarillo");
 ?>

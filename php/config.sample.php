@@ -15,5 +15,5 @@ define('DB_NAME', 'smil3');
 define('DB_USER', 'user');
 define('DB_PASS', 'pass');
 
-define('MINIMAL_AGE', 16);
+define('MINIMUM_AGE', 16);
 ?>
