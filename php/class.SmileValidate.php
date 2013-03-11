@@ -45,7 +45,7 @@ class SmileValidate
         if (!checkdate($month, $day, $year))
             return false;
 
-        if (age($year, $month, $day) < MINIMAL_AGE)
+        if (age($year, $month, $day) < MINIMUM_AGE)
             return false;
 
         return true;

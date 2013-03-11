@@ -301,7 +301,7 @@ $actions['getProfile'] = function()
 
 $actions['getFullProfile'] = function()
 {
-    
+
 };
 
 
@@ -333,36 +333,34 @@ $actions['unfollow'] = function()
 
 $actions['following'] = function()
 {
-    $sql = 'SELECT userB FROM relations WHERE userA = ? ;';
-    $db = Database::getInstance();
-    $params = array(User::getInstance()->id);
-    $res = $db->query($sql, $params);
-    $res !== false OR Response::sendError(86);
-    Response::add($res);
+            $sql = 'SELECT userB FROM relations WHERE userA = ? ;';
+            $db = Database::getInstance();
+            $params = array(User::getInstance()->id);
+            $res = $db->query($sql, $params);
+            $res !== false OR Response::sendError(86);
+            Response::add($res);
 };
 
 $actions['followers'] = function()
 {
-    $sql = 'SELECT userA FROM relations WHERE userB = ? ;';
-    $db = Database::getInstance();
-    $params = array(User::getInstance()->id);
-    $res = $db->query($sql, $params);
-    $res !== false OR Response::sendError(86);
-    Response::add($res);
+            $sql = 'SELECT userA FROM relations WHERE userB = ? ;';
+            $db = Database::getInstance();
+            $params = array(User::getInstance()->id);
+            $res = $db->query($sql, $params);
+            $res !== false OR Response::sendError(86);
+            Response::add($res);
 };
 
 $actions['lists'] = function()
 {
-    $sql = 'SELECT  id_list, name FROM lists WHERE owner = ? ;';
-    $db = Database::getInstance();
-    $params = array(User::getInstance()->id);
-    $res = $db->query($sql, $params);
-    $res !== false OR Response::sendError(85);
-    Response::add($res);
+            $lists = ListManager::getInstance()->getAll();
+            $lists !== false OR Response::sendError(85);
+            Response::add($lists);
 }
 
+/*
 
 
 
-
+ */
 ?>

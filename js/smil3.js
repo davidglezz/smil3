@@ -12,15 +12,7 @@
     };
 })(jQuery);
 
-$.nano = function(t,d){
-    return t.replace(/\{([\w\.]*)\}/g,function(s,n){
-        var k=n.split('.'),v=d[k.shift()];
-        $.each(k,function(){
-            v=v[this]
-        });
-        return v===null||v===undefined?'':v
-    })
-};
+$.nano=function(t,d){return t.replace(/\{([\w\.]*)\}/g,function(s,n){var k=n.split('.'),v=d[k.shift()];$.each(k,function(){v=v[this]});return v===null||v===undefined?'':v})};
 
 
 var Smil3 = function()
@@ -109,6 +101,25 @@ var Smil3 = function()
             }
         }
     })();
+
+    // Publicaciones
+    self.postFactory = (function() // error, success, info
+    {
+        var container = $('#alerts');
+        var template = $('');
+
+        return {
+            'make': function(data){
+                template.find('span').html(msg);
+                if (type) template.addClass('alert-' + type);
+                template.clone().appendTo(container);
+            },
+            'delete': function(){
+                container.find('.alert').remove();
+            }
+        }
+    })();
+
 
 
     // Vistas
