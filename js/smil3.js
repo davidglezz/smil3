@@ -105,7 +105,6 @@ var Smil3 = function()
     // Publicaciones
     self.postFactory = (function() // error, success, info
     {
-        var container = $('#alerts');
         var template = $('');
 
         return {
