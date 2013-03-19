@@ -16,7 +16,6 @@
     width: 100%;
     text-align: center;
     margin-top: -100px;
-    /*-webkit-animation: pulse 2s infinite ;*/
 }
 
 #alerts {
@@ -223,7 +222,11 @@ textarea[readonly] {
 
 }
 
-
+.post .time {
+    float: right;
+    color: #888;
+    text-shadow: 0 1px 0 #fff;
+}
 
 .pub {
     position: relative;
@@ -234,8 +237,6 @@ textarea[readonly] {
     margin-left: 10px;
     background-color: #fff;
     border: 1px solid #ccc;
-    -webkit-border-radius: 6px;
-    -moz-border-radius: 6px;
     border-radius: 6px;
     -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -300,6 +301,8 @@ textarea[readonly] {
     border-right-color: #ffffff;
     border-width: 10px 10px 10px 0;
 }
+
+
 .post-avatar {
     width: 100px;
     float: left;
