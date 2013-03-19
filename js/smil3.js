@@ -611,3 +611,25 @@ App.Helpers.checkSyncStatus = function() {
   App.set('syncCheck', setInterval(check, 1000));
 };
  */
+
+var tmplData = [{
+    'author': 'David Gonzalez',
+    'username': 'davidglez',
+    'time': '12:32',
+    'text': 'Hola a todos',
+    'shareCounter': '1',
+    'plusCounter': '6',
+    'minusCounter': '1',
+    'comentCounter': '3'
+},{
+    'author': 'David Gonzalez',
+    'username': 'davidglez',
+    'time': '12:32',
+    'text': 'Hola a todos',
+    'shareCounter': '1',
+    'plusCounter': '6',
+    'minusCounter': '1',
+    'comentCounter': '3'
+}]
+
+$("#posts").html($("#post-tmpl").render(tmplData));

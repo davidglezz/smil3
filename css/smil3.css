@@ -222,13 +222,18 @@ textarea[readonly] {
 
 }
 
+.post {
+    margin: 30px 0;
+     overflow: hidden;
+}
+
 .post .time {
     float: right;
     color: #888;
     text-shadow: 0 1px 0 #fff;
 }
 
-.pub {
+.post-wrap {
     position: relative;
     width: 556px;
     float: left;
@@ -246,7 +251,7 @@ textarea[readonly] {
     background-clip: padding-box;
 }
 
-.pub-title, .pub-footer {
+.post-title, .post-footer {
     padding: 8px 14px;
     margin: 0;
     font-size: 14px;
@@ -255,28 +260,28 @@ textarea[readonly] {
     background-color: #f7f7f7;
 }
 
-.pub-title {
+.post-title {
     border-bottom: 1px solid #ebebeb;
     border-radius: 5px 5px 0 0;
 }
 
-.pub-footer {
+.post-footer {
     border-top: 1px solid #ebebeb;
     border-radius: 0 0 5px 5px;
 }
 
-.pub-content {
+.post-content {
     padding: 9px 14px;
 }
 
-.pub-content p,
-.pub-content ul,
-.pub-content ol {
+.post-content p,
+.post-content ul,
+.post-content ol {
     margin-bottom: 0;
 }
 
-.pub .arrow,
-.pub .arrow:after {
+.post .arrow,
+.post .arrow:after {
     position: absolute;
     display: inline-block;
     width: 0;
@@ -285,7 +290,7 @@ textarea[readonly] {
     border-style: solid;
 }
 
-.pub .arrow:after {
+.post .arrow:after {
     z-index: -1;
     content: "";
     bottom: -11px;
@@ -294,7 +299,7 @@ textarea[readonly] {
     border-width: 11px 11px 11px 0;
 }
 
-.pub .arrow {
+.post .arrow {
     top: 55px;
     left: -10px;
     margin-top: -10px;
@@ -322,32 +327,14 @@ textarea[readonly] {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-/*
-.pub .pub-body {
-    padding: 0;
-    z-index: 20;
-    position: relative;
-    background-color: #fff;
-    border: 1px solid #e3e3e3;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
-    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-    -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-}
-
-.pub .pub-footer {
-}
-*/
-.pub .pub-comments {
-    /*margin: -5px 5px 20px;
+comments {
+    margin: -5px 5px 20px;
     padding: 5px 0 0;
     background-color: #f5f5f5;
     border: 1px solid #e3e3e3;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
-    border-radius: 4px;*/
+    border-radius: 4px;
 }
 
 .comment {
