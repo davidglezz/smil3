@@ -27,18 +27,18 @@
             <form id="loginForm" method="post" action="main.php?do=special&amp;that=login">
                 <div class="modal form-signin">
                     <div class="modal-header">
-                        <h3>Identifícate</h3>
+                        <img src="img/logo.png" />
                     </div>
                     <div class="modal-body">
                         <input type="text" class="input-block-level" name="username" placeholder="Usuario" autofocus required pattern="[a-zA-Z0-9_]{3,45}" />
                         <input type="password" name="password" class="input-block-level" placeholder="Contraseña" required pattern=".{6,30}" />
                         <label class="checkbox">
-                            <input type="checkbox" value="remember" /> Recordar datos
+                            <input type="checkbox" value="noexpire" /> No cerrar sesión automaticamente
                         </label>
                     </div>
                     <div class="modal-footer">
-                        <a class="pull-left" href="/register">Regístrate, es gratis!</a>
-                        <input type="submit" class="btn btn-large btn-primary" value="Iniciar sesion" data-loading-text="Autentificando" />
+                        <a class="btn pull-left" href="/register">Quiero registrarme</a>
+                        <input type="submit" class="btn  btn-primary" value="Iniciar sesion" data-loading-text="Autentificando" />
                     </div>
                 </div>
             </form>
@@ -174,54 +174,12 @@ Recibirás un email con un enlace de confirmación. Una vez confirmes el sistema
                         </div>
 
                         <div id="posts" class="span7">
-
-                            <div class="post">
-
-                                <div class="post-avatar">
-                                    <a href="#"><img src="img/default_medium_profile_pic.png" alt="pepito"></a>
-                                </div>
-
-                                <div class="pub">
-                                    <div class="arrow"></div>
-                                    <div class="pub-title">David Gonzalez - <span class="username">@davidgg</span> <span class="time">21:49</span></div>
-                                    <div class="pub-content">
-                                        <p>Huawei 6310, celular con wifi y economico - Continuando hablando sobre los celulares básicos aqui <a href="#">#sollicitudin</a> en lo nuevo de hoy, esta vez te comentare sobre el Huawei 6310, otro teléfono que cuente con un teclado fisico QWERTY y con la ventaja que incluye WIFI. Características del Huawei 6310: Pantalla de 2.4Leer más : http://ow.ly/2vub0n commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.</p>
-                                    </div>
-                                    <div class="pub-footer btn-toolbar">
-                                        <button class="btn btn-mini" type="button">
-                                            <i class="icon-share-alt"></i>
-                                            <span>12</span>
-                                        </button>
-
-                                        <div class="btn-group">
-                                            <button class="btn btn-mini" type="button"><i class="icon-thumbs-up"></i> 123</button>
-                                            <button class="btn btn-mini" type="button"><i class="icon-thumbs-down"></i> 57</button>
-                                        </div>
-
-                                        <button class="btn btn-mini" type="button">
-                                            <i class="icon-refresh"></i>
-                                        </button>
-
-                                        <div class="btn-group">
-                                            <button class="btn btn-mini" type="button"><i class="icon-plus"></i></button>
-                                            <button class="btn btn-mini" type="button"><i class="icon-bell"></i></button>
-                                            <button class="btn btn-mini" type="button"><i class="icon-flag"></i></button>
-                                        </div>
-
-                                        <button class="btn btn-mini" type="button">
-                                            <i class="icon-comment"></i>
-                                            <span>36</span>
-                                        </button>
-
-                                    </div>
-                                </div>
-
-                            </div>
-
                         </div>
 
                         <div class="span3">
-
+                            <div class="coments">
+                                <div class="arrow"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -753,29 +711,59 @@ Recibirás un email con un enlace de confirmación. Una vez confirmes el sistema
         <div id="loading" class="push-loader" style="display: none;"></div>
         <div id="alerts" style="display: block;"></div>
 
-        <script id="movieTemplate" type="text/x-jquery-tmpl">
-        <tr>
-            <td>${Title}</td>
-            <td>
-                {{if Languages}}
-                Alternative languages: <em>${Languages}</em>.
-                {{else Subtitles}}
-                Original language only...
-                Subtitles in <em>${Subtitles}</em>.
-                {{else}}
-                Original version only, without subtitles.
-                {{/if}}
-            </td>
-        </tr>
-    </script>
+        <script id="post-tmpl" type="text/x-jquery-tmpl">
 
-    <script src="js/jquery-1.8.2.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery.history.js"></script>
-    <script src="js/staterouter.js"></script>
-    <script src="js/jstorage.js"></script>
-    <script src="js/smil3.js"></script>
-    <!--<script src="js/feedback.js"></script>-->
+            <div class="post">
+                                <div class="post-avatar">
+                                    <a href="#"><img src="img/default_medium_profile_pic.png" alt="pepito"></a>
+                                </div>
+                                <div class="post-wrap">
+                                    <div class="arrow"></div>
+                                    <div class="post-title">
+                                        <span class="author">{{>author}}</span>
+                                        <span class="username">@{{>username}}</span>
+                                        <span class="time">{{>time}}</span></div>
+                                    <div class="post-content">
+                                        <p class="text">{{>text}}</p>
+                                    </div>
+                                    <div class="post-footer btn-toolbar">
+                                        <button class="btn btn-mini" type="button">
+                                            <i class="icon-share-alt"></i>
+                                            <span>{{>shareCounter}}</span>
+                                        </button>
 
-</body>
+                                        <div class="btn-group">
+                                            <button class="btn btn-mini" type="button"><i class="icon-thumbs-up"></i> {{>plusCounter}}</button>
+                                            <button class="btn btn-mini" type="button"><i class="icon-thumbs-down"></i> {{>minusCounter}}</button>
+                                        </div>
+
+                                        <button class="btn btn-mini" type="button">
+                                            <i class="icon-refresh"></i>
+                                        </button>
+
+                                        <div class="btn-group">
+                                            <button class="btn btn-mini" type="button"><i class="icon-plus"></i></button>
+                                            <button class="btn btn-mini" type="button"><i class="icon-bell"></i></button>
+                                            <button class="btn btn-mini" type="button"><i class="icon-flag"></i></button>
+                                        </div>
+
+                                        <button class="btn btn-mini pull-right" type="button">
+                                            <i class="icon-comment"></i> {{>comentCounter}}</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+        </script>
+
+        <script src="js/jquery-1.9.1.min.js"></script>
+        <script src="js/jsrender.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/jquery.history.js"></script>
+        <script src="js/staterouter.js"></script>
+        <script src="js/jstorage.js"></script>
+        <script src="js/smil3.js"></script>
+        <!--<script src="js/feedback.js"></script>-->
+
+    </body>
 </html>
