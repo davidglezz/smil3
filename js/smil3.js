@@ -1,19 +1,3 @@
-/* Nano Templates (Tomasz Mazur, Jacek Becela) */
-//http://jsfiddle.net/UXZDy/1/
-(function($){
-    $.nano2 = function(template, data) {
-        return template.replace(/\{([\w\.]*)\}/g, function (str, key) {
-            var keys = key.split("."), value = data[keys.shift()];
-            $.each(keys, function () {
-                value = value[this];
-            });
-            return (value === null || value === undefined) ? "" : value;
-        });
-    };
-})(jQuery);
-
-$.nano=function(t,d){return t.replace(/\{([\w\.]*)\}/g,function(s,n){var k=n.split('.'),v=d[k.shift()];$.each(k,function(){v=v[this]});return v===null||v===undefined?'':v})};
-
 
 var Smil3 = function()
 {
@@ -515,7 +499,10 @@ var Smil3 = function()
             self.settings.showTab('about');
         },
 
-        '/register': function(){
+        '/register': function()
+        {
+            if (!document.getElementById('register'))
+                $($.trim($("#register-tmpl").render({title:'prueba'}))).insertAfter('#loadingMsg');
             self.chView($('#register'));
         },
 
@@ -567,7 +554,7 @@ var app = new Smil3();
 
 
 
-/*
+    /*
 var activeList = 0;
 
 var uptade = function()
@@ -610,7 +597,7 @@ App.Helpers.checkSyncStatus = function() {
 
   App.set('syncCheck', setInterval(check, 1000));
 };
- */
+
 
 var tmplData = [{
     'author': 'David Gonzalez',
@@ -632,4 +619,4 @@ var tmplData = [{
     'comentCounter': '3'
 }]
 
-$("#posts").html($("#post-tmpl").render(tmplData));
+$("#posts").html($("#post-tmpl").render(tmplData)); */

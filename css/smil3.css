@@ -6,7 +6,13 @@
     font-style:normal
 }
 
-
+/*@import url(http://fonts.googleapis.com/css?family=Exo&text=SMIL3);*/
+@font-face {
+    font-family: 'Exo';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Exo Regular'), local('Exo-Regular'), url('http://themes.googleusercontent.com/licensed/font?kit=YetggONECW10lBlIC00M9zu9JUiADISaETZ9Nw0Lp7c') format('woff');
+}
 
 #loadingMsg {
     display: inline-block;
@@ -61,22 +67,70 @@ h1, h2, h3, .brand {
     font-family: "Myriad Pro Lite", "Helvetica Neue", Helvetica, Arial, sans-serif;;
     font-weight: 300;
 }
+
+.logotext
+{
+    font-family: 'Exo', sans-serif;
+    -webkit-font-smoothing:  antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+.logotext b
+{
+    font-weight: 400;
+}
+
+.logotext b:nth-child(1)
+{
+    color: #0099CC;
+    text-shadow: 0.05em 0 0 #99DAF2;
+}
+
+.logotext b:nth-child(2)
+{
+    color: #669900;
+    text-shadow: 0.025em 0 0 #CCE57F;
+}
+
+.logotext b:nth-child(3)
+{
+    color: #FF8800;
+    text-shadow: 0.0125em 0 0 #FFDD99, -0.0125em 0 0 #FFDD99;
+
+}
+
+.logotext b:nth-child(4)
+{
+    color: #9933CC;
+    text-shadow: -0.025em 0 0 #D4B2E5;
+}
+
+.logotext b:nth-child(5)
+{
+    color: #CC0000;
+    text-shadow: -0.05em 0 0 #FFA1A1;
+}
+
+
+
 .navbar .brand {
     position: fixed;
     top: -4px;
-    font-size: 35px;
+    font-size: 30px;
     line-height: 35px;
-    padding: 10px 15px 6px;
+    padding: 10px 10px 6px;
     background-color: #FFF;
     border: 1px solid #E3E3E3;
     border-top: 0;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
     border-radius: 4px;
 
     -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
     -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
+    /*
+    font-size: 30px;
+    line-height: 38px;
+    padding: 0 10px 0 0;*/
 }
 
 .navbar .nav {
@@ -125,12 +179,23 @@ textarea[readonly] {
     margin-left: -150px;
 }
 
+.form-signin .modal-header {
+    padding: 25px 15px 15px;
+}
+
+
 .form-signin input[type="text"],
-.form-signin input[type="password"] {
+.form-signin input[type="password"]
+{
     font-size: 16px;
     height: auto;
     margin-bottom: 15px;
     padding: 7px 9px;
+}
+
+.form-signin label
+{
+    margin-bottom: 15px;
 }
 
 
@@ -224,7 +289,7 @@ textarea[readonly] {
 
 .post {
     margin: 30px 0;
-     overflow: hidden;
+    overflow: hidden;
 }
 
 .post .time {
