@@ -1,0 +1,33 @@
+http://telly.com/647DA
+https://wrapbootstrap.com/
+http://stackoverflow.com/questions/12838293/bootstrap-three-column-layout-stacking-issue
+
+
+
+Tweet, es cada una de las actualizaciones de estado que realizamos en Twitter, la longitud de éstos no puede ser mayor de 150 caracteres.
+
+Avatar, es la imagen de perfil que nos identifica cuando escribimos un tweet.
+
+Encabezado, es la imagen rectangular que aparece detrás de nuestra biografía en el perfil.
+
+Biografía, texto de 160 caracteres que nos define en Twitter.
+
+Follower, también conocido como seguidores, es cada uno de los usuarios que se ha suscrito a nuestra cuenta a través del botón “Seguir” y que sigue nuestras actualizaciones.
+
+Following, usuarios que seguimos en Twitter.
+
+Favoritos, cada vez que un tweet nos gusta mucho tenemos la posibilidad de marcarlo favorito y acceder a él siempre que queramos.
+
+Timeline, página inicial de Twitter en el que se muestran los tweets de los usuarios que seguimos.
+
+@mención, es la forma de etiquetar y enlazar el perfil de un usuario en un tweet.
+
+# (hashtag), utilizamos este signo para etiquetar un determinado tema. Gracias a esta almohadilla podemos realizar una búsqueda y agrupar aquellos tweets que estén hablando del mismo asunto.
+
+#ff (follow friday), es el hashtag preferido de los viernes y que se utiliza para recomendar a otros usuarios.
+
+Trendic Topic (TT), son aquellos temas que más se están hablando en la plataforma en ese momento.
+
+DM (Direct Message) es la forma que nos brinda Twitter para comunicarnos con otros usuarios de forma privada.
+
+La entrada Diccionario básico de Twitter aparece primero en Marketing en Redes Sociales.
