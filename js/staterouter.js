@@ -1,8 +1,6 @@
 
-"use strict";
-
 var Staterouter = function(theRoutes) {
-	
+
 	function normalizePath(path) { // comprobar que nunca es llamada esta funcion
 		if (path[0] !== '/') {
 			path = '/' + path;
@@ -10,9 +8,16 @@ var Staterouter = function(theRoutes) {
 		}
 		return path;
 	}
-	
-	var self = this;
+
+    var self = this;
 	self.routes = theRoutes || {};
+
+    self.getRoute = function()
+    {
+        var link = document.createElement("a");
+        link.href = History.getState().url;
+        return link.pathname;
+    }
 
 	self.route = function (path, func) {
 		self.routes[normalizePath(path)] = func;
@@ -48,7 +53,7 @@ var Staterouter = function(theRoutes) {
 	self.go = History.go;
 
 	History.Adapter.bind(window, 'statechange', self.perform);
-		
+
 	return self;
 }
 
