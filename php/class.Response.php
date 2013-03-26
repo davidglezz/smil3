@@ -16,6 +16,7 @@ class Response extends Singleton
 
 	protected function __construct()
 	{
+        header('Content-Type: application/json; charset=utf8');
 		ob_start();
 		$this->data = array('error' => 0);
 	}
@@ -35,7 +36,7 @@ class Response extends Singleton
 		echo json_encode($this->data);
 	}
 
-	protected function addData($new)
+	public function addData($new)
 	{
 		$this->data = array_merge($this->data, $new);
 	}
@@ -49,13 +50,14 @@ class Response extends Singleton
 
 	public static function send($data = null)
 	{
-		if ($data && is_array($data))
+		if (is_array($data))
 			Response::getInstance()->addData($data);
 		die();
 	}
 
 	public static function add($param)
 	{
+
 		Response::getInstance()->addData($param);
 	}
 

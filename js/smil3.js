@@ -17,33 +17,29 @@ var Smil3 = function()
 
     var getStartInfo = function()
     {
-        $.getJSON(self.api, {
-            'do':'getStartInfo'
-        }, function(data)
-
+        $.getJSON(self.api, {'do':'getStartInfo'}, function(data)
         {
-                console.log(data);
-                if (data.error == 10)
-                {
-                    // Obtenemos la direccion a la que se queria acceder
-                    // y la guardamos para ir despues de identificarse.
-                    self.dest = getRoute();
-                    self.router.navigate('/login');
-                    return;
-                }
+            console.log(data);
+            if (data.error == 10)
+            {
+                // Obtenemos la direccion a la que se queria acceder
+                // y la guardamos para ir despues de identificarse.
+                self.dest = getRoute();
+                self.router.navigate('/login');
+                return;
+            }
 
-                self.user = data.user;
-                $('#username').text(data.user[2]);
+            self.user = data.user;
+            $('#username').text(data.user[2]);
 
-                var mainApp = $('#mainApp');
-                var profileLink = mainApp.find('.navbar a[href^="/profile"]');
-                profileLink.attr('href', profileLink.attr('href') + '/' + data.user[1]);
+            var mainApp = $('#mainApp');
+            var profileLink = mainApp.find('.navbar a[href^="/profile"]');
+            profileLink.attr('href', profileLink.attr('href') + '/' + data.user[1]);
 
-                self.chView(mainApp);
-                self.router.perform();
+            self.chView(mainApp);
+            self.router.perform();
 
-
-            });
+        });
     }
 
     // Error handler
@@ -416,9 +412,6 @@ var Smil3 = function()
             'contentType': false,
             'processData': false
         });
-
-
-
     });
 
 
