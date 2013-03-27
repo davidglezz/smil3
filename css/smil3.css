@@ -35,6 +35,9 @@
 #alerts .alert{
     display: inline-block;
     margin: 5px;
+    -webkit-box-shadow: 0 0 0 4px white;
+    -moz-box-shadow: 0 0 0 4px white;
+    box-shadow: 0 0 0 4px white;
 }
 
 @-webkit-keyframes pulse {
@@ -183,7 +186,6 @@ textarea[readonly] {
     padding: 25px 15px 15px;
 }
 
-
 .form-signin input[type="text"],
 .form-signin input[type="password"]
 {
@@ -197,6 +199,15 @@ textarea[readonly] {
 {
     margin-bottom: 15px;
 }
+.form-signin i{
+    opacity: .5;
+}
+
+.form-signin .btn-link.pull-left{
+    padding-left: 0;
+}
+
+
 
 
 /* navbar */
