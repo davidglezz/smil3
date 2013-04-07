@@ -184,6 +184,7 @@ textarea[readonly] {
 
 .form-signin .modal-header {
     padding: 25px 15px 15px;
+    border-bottom: 0;
 }
 
 .form-signin input[type="text"],
@@ -208,6 +209,46 @@ textarea[readonly] {
 }
 
 
+/* REGISTER */
+#register textarea[readonly] {
+    cursor: default;
+    background-color: #fff;
+}
+
+#register .modal {
+    position: relative;
+    top: auto;
+    left: auto;
+    margin: 30px auto 10px;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.popover {
+    z-index: 9960;
+}
+
+.popover-title:empty {
+    display: none;
+}
+
+.popover .progress {
+    margin-bottom: 0;
+}
+
+.popover .progress .bar {
+    background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.25), rgba(0, 0, 0, 0.15));
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(255, 255, 255, 0.25)), to(rgba(0, 0, 0, 0.15)));
+    background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.25), rgba(0, 0, 0, 0.15));
+    background-image: -o-linear-gradient(top, rgba(255, 255, 255, 0.25), rgba(0, 0, 0, 0.15));
+    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.25), rgba(0, 0, 0, 0.15));
+    background-repeat: repeat-x;
+    filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ffffff19', endColorstr='#00000010', GradientType=0);
+}
+
+#passInfo {
+    margin-bottom: 5px;
+}
 
 
 /* navbar */

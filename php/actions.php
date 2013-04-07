@@ -28,18 +28,19 @@ $specialActions['register'] = function()
 
             // Fecha (YYYY-MM-DD)
             SmileValidate::birthdate($_POST['birthdate_year'], $_POST['birthdate_month'], $_POST['birthdate_day']) OR Response::sendError(19);
+            //SmileValidate::age($_POST['birthdate_year'], $_POST['birthdate_month'], $_POST['birthdate_day']) OR Response::sendError(20);
             $data['birthdate'] = $_POST['birthdate_year'] . '-' . $_POST['birthdate_month'] . '-' . $_POST['birthdate_day'];
 
             // Sexo (Male, Female)
-            SmileValidate::gender($_POST['sex']) OR Response::sendError(20);
+            SmileValidate::gender($_POST['sex']) OR Response::sendError(21);
             $data['sex'] = $_POST['sex'];
 
             // Pais (ES)
-            SmileValidate::country($_POST['country']) OR Response::sendError(21);
+            SmileValidate::country($_POST['country']) OR Response::sendError(22);
             $data['country'] = $_POST['country'];
 
             //Register User
-            User::getInstance()->register($data) OR Response::sendError(22);
+            User::getInstance()->register($data) OR Response::sendError(23);
 
             // TODO: enviar email de confirmación
 };

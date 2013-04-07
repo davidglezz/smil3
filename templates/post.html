@@ -1,0 +1,40 @@
+<div class="post">
+    <div class="post-avatar">
+        <a href="#"><img src="img/default_medium_profile_pic.png" alt="pepito"></a>
+    </div>
+    <div class="post-wrap">
+        <div class="arrow"></div>
+        <div class="post-title">
+            <span class="author">{{>author}}</span>
+            <span class="username">@{{>username}}</span>
+            <span class="time">{{>time}}</span></div>
+        <div class="post-content">
+            <p class="text">{{>text}}</p>
+        </div>
+        <div class="post-footer btn-toolbar">
+            <button class="btn btn-mini" type="button">
+                <i class="icon-share-alt"></i>
+                <span>{{>shareCounter}}</span>
+            </button>
+
+            <div class="btn-group">
+                <button class="btn btn-mini" type="button"><i class="icon-thumbs-up"></i> {{>plusCounter}}</button>
+                <button class="btn btn-mini" type="button"><i class="icon-thumbs-down"></i> {{>minusCounter}}</button>
+            </div>
+
+            <button class="btn btn-mini" type="button">
+                <i class="icon-refresh"></i>
+            </button>
+
+            <div class="btn-group">
+                <button class="btn btn-mini" type="button"><i class="icon-plus"></i></button>
+                <button class="btn btn-mini" type="button"><i class="icon-bell"></i></button>
+                <button class="btn btn-mini" type="button"><i class="icon-flag"></i></button>
+            </div>
+
+            <button class="btn btn-mini pull-right" type="button">
+                <i class="icon-comment"></i> {{>comentCounter}}</span>
+            </button>
+        </div>
+    </div>
+</div>
