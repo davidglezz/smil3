@@ -8,7 +8,6 @@
  */
 class ListManager extends Singleton
 {
-
     private $lists;
 
     protected function __construct()
@@ -115,7 +114,7 @@ class ListManager extends Singleton
         $sql = $newPos > $pos ?
                 sprintf($sql, '-', User::getInstance()->id, $pos + 1, $newPos, $newPos - $pos) :
                 sprintf($sql, '+', User::getInstance()->id, $pos, $newPos - 1, $newPos - $pos);
-        
+
         $res = $db->query($sql);
 
         if ($res === false)
