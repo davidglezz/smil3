@@ -154,9 +154,15 @@ $actions['getStartInfo'] = function()
 {
             $user = User::getInstance();
 
-            $data['user'] = array($user->id, $user->username, $user->name);
+            $data = (array)$user;
+            $data['user'];
             $data['msgs'] = 0;
             $data['notif'] = 0;
+
+            // getLists
+            $sql = 'SELECT id_list as id, name FROM lists WHERE owner = '.$user->id.' ORDER BY `order` ASC;';
+            $data['lists'] = Database::getInstance()->query($sql, null, PDO::FETCH_ASSOC);
+
             Response::add($data);
 };
 
@@ -178,21 +184,21 @@ $actions['getPub'] = function()
             Database::getInstance()->query($sql, $params);
 };
 
-$actions['getLatestPosts'] = function()
+$actions['getPosts'] = function()
 {
-            $sql = 'SELECT id_publication, user, text, time, originalPub FROM publications INNER JOIN relations ON userB = user WHERE userA = ' . User::getInstance()->id;
+            $sql = 'SELECT id_publication as id, user, text, time, originalPub FROM publications INNER JOIN relations ON userB = user WHERE userA = ' . User::getInstance()->id;
 
-            if (isset($_POST['list']) && is_numeric($_POST['list']))
+            if (isset($_GET['list']) && is_numeric($_GET['list']))
             {
-                $sql .= ' AND list = ' . intval($_POST['list']);
+                $sql .= ' AND list = ' . intval($_GET['list']);
             }
 
-            if (isset($_POST['time']) && is_numeric($_POST['time']))
+            if (isset($_GET['time']) && is_numeric($_GET['time']))
             {
-                $sql .= ' AND time > ' . intval($_POST['time']);
+                $sql .= ' AND time > ' . intval($_GET['time']);
             }
 
-            $res = Database::getInstance()->query($sql);
+            $res = Database::getInstance()->query($sql, null, PDO::FETCH_ASSOC);
             Response::add($res);
 };
 
@@ -265,7 +271,6 @@ $actions['userUpdateField'] = function()
 $updateFieldFn['username'] = function()
 {
             $user = User::getInstance();
-
             $sql = "UPDATE users SET `activated`=1, `web`='www.davidxl.es', `bio`='Me gusta la Smile. ', `work`='Estudiante' WHERE  `id_user`=45 LIMIT 1;";
 };
 
@@ -359,9 +364,5 @@ $actions['lists'] = function()
             Response::add($lists);
 }
 
-/*
 
-
-
- */
 ?>
