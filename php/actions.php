@@ -186,7 +186,11 @@ $actions['getPub'] = function()
 
 $actions['getPosts'] = function()
 {
-            $sql = 'SELECT id_publication as id, user, text, time, originalPub FROM publications INNER JOIN relations ON userB = user WHERE userA = ' . User::getInstance()->id;
+            $sql = 'SELECT id_publication as id, username, name, text, FROM_UNIXTIME(time, "%e/%c/%Y %h:%i") as time , originalPub
+                    FROM publications
+                    INNER JOIN relations ON userB = user
+                    INNER JOIN users ON user = id_user
+                    WHERE userA = ' . User::getInstance()->id;
 
             if (isset($_GET['list']) && is_numeric($_GET['list']))
             {
@@ -199,7 +203,7 @@ $actions['getPosts'] = function()
             }
 
             $res = Database::getInstance()->query($sql, null, PDO::FETCH_ASSOC);
-            Response::add($res);
+            Response::add(array('posts' => $res));
 };
 
 $actions['delPub'] = function()
