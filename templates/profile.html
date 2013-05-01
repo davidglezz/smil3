@@ -10,15 +10,15 @@
         <div class="row">
             <div class="span3">
                 {{if web}}<p title="Sitio web"><i class="icon-globe"></i> <a id="p-web" href="{{>web}}">{{>web}}</a></p>{{/if}}
-                {{if birtdate}}<p title="Fecha de nacimiento o cumpleaños"><i class="icon-gift"></i> {{>birtdate}}</p>{{/if}}
-                {{if location}}<p title="Donde esta"><i class="icon-map-marker"></i> {{>location}}</p>{{/if}}
-                {{if mail}}<p title="Dirección de correo electronico"><i class="icon-envelope"></i> {{>mail}}</p>{{/if}}
+                {{if birthdate}}<p title="Fecha de nacimiento o cumpleaños"><i class="icon-gift"></i> {{>birthdate}}</p>{{/if}}
+                {{if city}}<p title="Donde esta"><i class="icon-map-marker"></i> {{>city}} {{>country}}</p>{{/if}}
+                {{if email}}<p title="Dirección de correo electronico"><i class="icon-envelope"></i> {{>email}}</p>{{/if}}
             </div>
             <div class="span2">
                 {{if work}}<p><i class="icon-briefcase"></i> {{>work}}</p>{{/if}}
-                {{if gender}}<p><i class="icon-gender"></i> {{>gender}}</p>{{/if}}
-                {{if lastLogin}}<p><i class="icon-time"></i> {{>lastLogin}}</p>{{/if}}
-                {{if regdate}}<p><i class="icon-signal"></i> {{>regdate}}</p>{{/if}}
+                {{if sex}}<p><i class="icon-gender"></i> {{>sex == 'M' ? 'Hombre' : 'Mujer'}}</p>{{/if}}
+                {{if last_login}}<p><i class="icon-time"></i> {{>last_login}}</p>{{/if}}
+                {{if relation}}<p><i class="icon-signal"></i> {{>relation}}</p>{{/if}}
             </div>
         </div>
 
@@ -28,7 +28,7 @@
         <div class="minipics">
             <div>
                 {{for following}}
-                <img src="{{>img}}" alt="{{>name}}" />
+                <a href="/profile/{{>username}}"><img src="http://smil3.org/userdata/{{>username}}.jpg" alt="{{>name}}" title="{{>name}}"></a>
                 {{else}}
                 No sigue a nadie
                 {{/for}}
@@ -41,7 +41,7 @@
         <div class="minipics">
             <div>
                 {{for follower}}
-                <img src="{{>img}}" alt="{{>name}}" />
+                <a href="/profile/{{>username}}"><img src="http://smil3.org/userdata/{{>username}}.jpg" alt="{{>name}}" title="{{>name}}"></a>
                 {{else}}
                 Nadie le esta siguiendo
                 {{/for}}
@@ -53,6 +53,6 @@
     {{for posts}}
     {{include tmpl="#post-tmpl"/}}
     {{else}}
-    {{>name}} todavia no ha publicado nada.
+    <div class="span5">{{>name}} todavia no ha publicado nada.</div>
     {{/for}}
 </div>

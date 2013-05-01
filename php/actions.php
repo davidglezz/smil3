@@ -218,10 +218,10 @@ $actions['delPub'] = function()
 
 $actions['publish'] = function()
 {
-            isset($_POST['pub']) OR Response::sendError(60);
+            isset($_POST['pubcontent']) OR Response::sendError(60);
             $user = User::getInstance();
             $sql = 'INSERT INTO publications (user, text, time) VALUES ( ?,  ?, ?);';
-            $pub = htmlspecialchars($_POST['pub']);
+            $pub = htmlspecialchars($_POST['pubcontent']);
             $params = array($user->id, $pub, time());
             Database::getInstance()->query($sql, $params); // OR 61;
 };
@@ -284,7 +284,7 @@ $actions['getProfile'] = function()
             isset($_GET['user']) OR Response::sendError('81');
             Validate::string($_GET['user'], array('format' => 'a-zA-Z0-9_', 'min_length' => 3, 'max_length' => 30)) OR Response::sendError('82');
 
-            $sql = 'SELECT  id_user,  username, email, name, birthdate, sex, country, city, last_login, reg_date, web, bio, work, showMail, showBirth FROM users WHERE username=? LIMIT 1;';
+            $sql = 'SELECT  id_user,  username, email, name, birthdate, sex, country, city, FROM_UNIXTIME(last_login, "%h:%i %e/%c/%Y") as last_login, FROM_UNIXTIME(reg_date, "%h:%i %e/%c/%Y") as reg_date, web, bio, work, showMail, showBirth FROM users WHERE username=? LIMIT 1;';
             $db = Database::getInstance();
             $profile = $db->query($sql, array($_GET['user']), PDO::FETCH_ASSOC);
 
