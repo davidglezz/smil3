@@ -1,28 +1,30 @@
 <div class="post">
     <div class="post-avatar">
-        <a href="#"><img src="img/default_medium_profile_pic.png" alt="{{>author}}"></a>
+        <a href="/profile/{{>username}}"><img src="http://smil3.org/userdata/{{>username}}.jpg" alt="{{>name}}" title="{{>name}}"></a>
     </div>
     <div class="post-wrap">
         <div class="arrow"></div>
         <div class="post-title">
-            <span class="author">{{>name}}</span>
-            <span class="username">@{{>username}}</span>
+            <a href="/profile/{{>username}}">
+                <b class="author">{{>name}}</b>
+                <span class="username muted">@{{>username}}</span>
+            </a>
             <span class="time">{{>time}}</span></div>
         <div class="post-content">
             <p class="text">{{>text}}</p>
         </div>
         <div class="post-footer btn-toolbar">
-            <button class="btn btn-mini" type="button">
+            <!--<button class="btn btn-mini" type="button">
                 <i class="icon-share-alt"></i>
                 <span>{{>shareCounter}}</span>
-            </button>
+            </button>-->
 
             <div class="btn-group">
                 <button class="btn btn-mini" type="button"><i class="icon-thumbs-up"></i> {{>plusCounter}}</button>
                 <button class="btn btn-mini" type="button"><i class="icon-thumbs-down"></i> {{>minusCounter}}</button>
             </div>
 
-            <button class="btn btn-mini" type="button">
+            <!--<button class="btn btn-mini" type="button">
                 <i class="icon-refresh"></i>
             </button>
 
@@ -30,7 +32,7 @@
                 <button class="btn btn-mini" type="button"><i class="icon-plus"></i></button>
                 <button class="btn btn-mini" type="button"><i class="icon-bell"></i></button>
                 <button class="btn btn-mini" type="button"><i class="icon-flag"></i></button>
-            </div>
+            </div>-->
 
             <button class="btn btn-mini pull-right" type="button">
                 <i class="icon-comment"></i> {{>comentCounter}}</span>
