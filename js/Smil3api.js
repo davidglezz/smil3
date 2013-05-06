@@ -1,0 +1,116 @@
+var Smil3 = function()
+{
+    var errorHandlers = [
+    function(data){
+        console.log('unhandled error ' + data.error)
+    }
+    ];
+
+    var request = function(method, data, callback, getData)
+    {
+        var ajaxInfo = {
+            /*headers: {
+                Accept : "application/json; charset=utf-8",
+                "Content-Type": "text/plain; charset=utf-8"
+            },*/
+            //contentType: "text/plain; charset=utf-8"
+            //accepts: {'application/json; charset=utf-8'},
+            //username: '',
+            //password: 'pedir primero al server',
+            type: method,
+            dataType: 'json',
+            url: '//smil3.org/main.php',
+            data: data,
+            success: function(res)
+            {
+                if (res.error != 0)
+                {
+                    errorHandlers[typeof errorHandlers[res.error] == 'function' ? res.error : 0](res);
+                }
+                else
+                {
+                    delete res['error'];
+                    callback(res);
+                }
+            }
+        }
+
+        if (getData)
+            ajaxInfo.url += getData;
+
+        $.ajax(ajaxInfo);
+    };
+
+    return {
+        errorHandlers: errorHandlers,
+        getStartInfo: function(callback)
+        {
+            request('get', {
+                'do':'getStartInfo'
+            }, callback);
+        },
+
+        login: function(data, callback)
+        {
+            request('post', data, callback, '?do=special&that=login');
+        },
+
+        logout: function(callback)
+        {
+            request('get', {
+                'do':'logout'
+            }, callback);
+        },
+
+        register: function(data, callback)
+        {
+            request('post', data, callback, '?do=special&that=register');
+        },
+
+        getPosts: function(params, callback)
+        {
+            var data = params || {};
+            data['do'] = 'getPosts';
+
+            request('get', data, callback);
+        },
+
+        publish: function(data, callback)
+        {
+            request('post', data, callback, '?do=publish');
+        },
+
+        getProfile: function(user, callback)
+        {
+            var data = {
+                'do': 'getProfile',
+                'user': user
+            };
+
+            request('get', data, callback);
+        },
+
+        follow: function(user, callback)
+        {
+            var data = {
+                'do': 'follow',
+                'user': user
+            };
+
+            request('get', data, callback);
+        },
+
+        unfollow: function(user, callback)
+        {
+            var data = {
+                'do': 'unfollow',
+                'user': user
+            };
+
+            request('get', data, callback);
+        }
+
+
+    }
+
+}();

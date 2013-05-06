@@ -2,7 +2,7 @@
 
 /**
  * Response class
- * Se encarga de gestionar la salida de los datos al cliente, y
+ * Se encarga de gestionar la salida de los datos al cliente, asegura
  * que sean siempre datos json por lo que no deberia haber ningun
  * die, echo, print o semejantes. La salida de texto estandar quedara
  * reflejada en la variable debug
