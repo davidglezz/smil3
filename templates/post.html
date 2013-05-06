@@ -1,9 +1,10 @@
-<div class="post">
+<div class="post" data-id="{{>id}}" data-time="{{>time}}" >
     <div class="post-avatar">
         <a href="/profile/{{>username}}"><img src="http://smil3.org/userdata/{{>username}}.jpg" alt="{{>name}}" title="{{>name}}"></a>
     </div>
     <div class="post-wrap">
         <div class="arrow"></div>
+        <!--<div class="arrow2"></div>-->
         <div class="post-title">
             <a href="/profile/{{>username}}">
                 <b class="author">{{>name}}</b>
@@ -20,8 +21,8 @@
             </button>-->
 
             <div class="btn-group">
-                <button class="btn btn-mini" type="button"><i class="icon-thumbs-up"></i> {{>plusCounter}}</button>
-                <button class="btn btn-mini" type="button"><i class="icon-thumbs-down"></i> {{>minusCounter}}</button>
+                <button class="btn btn-mini" type="button"><i class="icon-thumbs-up"></i> {{>plusCounter || ''}}</button>
+                <button class="btn btn-mini" type="button"><i class="icon-thumbs-down"></i> {{>minusCounter || ''}}</button>
             </div>
 
             <!--<button class="btn btn-mini" type="button">
@@ -35,7 +36,7 @@
             </div>-->
 
             <button class="btn btn-mini pull-right" type="button">
-                <i class="icon-comment"></i> {{>comentCounter}}</span>
+                <i class="icon-comment"></i> {{>comentCounter || '0'}}</span>
             </button>
         </div>
     </div>

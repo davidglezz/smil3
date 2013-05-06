@@ -1,14 +1,14 @@
 <?php
 
 /*
-  error class
+  Error class
   Se encarga de los mensajes de error.
 
  */
 
 class Error
 {
-    public $msg = array(
+    public static $msg = array(
     0 => 'OK',
     1 => 'No se pudo conectar con la base de datos.',
     2 => '',

@@ -14,6 +14,27 @@
     src: url('http://themes.googleusercontent.com/licensed/font?kit=YetggONECW10lBlIC00M9zu9JUiADISaETZ9Nw0Lp7c') format('woff');
 }
 
+::-webkit-scrollbar {
+    width:12px;
+    height:12px;
+    background-color:#FFF;
+    border-left: 1px solid #E3E3E3;
+}
+::-webkit-scrollbar:hover {   border-left: 1px solid #D3D3D3;}
+::-webkit-scrollbar-button {}
+::-webkit-scrollbar-button:increment:start {display: none;}
+::-webkit-scrollbar-button:decrement:end {display: none;}
+::-webkit-scrollbar-button:decrement:start { display: none;}
+::-webkit-scrollbar-button:increment:end {  display: none;}
+::-webkit-scrollbar-thumb {   background-color: #E3E3E3;}
+::-webkit-scrollbar-thumb:hover {   background-color: #D3D3D3;}
+::-webkit-scrollbar-track-piece:decrement {}
+::-webkit-scrollbar-track-piece:increment {}
+::-webkit-scrollbar-track-piece:disabled {display: none !important;}
+::-webkit-scrollbar-button:disabled {   display: none !important;}
+
+
+
 #loadingMsg {
     display: inline-block;
     position: fixed;
@@ -38,6 +59,10 @@
     -webkit-box-shadow: 0 0 0 4px white;
     -moz-box-shadow: 0 0 0 4px white;
     box-shadow: 0 0 0 4px white;
+}
+
+hr {
+    clear: both;
 }
 
 @-webkit-keyframes pulse {
@@ -66,7 +91,7 @@ body > div {
 }
 
 h1, h2, h3, .brand {
-    font-family: "Myriad Pro Lite", "Helvetica Neue", Helvetica, Arial, sans-serif;;
+    font-family: "Myriad Pro Lite", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: 300;
 }
 
@@ -354,6 +379,7 @@ textarea[readonly] {
 .post {
     margin: 30px 0;
     overflow: hidden;
+    position: relative;
 }
 
 .post .time {
@@ -437,6 +463,8 @@ textarea[readonly] {
 }
 
 
+
+
 .post-avatar {
     width: 100px;
     float: left;
@@ -456,7 +484,7 @@ textarea[readonly] {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-comments {
+.comments {
     margin: -5px 5px 20px;
     padding: 5px 0 0;
     background-color: #f5f5f5;
@@ -533,15 +561,19 @@ comments {
 }
 
 #profile .minipics:hover {
-
     overflow-y: scroll;
 }
 
-#profile .minipics img {
-    width: 36px; /*32 36 40*/
-    height: 36px;
-    margin: 1px;
+#profile .minipics a {
+    display: inline-block;
+    margin: 0 0 4px 0;
     padding: 0;
+}
+
+#profile .minipics img {
+    width: 35px; /*32 36 40*/
+    height: 35px;
+
 }
 
 #profile > .row {
@@ -680,4 +712,73 @@ comments {
 .sidenav .active a:hover .icon-chevron-right {
     background-image: url("../img/glyphicons-halflings-white.png");
     opacity: 1;
+}
+
+
+
+/* COMENTS*/
+
+.coments-wrap {
+    position: relative;
+}
+
+.coments-container {
+    position: fixed;
+    top: 40px;
+    bottom: 0px;
+    overflow: hidden;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    -webkit-background-clip: padding-box;
+    -moz-background-clip: padding;
+    background-clip: padding-box;
+    padding-right: 12px;
+}
+
+.coments-container:hover {
+    overflow-y: scroll;
+    padding-right: 0;
+}
+
+.coments
+{
+    margin: 10px;
+}
+
+
+
+.coments .span3
+{
+    margin: 0;
+}
+
+
+.coments-wrap .arrow2,
+.coments-wrap .arrow2:after {
+    position: absolute;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+}
+
+.coments-wrap .arrow2:after {
+    z-index: -1;
+    content: "";
+    bottom: -11px;
+    left: -1px;
+    border-right-color: #bbb;
+    border-width: 11px 11px 11px 0;
+}
+
+.coments-wrap .arrow2 {
+    top: 55px;
+    left: -10px;
+    margin-top: -10px;
+    border-right-color: #ffffff;
+    border-width: 10px 10px 10px 0;
 }

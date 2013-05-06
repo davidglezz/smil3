@@ -20,7 +20,7 @@ $specialActions['register'] = function()
             // Email
             $_POST['email'] = trim($_POST['email']);
             Validate::email($_POST['email']) OR Response::sendError(17);
-            $data['email'] = $_POST['email'];
+            $data['email'] = trim($_POST['email']);
 
             // Nombre
             SmileValidate::name($_POST['name']) OR Response::sendError(18);
@@ -98,7 +98,6 @@ $specialActions['resetPasswd'] = function()
 // cambia la contraseña si la olvidaste
 $specialActions['changePasswd'] = function()
 {
-            global $user;
             count($_POST) OR Response::sendError(37);
             isset($_POST['c']) OR Response::sendError(38);
 
@@ -154,13 +153,13 @@ $actions['getStartInfo'] = function()
 {
             $user = User::getInstance();
 
-            $data = (array)$user;
+            $data = (array) $user;
             $data['user'];
             $data['msgs'] = 0;
             $data['notif'] = 0;
 
-            // getLists
-            $sql = 'SELECT id_list as id, name FROM lists WHERE owner = '.$user->id.' ORDER BY `order` ASC;';
+            // listas
+            $sql = 'SELECT id_list as id, name FROM lists WHERE owner = ' . $user->id . ' ORDER BY `order` ASC;';
             $data['lists'] = Database::getInstance()->query($sql, null, PDO::FETCH_ASSOC);
 
             Response::add($data);
@@ -299,12 +298,21 @@ $actions['getProfile'] = function()
 
             unset($profile['showBirth'], $profile['showMail']);
 
-            $sql = 'SELECT name FROM relations LEFT JOIN lists ON  id_list = list WHERE userA=? AND userB=? LIMIT 1;';
-            $res = $db->query($sql, array(User::getInstance()->id, $profile['id_user']));
+            $yo = User::getInstance();
 
+            // Estado
+            $sql = 'SELECT name FROM relations LEFT JOIN lists ON  id_list = list WHERE userA=? AND userB=? LIMIT 1;';
+            $res = $db->query($sql, array($yo->id, $profile['id_user']));
             $profile['relation'] = count($res) ? ($res[0][0] === null ? '-' : $res[0][0]) : null;
 
-            // TODO: Lista de seguidores y los que sigue
+            // sigue y seguidores
+            $profile['following'] = $yo->getFollowingOf($profile['id_user']);
+            $profile['followers'] = $yo->getFollowersOf($profile['id_user']);
+            $profile['followerCount'] = $yo->getNumFollowersOf($profile['id_user']);
+            $profile['followingCount'] = $yo->getNumFollowingOf($profile['id_user']);
+
+            // Ultimas publicaciones
+            $profile['posts'] = $yo->getLastestPostOf($profile['id_user']);
 
             Response::add($profile);
 };
@@ -343,22 +351,16 @@ $actions['unfollow'] = function()
 
 $actions['following'] = function()
 {
-            $sql = 'SELECT userB FROM relations WHERE userA = ? ;';
-            $db = Database::getInstance();
-            $params = array(User::getInstance()->id);
-            $res = $db->query($sql, $params);
-            $res !== false OR Response::sendError(86);
-            Response::add($res);
+            $data = User::getInstance()->getFollowing();
+            $data !== false OR Response::sendError(86);
+            Response::add($data);
 };
 
 $actions['followers'] = function()
 {
-            $sql = 'SELECT userA FROM relations WHERE userB = ? ;';
-            $db = Database::getInstance();
-            $params = array(User::getInstance()->id);
-            $res = $db->query($sql, $params);
-            $res !== false OR Response::sendError(86);
-            Response::add($res);
+            $data = User::getInstance()->getFollowers();
+            $data !== false OR Response::sendError(86);
+            Response::add($data);
 };
 
 $actions['lists'] = function()
@@ -367,6 +369,4 @@ $actions['lists'] = function()
             $lists !== false OR Response::sendError(85);
             Response::add($lists);
 }
-
-
 ?>
