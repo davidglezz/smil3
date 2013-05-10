@@ -218,11 +218,7 @@ $actions['delPub'] = function()
 $actions['publish'] = function()
 {
             isset($_POST['pubcontent']) OR Response::sendError(60);
-            $user = User::getInstance();
-            $sql = 'INSERT INTO publications (user, text, time) VALUES ( ?,  ?, ?);';
-            $pub = htmlspecialchars($_POST['pubcontent']);
-            $params = array($user->id, $pub, time());
-            Database::getInstance()->query($sql, $params); // OR 61;
+            User::getInstance()->publish($_POST['pubcontent']);
 };
 
 /* Private messages functions ************************************* */
@@ -241,7 +237,7 @@ $actions['sendMsg'] = function()
 {
             //$a = stripslashes($b);
             // strip_tags();
-            $msg = htmlspecialchars(mysql_real_escape_string($_POST['$msg']));
+            $msg = htmlspecialchars($_POST['$msg']);
             // TODO
 };
 

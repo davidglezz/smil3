@@ -174,18 +174,40 @@ class User extends Singleton
 
     public function publish($text)
     {
+        $db = Database::getInstance();
         $text = nl2br(htmlspecialchars($text));
+        $sql = 'INSERT INTO publications (user, text, time) VALUES ( ?,  ?, ?);';
+        $params = array($this->id, $text, time());
+        $db->query($sql, $params); // OR 61;
+
+
+        $postID = $db->connection->lastInsertId();
 
         // parse hashtag
         preg_match_all("/[#]+([a-zA-Z0-9_]+)/", $text, $hashtags);
 
+        if (count($hashtags) && count($hashtags[1]))
+        {
+            $sql = 'INSERT INTO tags (id_tag, publication) VALUES (?, ?);';
+            $stmt = $db->connection->prepare($sql);
+
+            foreach ($hashtags[1] as $hashtag)
+            {
+                $stmt->execute(array($hashtag, $postID));
+            }
+        }
+
         //parse mention
-        preg_match_all("/[@]+([a-zA-Z0-9_]+)/", $text, $usernames);
-
-
-        $sql = 'INSERT INTO publications (user, text, time) VALUES ( ?,  ?, ?);';
-        $params = array($this->id, $text, time());
-        Database::getInstance()->query($sql, $params); // OR 61;
+        /*
+        preg_match_all("/[@]+([a-zA-Z0-9_]+)/", $text, $mentions);
+        if (count($mentions) && count($mentions[1]))
+        {
+            $sql1 = 'INSERT INTO tags (id_tag, publication) VALUES (?, ?);';
+            foreach ($mentions[1] as $mention)
+            {
+            }
+        }
+         */
     }
 
 }
