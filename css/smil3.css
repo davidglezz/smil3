@@ -724,11 +724,13 @@ textarea[readonly] {
 
 .coments-container {
     position: fixed;
-    top: 40px;
-    bottom: 0px;
+    top: 65px;
+    bottom: 65px;
+
     overflow: hidden;
     background-color: #fff;
     border: 1px solid #ccc;
+    border-radius: 6px;
     -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -757,6 +759,7 @@ textarea[readonly] {
 
 
 .coments-wrap .arrow2,
+.coments-wrap .arrow2:before,
 .coments-wrap .arrow2:after {
     position: absolute;
     display: inline-block;
@@ -766,8 +769,24 @@ textarea[readonly] {
     border-style: solid;
 }
 
+.coments-wrap .arrow2 {
+    top: 55px;
+    left: -11px;
+    margin-top: -10px;
+    z-index: 10;
+}
+
+.coments-wrap .arrow2:before {
+    z-index: 3;
+    content: "";
+    bottom: -10px;
+    left: -0px;
+    border-right-color: #fff;
+    border-width: 10px 10px 10px 0;
+}
+
 .coments-wrap .arrow2:after {
-    z-index: -1;
+    z-index: 2;
     content: "";
     bottom: -11px;
     left: -1px;
@@ -775,10 +794,4 @@ textarea[readonly] {
     border-width: 11px 11px 11px 0;
 }
 
-.coments-wrap .arrow2 {
-    top: 55px;
-    left: -10px;
-    margin-top: -10px;
-    border-right-color: #ffffff;
-    border-width: 10px 10px 10px 0;
-}
+

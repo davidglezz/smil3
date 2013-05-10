@@ -71,17 +71,16 @@
 
         <div class="tab-pane active" id="home">
             <div class="row">
-                <div id="listOfList" class="sidebar span2">
+                <div id="listOfList" class="sidebar span2" style="display:none">
                     <ul class="span2 nav nav-list sidenav affix">
                         <li class="active"><a href="/"><i class="icon-chevron-right"></i>Todo</a></li>
                         {{for lists}}
                         <li><a href="/list/{{>name}}" data-id="{{>id}}"><i class="icon-chevron-right"></i>{{>name}}</a></li>
                         {{/for}}
                     </ul>
-
                 </div>
 
-                <div id="posts" class="span7">
+                <div id="posts" class="offset1 span7">
 
                 </div>
 
