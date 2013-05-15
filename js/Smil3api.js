@@ -94,7 +94,7 @@ var Smil3 = function()
         {
             var data = {
                 'do': 'follow',
-                'user': user
+                'uid': user
             };
 
             request('get', data, callback);
@@ -104,7 +104,17 @@ var Smil3 = function()
         {
             var data = {
                 'do': 'unfollow',
-                'user': user
+                'uid': user
+            };
+
+            request('get', data, callback);
+        },
+
+        search: function(query, callback)
+        {
+            var data = {
+                'do': 'search',
+                'q': query
             };
 
             request('get', data, callback);

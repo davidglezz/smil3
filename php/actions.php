@@ -297,10 +297,17 @@ $actions['getProfile'] = function()
             $yo = User::getInstance();
 
             // Estado
-            $sql = 'SELECT name FROM relations LEFT JOIN lists ON  id_list = list WHERE userA=? AND userB=? LIMIT 1;';
-            $res = $db->query($sql, array($yo->id, $profile['id_user']));
-            $profile['relation'] = count($res) ? ($res[0][0] === null ? '-' : $res[0][0]) : null;
-
+            if (intval($yo->id) != intval($profile['id_user']))
+            {
+                $sql = 'SELECT name FROM relations LEFT JOIN lists ON id_list = list WHERE userA=? AND userB=? LIMIT 1;';
+                $res = $db->query($sql, array($yo->id, $profile['id_user']));
+                //$profile['relation'] = count($res) ? ($res[0][0] === null ? '-' : $res[0][0]) : null;
+                $profile['relation'] = count($res) ? '1' : '0';
+            }
+            else
+            {
+                $profile['relation'] = null;
+            }
             // sigue y seguidores
             $profile['following'] = $yo->getFollowingOf($profile['id_user']);
             $profile['followers'] = $yo->getFollowersOf($profile['id_user']);
@@ -311,11 +318,6 @@ $actions['getProfile'] = function()
             $profile['posts'] = $yo->getLastestPostOf($profile['id_user']);
 
             Response::add($profile);
-};
-
-$actions['getFullProfile'] = function()
-{
-
 };
 
 

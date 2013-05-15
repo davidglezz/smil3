@@ -1,3 +1,35 @@
+$.views.helpers({
+    unix2time: function(time) {
+        var dt = new Date(time*1000);
+        return dt.toLocaleTimeString('es-ES') + ' ' + dt.toLocaleDateString('es-ES');
+    },
+    parsePost: function(str)
+    {
+        //parse URL
+        str = str.replace(/[A-Za-z]+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&~\?\/.=]+/g, function(s){
+            // TODO http
+            return s.link(s);
+        });
+
+        //parse user_name
+        str = str.replace(/[@]+[A-Za-z0-9_]+/g,function(s){
+            var user_name = s.replace('@','');
+            return s.link("/profile/"+user_name);
+        });
+
+        //parse hashtag
+        str = str.replace(/[#]+[A-Za-z0-9_]+/g,function(s){
+            var hashtag = s.replace('#','');
+            return s.link("/search/"+hashtag);
+        });
+
+        return str;
+    }
+
+});
+
+
+
 var app = function()
 {
     var user = {};
@@ -28,7 +60,7 @@ var app = function()
     {
         var load = function(name, callback)
         {
-            var file = 'templates/' + name + '.html';
+            var file = '/templates/' + name + '.html';
 
             $.ajax({
                 url: file,
@@ -89,8 +121,16 @@ var app = function()
             console.warn('Se intenta acceder a /profile')
         },
 
-        '/profile/:id' : function(p){
-            mainApp.profile.show(p);
+        '/profile/:id' : function(a){
+            mainApp.profile.show(a);
+        },
+
+        '/search' : function(){
+            console.warn('Se intenta acceder a /search')
+        },
+
+        '/search/:id' : function(a){
+            mainApp.search.show(a);
         },
 
         '/messages' : function(){
@@ -385,11 +425,16 @@ var app = function()
         var content;
 
         var visible = false;
+        var currentTab = null;
 
         var changeTab = function(id)
         {
             if (!visible)
+            {
+                currentTab = id;
                 view.show('mainApp');
+                return;
+            }
 
             content.find('.tab-pane.active').removeClass('active');
             navbar.find('li.active > a[href^="/"]').parent().removeClass('active');
@@ -404,23 +449,29 @@ var app = function()
             {
                 $($.trim($.render.mainApp(user))).insertAfter('#loadingMsg');
 
+                mainApp.show = show;
+                mainApp.hide = hide;
+
                 container = $('#mainApp');
                 navbar = container.find('.navbar-fixed-top');
                 content = $('#main-content');
 
-                mainApp.show = show;
-                mainApp.hide = hide;
+                // preload needed templates
+                template.load('post', post.init());
+                postWriter = postWriter();
 
-                router.navigate(dest || '/');
-                dest = null;
+                if (currentTab)
+                    changeTab(currentTab);
 
                 mainApp.show();
 
-                // preload needed templates
-                template.load('post', post.init());
-                template.load('profile', profile.init());
+                // search
+                var searchForm = $('.navbar form.navbar-search').submit(function(e){
+                    e.preventDefault();
+                    router.navigate('/search/'+ $(this).find('input').val());
+                    return false;
+                })
 
-                postWriter = postWriter();
             });
         }
 
@@ -439,37 +490,84 @@ var app = function()
         var profile = (function()
         {
             var container;
+            var that = {};
 
-            var init = function()
+            // Live events for Follow / Unfollow buttons
+            $(document).on('click', '.doFollowUnfollow', function(e){
+                var $this = $(this).addClass('disabled');
+                var action = $this.data('action');
+                Smil3[action]($this.data('uid'), function()
+                {
+                    if (action == 'follow')
+                    {
+                        $this.removeClass('btn-info').addClass('btn-success').html('Siguiendo').data('action', 'unfollow');
+                    }
+                    else
+                    {
+                        $this.removeClass('btn-success').addClass('btn-info').html('Seguir').data('action', 'follow');
+                    }
+                    $this.removeClass('disabled')
+                })
+            });
+
+
+            var _show = function(user)
+            {
+                Smil3.getProfile(user, function(data)
+                {
+                    $('#profile').html($.render.profile(data));
+                    mainApp.changeTab('profile');
+                });
+            }
+
+            that.show = function(user)
             {
                 container = $('#profile');
+
+                if (container.length == 0)
+                    mainApp.changeTab('profile');
+
+                that.show = _show;
+                template.load('profile', function(){
+                    that.show(user);
+                });
             }
 
-            var onLoaded = function(data)
-            {
-                container.html($.render.profile(data));
-                mainApp.changeTab('profile');
-            }
-
-            var show = function(user)
-            {
-                Smil3.getProfile(user, onLoaded)
-            }
-
-            //$($.trim($.render.mainApp(user))).insertAfter('#loadingMsg');
-            return {
-                'show': show,
-                'init': init
-            };
+            return that;
         })();
 
 
-        $.views.helpers({
-            unix2time: function(time) {
-                var dt = new Date(time*1000);
-                return dt.toLocaleDateString("es-ES") + ' ' + dt.toLocaleTimeString();
+        var search = (function()
+        {
+            var container;
+            var that = {};
+
+            var _show = function(query)
+            {
+                Smil3.search(query, function(data)
+                {
+                    $('#search').html($.render.profile(data));
+                    mainApp.changeTab('search');
+                });
             }
-        });
+
+            that.show = function(query)
+            {
+                container = $('#search');
+
+                if (container.length == 0)
+                    mainApp.changeTab('search');
+
+
+                that.show = _show;
+                template.load('search', function(){
+                    that.show(query);
+                });
+            }
+
+            return that;
+        })();
+
 
         var post = (function()
         {
@@ -478,7 +576,6 @@ var app = function()
             var init = function()
             {
                 container = $('#posts');
-
                 Smil3.getPosts({}, onLoaded);
             }
 
@@ -489,7 +586,7 @@ var app = function()
 
             var show = function(user)
             {
-                Smil3.getProfile(user, onLoaded)
+            //Smil3.getProfile(user, onLoaded);
             }
 
             //$($.trim($.render.mainApp(user))).insertAfter('#loadingMsg');
@@ -699,6 +796,7 @@ var app = function()
             'hide': function(){},
             'changeTab': changeTab,
             'profile' : profile,
+            'search' : search,
             'settings': settings
         }
     })();
@@ -741,7 +839,16 @@ var app = function()
     var onGetStartInfo = function(data)
     {
         user = data;
-        view.show('mainApp');
+
+        if (dest)
+        {
+            router.navigate(dest);
+            dest = null;
+        }
+        else
+        {
+            router.perform();
+        }
     }
 
     // Constructor
@@ -753,27 +860,7 @@ var app = function()
 
 
 
-function parseTwit(str)
-{
-    //parse URL
-    str = str.replace(/[A-Za-z]+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&~\?\/.=]+/g,function(s){
-        return s.link(s);
-    });
 
-    //parse user_name
-    str = str.replace(/[@]+[A-Za-z0-9_]+/g,function(s){
-        var user_name = s.replace('@','');
-        return s.link("http://twitter.com/"+user_name);
-    });
-
-    //parse hashtag
-    str = str.replace(/[#]+[A-Za-z0-9_]+/g,function(s){
-        var hashtag = s.replace('#','');
-        return s.link("http://search.twitter.com/search?q="+hashtag);
-    });
-
-    return str;
-}
 
 
 
