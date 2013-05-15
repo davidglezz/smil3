@@ -16,9 +16,16 @@
             </div>
             <div class="span2">
                 {{if work}}<p><i class="icon-briefcase"></i> {{>work}}</p>{{/if}}
-                {{if sex}}<p><i class="icon-gender"></i> {{>sex == 'M' ? 'Hombre' : 'Mujer'}}</p>{{/if}}
+                {{if sex}}<p><i class="icon-user"></i> {{>sex == 'M' ? 'Hombre' : 'Mujer'}}</p>{{/if}}
                 {{if last_login}}<p><i class="icon-time"></i> {{>last_login}}</p>{{/if}}
-                {{if relation}}<p><i class="icon-signal"></i> {{>relation}}</p>{{/if}}
+                {{if relation}}<p>
+                    {{if relation == '1'}}
+                    <button class="btn btn-mini btn-success doFollowUnfollow" type="button" data-uid="{{>id_user}}" data-action="unfollow">Siguiendo</button>
+                    {{else}}
+                    <button class="btn btn-mini btn-info doFollowUnfollow" type="button" data-uid="{{>id_user}}" data-action="follow">Seguir</button>
+                    {{/if}}
+
+                </p>{{/if}}
             </div>
         </div>
 
@@ -49,7 +56,7 @@
         </div>
     </div>
 </div>
-<div id="publishHere" class="span7 offset2">
+<div id="publishHere" class="span7 offset1">
     {{for posts}}
         {{include tmpl="post"/}}
     {{else}}

@@ -5,6 +5,7 @@
 var staterouter = (function () {
     function normalizePath(path) {
         if (path[0] !== '/') {
+            console.warn(path + ' debe empezar por /');
             path = '/' + path;
         }
         return path;
@@ -61,7 +62,7 @@ var staterouter = (function () {
         };
 
         function onStateChange() {
-            //console.log('statechange: ' + History.getState().url);
+            console.log('statechange: ' + History.getState().url);
             self.perform();
         }
         History.Adapter.bind(window, 'statechange', onStateChange);

@@ -37,13 +37,6 @@ RewriteRule ^(.*)$ api.php [QSA,NC,L]
 
 
 
-RewriteEngine On
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^(.*)$ index.php [QSA,L]
-
-
-
-
 
 RewriteEngine On
 RewriteBase /api/
