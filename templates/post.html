@@ -10,7 +10,7 @@
                 <b class="author">{{>name}}</b>
                 <span class="username muted">@{{>username}}</span>
             </a>
-            <span class="time">{{>time}}</span></div>
+            <span class="time">{{:~unix2time(time) }}</span></div>
         <div class="post-content">
             <p class="text">{{:~parsePost(text) }}</p>
         </div>
@@ -20,9 +20,9 @@
                 <span>{{>shareCounter}}</span>
             </button>-->
 
-            <div class="btn-group">
-                <button class="btn btn-mini" type="button"><i class="icon-thumbs-up"></i> {{>plusCounter || ''}}</button>
-                <button class="btn btn-mini" type="button"><i class="icon-thumbs-down"></i> {{>minusCounter || ''}}</button>
+            <div class="btn-group likebtns">
+                <button data-action="like" class="btn btn-mini" type="button"><i class="icon-thumbs-up"></i> {{>plusCounter || ''}}</button>
+                <button data-action="unlike" class="btn btn-mini" type="button"><i class="icon-thumbs-down"></i> {{>minusCounter || ''}}</button>
             </div>
 
             <!--<button class="btn btn-mini" type="button">

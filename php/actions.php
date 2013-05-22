@@ -52,7 +52,7 @@ $specialActions['login'] = function()
             User::getInstance()->login($_POST['username'], $_POST['password']) OR Response::sendError(27);
 };
 
-// TODO this
+// TODO
 $specialActions['activate'] = function()
 {
             isset($_GET, $_GET['c']) OR Response::sendError(30);
@@ -185,7 +185,7 @@ $actions['getPub'] = function()
 
 $actions['getPosts'] = function()
 {
-            $sql = 'SELECT id_publication as id, username, name, text, FROM_UNIXTIME(time, "%e/%c/%Y %h:%i") as time , originalPub
+            $sql = 'SELECT id_publication as id, username, name, text, time , originalPub
                     FROM publications
                     INNER JOIN relations ON userB = user
                     INNER JOIN users ON user = id_user
@@ -279,7 +279,7 @@ $actions['getProfile'] = function()
             isset($_GET['user']) OR Response::sendError('81');
             Validate::string($_GET['user'], array('format' => 'a-zA-Z0-9_', 'min_length' => 3, 'max_length' => 30)) OR Response::sendError('82');
 
-            $sql = 'SELECT  id_user,  username, email, name, birthdate, sex, country, city, FROM_UNIXTIME(last_login, "%h:%i %e/%c/%Y") as last_login, FROM_UNIXTIME(reg_date, "%h:%i %e/%c/%Y") as reg_date, web, bio, work, showMail, showBirth FROM users WHERE username=? LIMIT 1;';
+            $sql = 'SELECT  id_user,  username, email, name, birthdate, sex, country, city, last_login, reg_date, web, bio, work, showMail, showBirth FROM users WHERE username=? LIMIT 1;';
             $db = Database::getInstance();
             $profile = $db->query($sql, array($_GET['user']), PDO::FETCH_ASSOC);
 
@@ -366,5 +366,35 @@ $actions['lists'] = function()
             $lists = ListManager::getInstance()->getAll();
             $lists !== false OR Response::sendError(85);
             Response::add($lists);
+};
+
+
+$actions['like'] = function()
+{
+            $post = intval($_GET['post']);
+            $coment = intval($_GET['coment']);
+            $value = 1;
+
+            $data = Likes::setValue($post, $coment, $value);
+            $data !== false OR Response::sendError(91);
+            Response::send($data);
+};
+
+$actions['unlike'] = function()
+{
+            $post = intval($_GET['post']);
+            $coment = intval($_GET['coment']);
+            $value = -1;
+
+            $data = Likes::setValue($post, $coment, $value);
+            $data !== false OR Response::sendError(91);
+            Response::send($data);
+};
+
+$actions['autocomplete'] = function()
+{
+    
 }
+
+
 ?>

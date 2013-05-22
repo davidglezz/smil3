@@ -470,7 +470,9 @@ var app = function()
                     e.preventDefault();
                     router.navigate('/search/'+ $(this).find('input').val());
                     return false;
-                })
+                }).find('.search-query').typeahead({source: function(query, callback){
+                        Smil3.
+                }});
 
             });
         }
@@ -572,6 +574,24 @@ var app = function()
         var post = (function()
         {
             var container;
+
+            // Live events for Like / Unlike buttons
+            $(document).on('click', '.likebtns button', function(e)
+            {
+                var $this = $(this);
+
+                if ($this.hasClass('disabled'))
+                    return;
+
+                var action = $this.data('action');
+                var post = $this.parent().parent().parent().parent().data('id');
+
+                Smil3[action](post, 0, function()
+                {
+                    $this.parent().find('button').removeClass('disabled');
+                    $this.addClass('disabled');
+                });
+            });
 
             var init = function()
             {

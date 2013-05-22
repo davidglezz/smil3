@@ -17,7 +17,7 @@
             <div class="span2">
                 {{if work}}<p><i class="icon-briefcase"></i> {{>work}}</p>{{/if}}
                 {{if sex}}<p><i class="icon-user"></i> {{>sex == 'M' ? 'Hombre' : 'Mujer'}}</p>{{/if}}
-                {{if last_login}}<p><i class="icon-time"></i> {{>last_login}}</p>{{/if}}
+                {{if last_login}}<p><i class="icon-time"></i> {{:~unix2time(last_login) }}</p>{{/if}}
                 {{if relation}}<p>
                     {{if relation == '1'}}
                     <button class="btn btn-mini btn-success doFollowUnfollow" type="button" data-uid="{{>id_user}}" data-action="unfollow">Siguiendo</button>

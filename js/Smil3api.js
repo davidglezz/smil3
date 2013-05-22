@@ -118,6 +118,38 @@ var Smil3 = function()
             };
 
             request('get', data, callback);
+        },
+
+        searchAutocomplete: function(query, callback)
+        {
+            var data = {
+                'do': 'searchAutocomplete',
+                'q': query
+            };
+
+            request('get', data, callback);
+        },
+
+        like: function(post, coment, callback)
+        {
+            var data = {
+                'do': 'like',
+                'post': post,
+                'coment': coment
+            };
+
+            request('get', data, callback);
+        },
+
+        unlike: function(post, coment, callback)
+        {
+            var data = {
+                'do': 'like',
+                'post': post,
+                'coment': coment
+            };
+
+            request('get', data, callback);
         }
 
 
