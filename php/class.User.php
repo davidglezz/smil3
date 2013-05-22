@@ -166,7 +166,7 @@ class User extends Singleton
     // Post
     public function getLastestPostOf($user)
     {
-        $sql = 'SELECT  id_publication as id, name, username, text, FROM_UNIXTIME(time, "%e/%c/%Y %h:%i") as time  FROM publications INNER JOIN users ON user = id_user WHERE user = ? ORDER BY publications.time DESC LIMIT 25;';
+        $sql = 'SELECT  id_publication as id, name, username, text, time  FROM publications INNER JOIN users ON user = id_user WHERE user = ? ORDER BY publications.time DESC LIMIT 25;';
         $db = Database::getInstance();
         $params = array($user);
         return $db->query($sql, $params, PDO::FETCH_ASSOC);
