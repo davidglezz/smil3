@@ -66,6 +66,7 @@ class Error
 
     85 => 'No se han podido las listas.'
     );
+
 }
 
 ?>

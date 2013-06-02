@@ -19,11 +19,11 @@ var Smil3 = function()
             //password: 'pedir primero al server',
             type: method,
             dataType: 'json',
-            url: '//smil3.org/main.php',
+            url: '/main.php',
             data: data,
             success: function(res)
             {
-                if (res.error != 0)
+                if (res.error != null && res.error != 0)
                 {
                     errorHandlers[typeof errorHandlers[res.error] == 'function' ? res.error : 0](res);
                 }
@@ -127,7 +127,7 @@ var Smil3 = function()
                 'q': query
             };
 
-            request('get', data, callback);
+            request('get', data, callback, '?noerror&nodebug');
         },
 
         like: function(post, coment, callback)

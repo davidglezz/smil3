@@ -5,7 +5,7 @@ ini_set('gd.jpeg_ignore_warning', 1);
 
 class image
 {
-	
+
 }
 /*
 	format
@@ -20,8 +20,8 @@ class image
 
 */
 
-	
-	
+
+
 /*
 header("Content-type: image/png");
 imagePNG($imgh);
@@ -66,7 +66,7 @@ function create_thumb($img, $type, $maxsize, $output = false, $useexif = true)
             }
         }
     }
- 
+
     if ($filtype[2] == 3 && imagetypes() & IMG_PNG)
     {
         if (!$im = imagecreatefrompng($img_abs))
@@ -126,7 +126,7 @@ function create_thumb($img, $type, $maxsize, $output = false, $useexif = true)
     $ynysize = floor($ynysize);
 
     if (in_array ("imagegd2", get_extension_funcs("gd")))// check if gd2 is loaded (the imagegd2 function exists)
-    { 
+    {
         $thumb = ImageCreateTrueColor($xnysize, $ynysize);
         imagecopyresampled($thumb, $im, 0, 0, 0, 0, $xnysize, $ynysize, $xsize, $ysize);
     }
@@ -141,7 +141,7 @@ function create_thumb($img, $type, $maxsize, $output = false, $useexif = true)
     {
         if (isset($output))
             return is_writable($output) AND ImagePng($thumb, $output);
-    
+
         ImagePng($thumb);
     }
 
@@ -149,7 +149,7 @@ function create_thumb($img, $type, $maxsize, $output = false, $useexif = true)
     {
         if (isset($output))
             return is_writable($output) AND ImageGIF($thumb, $output);
-    
+
         ImageGIF($thumb);
     }
 
@@ -157,7 +157,7 @@ function create_thumb($img, $type, $maxsize, $output = false, $useexif = true)
     {
         if (isset($output))
             return is_writable($output) AND ImageJPEG($thumb, $output);
-    
+
         ImageJPEG($thumb);
     }
 
@@ -165,7 +165,7 @@ function create_thumb($img, $type, $maxsize, $output = false, $useexif = true)
     {
         if (isset($output))
             return is_writable($output) AND ImageWBMP($thumb, $output);
-    
+
         ImageWBMP($thumb);
     }
 
@@ -277,7 +277,7 @@ class thumbnail
 
 		/* change ImageCreateTrueColor to ImageCreate if your GD not supported ImageCreateTrueColor function*/
 		$this->img["des"] = ImageCreateTrueColor($this->img["x_thumb"],$this->img["y_thumb"]);
-    	
+
     	imagecopyresampled(
     		$this->img["des"],
     		$this->img["src"],
@@ -327,4 +327,17 @@ class thumbnail
 		}
 	}
 }
+
+
+
+
+// Comprobar los tipos de imagen soportados
+// IMG_GIF | IMG_JPG | IMG_PNG | IMG_WBMP | IMG_XPM.
+// (imagetypes() & IMG_PNG)
+
+
+
+//http://lineadecodigo.com/php/alto-y-ancho-de-una-imagen-en-php/
+//http://www.scriptiny.com/2013/01/image-resize-using-php/
+
 ?>

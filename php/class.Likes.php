@@ -2,10 +2,9 @@
 
 class Likes {
 
-    public static function setValue($post, $coment, $value)
+    public static function set($post, $coment, $value)
     {
             $user = User::getInstance()->id;
-
 
             $db = Database::getInstance();
             $sql = 'SELECT value FROM likes WHERE publication = ? AND coment = ? AND user = ? LIMIT 1';
@@ -25,10 +24,15 @@ class Likes {
                 $res2 = $db->query($sql2, $params);
             }
 
-            return $res2 !== false ? self::getCount($post, $coment) : false;
+            return $res2 !== false ? self::count($post, $coment) : false;
     }
 
-    public static function getCount($post, $coment)
+    public static function get($post, $coment)
+    {
+
+    }
+
+    public static function count($post, $coment)
     {
             $db = Database::getInstance();
             $sql = 'SELECT count(*) FROM likes WHERE publication = ? AND coment = ? GROUP BY value';

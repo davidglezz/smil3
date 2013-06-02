@@ -12,13 +12,14 @@
 
 class Response extends Singleton
 {
-	private $data;
+	private $data = array();
 
 	protected function __construct()
 	{
         header('Content-Type: application/json; charset=utf8');
 		ob_start();
-		$this->data = array('error' => 0);
+        if (!isset($_GET['noerror']))
+            $this->data = array('error' => 0);
 	}
 
 	public function __destruct()
@@ -28,7 +29,7 @@ class Response extends Singleton
 
 	protected function forceSend()
 	{
-		if (isset($_COOKIE['debug']) && $_COOKIE['debug'] == '1')
+		if (!isset($_GET['nodebug']) && isset($_COOKIE['debug']) && $_COOKIE['debug'] == '1')
             $this->data['debug'] = ob_get_contents();
 
 		ob_end_clean();
@@ -36,7 +37,7 @@ class Response extends Singleton
 		echo json_encode($this->data);
 	}
 
-	public function addData($new)
+	public function addData(array $new)
 	{
 		$this->data = array_merge($this->data, $new);
 	}
@@ -55,7 +56,7 @@ class Response extends Singleton
 		die();
 	}
 
-	public static function add($param)
+	public static function add(array $param)
 	{
 
 		Response::getInstance()->addData($param);

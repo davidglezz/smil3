@@ -1,6 +1,5 @@
-#RewriteEngine On
-#RewriteBase /
 
+#RewriteBase /
 
 Options +FollowSymlinks
 RewriteEngine On
