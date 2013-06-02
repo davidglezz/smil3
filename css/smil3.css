@@ -130,7 +130,7 @@ h1, h2, h3, .brand {
 .logotext b:nth-child(3)
 {
     color: #FF8800;
-    text-shadow: 0.0125em 0 0 #FFDD99, -0.0125em 0 0 #FFDD99;
+    text-shadow: 0.0125em 0 0 #FD9, -0.0125em 0 0 #FD9;
 
 }
 

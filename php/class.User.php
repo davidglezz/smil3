@@ -97,7 +97,7 @@ class User extends Singleton
         return $res !== false && !empty($res);
     }
 
-    public function pass_reset($data)
+    public function pass_reset()
     {
         // Enviar email de confirmación con un codigo.
     }

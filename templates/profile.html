@@ -1,7 +1,7 @@
 
 <div class="row">
     <div class="span3">
-        <img src="http://smil3.org/userdata/{{>username}}.jpg" class="img-polaroid profile-pic" alt="Imagen de prefil" />
+        <img src="/userdata/{{>username}}.jpg" class="img-polaroid profile-pic" alt="Imagen de prefil" />
     </div>
     <div class="span5">
         <h1>{{>name}}</h1>
@@ -35,7 +35,7 @@
         <div class="minipics">
             <div>
                 {{for following}}
-                <a href="/profile/{{>username}}"><img src="http://smil3.org/userdata/{{>username}}.jpg" alt="{{>name}}" title="{{>name}}"></a>
+                <a href="/profile/{{>username}}"><img src="/userdata/{{>username}}.jpg" alt="{{>name}}" title="{{>name}}"></a>
                 {{else}}
                 No sigue a nadie
                 {{/for}}
@@ -48,7 +48,7 @@
         <div class="minipics">
             <div>
                 {{for followers}}
-                <a href="/profile/{{>username}}"><img src="http://smil3.org/userdata/{{>username}}.jpg" alt="{{>name}}" title="{{>name}}"></a>
+                <a href="/profile/{{>username}}"><img src="/userdata/{{>username}}.jpg" alt="{{>name}}" title="{{>name}}"></a>
                 {{else}}
                 Nadie le esta siguiendo
                 {{/for}}

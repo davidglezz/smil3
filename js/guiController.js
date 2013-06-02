@@ -163,31 +163,31 @@ var app = function()
         },
 
         '/settings/profile': function(){
-            self.settings.showTab('profile');
+            mainApp.settings.showTab('profile');
         },
 
         '/settings/account': function(){
-            self.settings.showTab('account');
+            mainApp.settings.showTab('account');
         },
 
         '/settings/password': function(){
-            self.settings.showTab('password');
+            mainApp.settings.showTab('password');
         },
 
         '/settings/notifications': function(){
-            self.settings.showTab('notifications');
+            mainApp.settings.showTab('notifications');
         },
 
         '/settings/lists': function(){
-            self.settings.showTab('lists');
+            mainApp.settings.showTab('lists');
         },
 
         '/help': function(){
-            self.settings.showTab('help');
+            mainApp.settings.showTab('help');
         },
 
         '/about': function(){
-            self.settings.showTab('about');
+            mainApp.settings.showTab('about');
         },
 
         '/register': function()
@@ -196,7 +196,7 @@ var app = function()
         },
 
         '/forgotPassword': function(){
-            self.chView($('#forgotPassword'));
+            view.show('forgotPassword');
         }
     });
 
@@ -459,6 +459,7 @@ var app = function()
                 // preload needed templates
                 template.load('post', post.init());
                 postWriter = postWriter();
+                settings.init();
 
                 if (currentTab)
                     changeTab(currentTab);
@@ -468,11 +469,20 @@ var app = function()
                 // search
                 var searchForm = $('.navbar form.navbar-search').submit(function(e){
                     e.preventDefault();
-                    router.navigate('/search/'+ $(this).find('input').val());
+                    var q = $(this).find('input').val();
+
+                    if (q[0] == '@')
+                        router.navigate('/profile/'+ q.substring(1));
+                    else
+                        router.navigate('/search/'+ (q[0] == '#' ? q.substring(1) : q));
+
                     return false;
-                }).find('.search-query').typeahead({source: function(query, callback){
-                        Smil3.
-                }});
+                }).find('.search-query').typeahead({
+                    source: function(q, cb)
+                    {
+                        Smil3.searchAutocomplete(q, cb);
+                    }
+                });
 
             });
         }
@@ -548,7 +558,7 @@ var app = function()
             {
                 Smil3.search(query, function(data)
                 {
-                    $('#search').html($.render.profile(data));
+                    $('#search').html($.render.search(data));
                     mainApp.changeTab('search');
                 });
             }
@@ -562,9 +572,11 @@ var app = function()
 
 
                 that.show = _show;
-                template.load('search', function(){
-                    that.show(query);
-                });
+
+                $.templates('search', '<div class="span7 offset1">{{for posts}}{{include tmpl="post"/}}{{else}}<div class="span5"><h3>No se ha encontrado nada.</h3></div>{{/for}}</div>');
+
+                that.show(query);
+
             }
 
             return that;
@@ -690,11 +702,11 @@ var app = function()
 
         // Settings
 
-        var settings = function()
+        var settings = (function()
         {
             var container, sidenav, tabContent;
 
-            var load = function()
+            var init = function()
             {
                 template.load('settings', function()
                 {
@@ -807,9 +819,12 @@ var app = function()
 
             return {
                 'show': show,
-                'init': init
+                'init': init,
+                'showTab':showTab
             };
-        }
+        })();
+
+    console.log(settings);
 
         return {
             'show': load,

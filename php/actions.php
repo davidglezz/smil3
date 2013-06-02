@@ -375,7 +375,7 @@ $actions['like'] = function()
             $coment = intval($_GET['coment']);
             $value = 1;
 
-            $data = Likes::setValue($post, $coment, $value);
+            $data = Likes::set($post, $coment, $value);
             $data !== false OR Response::sendError(91);
             Response::send($data);
 };
@@ -386,15 +386,59 @@ $actions['unlike'] = function()
             $coment = intval($_GET['coment']);
             $value = -1;
 
-            $data = Likes::setValue($post, $coment, $value);
+            $data = Likes::set($post, $coment, $value);
             $data !== false OR Response::sendError(91);
             Response::send($data);
 };
 
-$actions['autocomplete'] = function()
+$actions['searchAutocomplete'] = function()
 {
-    
-}
+            $q = $_GET['q'];
 
+            $len = strlen($q);
 
+            $s = $q;
+            if ($q[0] == '@' || $q[0] == '#')
+                $s = substr($q, 1);
+
+            $sql = "SELECT DISTINCT CONCAT('@',username) as r FROM users WHERE username LIKE '$s%' LIMIT 10";
+            $sq2 = "SELECT DISTINCT CONCAT('#',id_tag) as r FROM tags WHERE id_tag LIKE '$s%' LIMIT 10";
+
+            if ($q[0] == '@')
+            {
+                if ($len < 2)
+                    return;
+
+                $sql = $sq1;
+            }
+            else if ($q[0] == '#')
+            {
+                if ($len < 2)
+                    return;
+
+                $sql = $sq2;
+            }
+            else
+            {
+                $sql = $sql . ' UNION ' . $sq2;
+            }
+
+            $data = Database::getInstance()->query($sql, array(), PDO::FETCH_NUM);
+
+            $data2 = array();
+            foreach ($data as $value)
+                if ($value)
+                    $data2[] = $value[0];
+
+            Response::add($data2);
+};
+
+$actions['search'] = function()
+{
+            $sql = 'SELECT  id_publication as id, name, username, text, time  FROM publications INNER JOIN users ON user = id_user INNER JOIN tags t ON t.publication = id_publication WHERE id_tag = ? ORDER BY publications.time DESC LIMIT 25;';
+            $params = array($_GET['q']);
+            $data = Database::getInstance()->query($sql, $params, PDO::FETCH_ASSOC);
+
+            Response::add(array('posts' => $data));
+};
 ?>
