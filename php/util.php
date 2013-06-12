@@ -13,14 +13,14 @@ function age($year, $month, $day)
     if ($month == $now['mon'])
     {
         if ($day > $now['mday'])
-            $$age--;
+            $age--;
     }
     elseif ($month > $now['mon'])
     {
-        $$age--;
+        $age--;
     }
 
-    return $$age;
+    return $age;
 }
 
 

@@ -6,4 +6,6 @@ RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule profile/(.*) index.htm
 RewriteRule search/(.*) index.htm
+RewriteRule settings/(.*) index.htm
+RewriteRule help index.htm
 #RewriteRule login index.htm

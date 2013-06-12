@@ -135,18 +135,14 @@ $actions['changePasswd'] = function()
 
 $actions['userUpdate'] = function()
 {
-            $user = User::getInstance();
-
             //Proccess Update
             count($_POST) OR Response::sendError(41);
 
-            foreach ($_POST as $name => $val)
-                if ($user->data[$name] == $val)
-                    unset($_POST[$name]);
+            $sql = "UPDATE users SET {$_POST['field']}=? WHERE  id_user=? LIMIT 1;";
+            $params = Array($_POST['value'],User::getInstance()->id);
+            $res = Database::getInstance()->query($sql, $params);
 
-            //Update info
-            if (count($_POST))
-                $user->update($_POST);
+            $res !== false OR Response::sendError(42);
 };
 
 $actions['getStartInfo'] = function()
@@ -247,7 +243,7 @@ $actions['updatePhoto'] = function()
 {
             empty($_FILES) AND Response::sendError('30');
             $username = User::getInstance()->username;
-            $path = $_SERVER['DOCUMENT_ROOT'] . '/user/' . $username . '.jpg';
+            $path = $_SERVER['DOCUMENT_ROOT'] . '/userdata/' . $username . '.jpg';
             $_FILES['file']['error'] AND Response::sendError('31');
             move_uploaded_file($_FILES['file']['tmp_name'], $path) OR Response::sendError('32');
 };
@@ -321,30 +317,34 @@ $actions['getProfile'] = function()
 };
 
 
+$actions['getUserData'] = function()
+{
+            $yo = User::getInstance();
+            $sql = 'SELECT  id_user,  username, email, name, birthdate, sex, country, city, last_login, reg_date, web, bio, work, showMail, showBirth FROM users WHERE id_user=? LIMIT 1;';
+            $db = Database::getInstance();
+            $profile = $db->query($sql, array($yo->id), PDO::FETCH_ASSOC);
+
+            isset($profile[0]) or Response::sendError('83');
+            $profile = $profile[0];
+
+            Response::add($profile);
+};
+
+
 /* * **************************************** */
 
 $actions['follow'] = function()
 {
             isset($_GET['uid']) OR Response::sendError(80);
             is_numeric($_GET['uid']) OR Response::sendError(81);
-
-            // TODO: list support
-
-            $sql = 'INSERT INTO `relations` (`userA`, `userB`) VALUES (?, ?);';
-            $db = Database::getInstance();
-            $res = $db->query($sql, array(User::getInstance()->id, intval($_GET['uid'])));
-
-            $res !== false OR Response::sendError(83);
+            User::getInstance()->follow(intval($_GET['uid'])) !== false OR Response::sendError(83);
 };
 
 $actions['unfollow'] = function()
 {
             isset($_GET['uid']) OR Response::sendError(80);
             is_numeric($_GET['uid']) OR Response::sendError(81);
-
-            $sql = 'DELETE FROM relations WHERE userA=? AND userB=? LIMIT 1;';
-            $db = Database::getInstance();
-            $db->query($sql, array(User::getInstance()->id, intval($_GET['uid'])));
+            User::getInstance()->unfollow(intval($_GET['uid'])) !== false OR Response::sendError(83);
 };
 
 $actions['following'] = function()
