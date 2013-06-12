@@ -158,7 +158,6 @@ var app = function()
         },
 
         '/settings': function(){
-            mainApp.changeTab('settings');
             mainApp.settings.showTab('profile');
         },
 
@@ -706,32 +705,41 @@ var app = function()
         {
             var container, sidenav, tabContent;
 
+            var lastValue = '';
+
             var init = function()
             {
+                container = $('#settings');
                 template.load('settings', function()
                 {
-                    $($.trim($.render.settings(user))).insertAfter('#loadingMsg');
+                    Smil3.getUserData(function(dd)
+                    {
+                        container.html($.render.settings(dd));
+                        sidenav = container.find('.sidenav');
+                        tabContent = container.find('.tab-content');
 
-                    container = $('#settings');
-                    sidenav = container.find('.sidenav');
-                    tabContent = container.find('.tab-content');
+                        initUploader()
 
-                    settings.show = show;
-                    settings.hide = hide;
+                        container.find('input, textarea').on('focus', function()
+                        {
+                            lastValue = $(this).val();
+                        }).on('blur', function(){
+                            var $this = $(this);
+                            var newValue = $this.val();
 
-                    mainApp.changeTab('settings');
+                            if (newValue != lastValue)
+                            {
+                                Smil3.userUpdate($this.attr('name'), newValue, function(d){})
+                            }
+                        });
+                    });
                 });
             }
 
-            var onLoaded = function(data)
+            var show = function(tab)
             {
-                container.html($.render.profile(data));
-                mainApp.changeTab('profile');
-            }
-
-            var show = function(user)
-            {
-                Smil3.getProfile(user, onLoaded)
+                changeTab('settings');
+                showTab(tab || 'profile');
             }
 
             var showTab = function(id)
@@ -743,79 +751,84 @@ var app = function()
                 sidenav.find('a[href="/settings/' + id + '"]').parent().addClass('active');
             }
 
-
-            var profileFotoIn = $('#profileFotoIn');
-            var profileFotoForm = profileFotoIn.parent();
-            var progressBar = profileFotoForm.find('.bar').eq(0);
-            var profileFoto = profileFotoForm.prev();
-
-            var progressHandleFn = function(e)
+            var initUploader = function()
             {
-                if(e.lengthComputable)
+                var profileFotoIn = $('#profileFotoIn');
+                var profileFotoForm = profileFotoIn.parent();
+                var progressBar = profileFotoForm.find('.bar').eq(0);
+                var profileFoto = profileFotoForm.prev();
+
+                var progressHandleFn = function(e)
                 {
-                    var value = e.loaded * 100 / e.total;
-                    if (value > 100) value = 100;
-                    if (value < 0) value = 0;
-                    progressBar.css({
-                        'width': value+'%'
-                    });
+                    if(e.lengthComputable)
+                    {
+                        var value = e.loaded * 100 / e.total;
+                        if (value > 100) value = 100;
+                        if (value < 0) value = 0;
+                        progressBar.css({
+                            'width': value+'%'
+                        });
+                    }
                 }
+
+                profileFotoIn.change(function()
+                {
+                    console.log('Subiendo foto');
+
+                    var file = this.files[0];
+
+                    if (!file)
+                        return;
+
+                    if (file.size > 8000000)
+                    {
+                        self.alert.show('El archivo es demasiado grande. Máximo 8MB');
+                        profileFotoIn.val('');
+                        return;
+                    }
+
+                    var formData = new FormData(profileFotoForm[0]);
+
+                    $.ajax({
+                        'url': '/main.php?do=updatePhoto',
+                        'type': 'POST',
+                        'data': formData,
+                        'xhr': function()
+                        {
+                            myXhr = $.ajaxSettings.xhr();
+                            if(myXhr.upload) // check if upload property exists
+                            {
+                                progressBar.css({
+                                    'width': '0%'
+                                });
+                                profileFotoForm.find('div.progress').show(100);
+                                myXhr.upload.addEventListener('progress',progressHandleFn, false);
+                            }
+                            return myXhr;
+                        },
+                        //Ajax events
+                        'beforeSend':  function(e){
+                            console.log('beforeSend', e)
+                        },
+                        'success': function(e)
+                        {
+                            profileFotoForm.find('div.progress').hide(250);
+                            // TODO: load thumb
+                            profileFotoIn.val('');
+                            profileFoto.attr('src', profileFoto.attr('src') + '?' + (new Date).getTime());
+
+                        },
+                        'error': function(){
+                            console.log('error')
+                        },
+                        //Options to tell JQuery not to process data or worry about content-type
+                        'cache': false,
+                        'contentType': false,
+                        'processData': false
+                    });
+                });
             }
 
-            profileFotoIn.change(function()
-            {
-                var file = this.files[0];
-
-                if (!file)
-                    return;
-
-                if (file.size > 8000000)
-                {
-                    self.alert.show('El archivo es demasiado grande. Máximo 8MB');
-                    profileFotoIn.val('');
-                    return;
-                }
-
-                var formData = new FormData(profileFotoForm[0]);
-
-                $.ajax({
-                    'url': self.api + '?do=updatePhoto',
-                    'type': 'POST',
-                    'data': formData,
-                    'xhr': function()
-                    {
-                        myXhr = $.ajaxSettings.xhr();
-                        if(myXhr.upload) // check if upload property exists
-                        {
-                            progressBar.css({
-                                'width': '0%'
-                            });
-                            profileFotoForm.find('div.progress').show(100);
-                            myXhr.upload.addEventListener('progress',progressHandleFn, false);
-                        }
-                        return myXhr;
-                    },
-                    //Ajax events
-                    'beforeSend':  function(e){
-                        console.log('beforeSend', e)
-                    },
-                    'success': function(e)
-                    {
-                        profileFotoForm.find('div.progress').hide(250);
-                        // TODO: load thumb
-                        profileFotoIn.val('');
-                        profileFoto.attr('src', profileFoto.attr('src') + '?' + (new Date).getTime());
-
-                    },
-                    'error': function(){
-                        console.log('error')
-                    },
-                    //Options to tell JQuery not to process data or worry about content-type
-                    'cache': false,
-                    'contentType': false,
-                    'processData': false
-                });
-            });
 
             return {
                 'show': show,
@@ -824,7 +837,7 @@ var app = function()
             };
         })();
 
-    console.log(settings);
+        console.log(settings);
 
         return {
             'show': load,

@@ -75,9 +75,15 @@ class User extends Singleton
 
         // Insertar en la base de datos
         $db = Database::getInstance();
-        $sql = 'INSERT INTO users (username, password, salt, email, name, birthdate, sex, country, reg_date) VALUES (:username, :password, :salt, :email, :name, :birthdate, :sex, :country, :reg_date);';
+        $sql1 = 'INSERT INTO users (username, password, salt, email, name, birthdate, sex, country, reg_date) VALUES (:username, :password, :salt, :email, :name, :birthdate, :sex, :country, :reg_date);';
+        $res = $db->query($sql1, $data);
 
-        $res = $db->query($sql, $data);
+        if ($res === false)
+            return false;
+
+        // Seguimos al usuario de bienvenida SMIL3
+        $sql2 = 'INSERT INTO `relations` (`userA`, `userB`) VALUES (LAST_INSERT_ID(), 67);';
+        $res = $db->query($sql2);
 
         return $res !== false;
     }
@@ -108,6 +114,20 @@ class User extends Singleton
     }
 
     // Followers
+    public function follow($id)
+    {
+        $sql = 'INSERT INTO `relations` (`userA`, `userB`) VALUES (?, ?);';
+        $db = Database::getInstance();
+        return $db->query($sql, array($this->id, $id));
+    }
+
+    public function unfollow($id)
+    {
+        $sql = 'DELETE FROM relations WHERE userA=? AND userB=? LIMIT 1;';
+        $db = Database::getInstance();
+        return $db->query($sql, array($this->id, $id));
+    }
+
     public function getFollowersOf($user)
     {
         $sql = 'SELECT userA as id, username, name FROM relations INNER JOIN users ON userA = id_user WHERE userB = ? ;';
@@ -199,14 +219,14 @@ class User extends Singleton
 
         //parse mention
         /*
-        preg_match_all("/[@]+([a-zA-Z0-9_]+)/", $text, $mentions);
-        if (count($mentions) && count($mentions[1]))
-        {
-            $sql1 = 'INSERT INTO tags (id_tag, publication) VALUES (?, ?);';
-            foreach ($mentions[1] as $mention)
-            {
-            }
-        }
+          preg_match_all("/[@]+([a-zA-Z0-9_]+)/", $text, $mentions);
+          if (count($mentions) && count($mentions[1]))
+          {
+          $sql1 = 'INSERT INTO tags (id_tag, publication) VALUES (?, ?);';
+          foreach ($mentions[1] as $mention)
+          {
+          }
+          }
          */
     }
 

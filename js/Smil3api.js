@@ -90,6 +90,22 @@ var Smil3 = function()
             request('get', data, callback);
         },
 
+        getUserData: function(callback)
+        {
+            request('get', {'do': 'getUserData'}, callback);
+        },
+
+        userUpdate: function(field, value, callback)
+        {
+            var data = {field:field, value:value};
+            request('post', data, callback, '?do=userUpdate');
+        },
+
+        updatePhoto: function(data, callback)
+        {
+            // inline
+        },
+
         follow: function(user, callback)
         {
             var data = {
